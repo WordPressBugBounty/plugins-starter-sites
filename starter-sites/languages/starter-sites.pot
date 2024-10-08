@@ -1,0 +1,656 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Starter Sites 2.0.1\n"
+"POT-Creation-Date: 2024-09-26 10:43+0100\n"
+"PO-Revision-Date: 2020-05-22 10:11+0100\n"
+"Last-Translator: \n"
+"Language-Team: WP Starter Sites - https://wpstartersites.com\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"X-Generator: Poedit 3.5\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-Flags-xgettext: --add-comments=translators:\n"
+"X-Poedit-WPHeader: starter-sites.php\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
+"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
+"_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.min.js\n"
+
+#: inc/activate.php:50 inc/activate.php:75
+msgid "Starter Sites Error"
+msgstr ""
+
+#: inc/activate.php:64
+msgid "There was an unknown error with the required theme."
+msgstr ""
+
+#: inc/activate.php:89
+msgid "There was an unknown error with a required plugin."
+msgstr ""
+
+#: inc/activate.php:96
+msgid "Starter Sites Log"
+msgstr ""
+
+#. translators: %s = title of the activated starter site
+#: inc/activate.php:146
+#, php-format
+msgid "Congratulations. You have successfully activated the %s starter site!"
+msgstr ""
+
+#: inc/activate.php:150
+msgid "View your new site"
+msgstr ""
+
+#: inc/activate.php:151
+msgid "Edit your new site"
+msgstr ""
+
+#: inc/activate.php:154
+msgid "View the activation log"
+msgstr ""
+
+#: inc/activate.php:272
+msgid ""
+"Please ask your network administrator to enable theme installation "
+"capabilities for your user account."
+msgstr ""
+
+#: inc/activate.php:274
+msgid ""
+"Please ask your site administrator to enable theme installation capabilities "
+"for your user account."
+msgstr ""
+
+#: inc/activate.php:310 inc/activate.php:448
+msgid "Unable to connect to the filesystem. Please confirm your credentials."
+msgstr ""
+
+#: inc/activate.php:1641
+msgid "Sorry, you are not allowed to upload this file type."
+msgstr ""
+
+#: inc/activate.php:1804
+msgid "There was an unknown error."
+msgstr ""
+
+#: inc/activate.php:1805
+msgid "The requested import file could not be found."
+msgstr ""
+
+#: inc/activate.php:1806
+msgid "The required theme could not be installed."
+msgstr ""
+
+#: inc/activate.php:1807
+msgid "A required plugin could not be installed."
+msgstr ""
+
+#: inc/activate.php:1808
+msgid "This is not a valid starter site."
+msgstr ""
+
+#: inc/demo-list.php:8
+msgid "Interior Designer"
+msgstr ""
+
+#: inc/demo-list.php:20
+msgid "Auto Center"
+msgstr ""
+
+#: inc/demo-list.php:32
+msgid "Enchanted Times"
+msgstr ""
+
+#: inc/demo-list.php:44
+msgid "Accountant"
+msgstr ""
+
+#: inc/demo-list.php:56
+msgid "Eternal Theme Demo"
+msgstr ""
+
+#: inc/demo-list.php:77
+msgid "Eternal"
+msgstr ""
+
+#: inc/demo-list.php:91
+msgid "Animations for Blocks"
+msgstr ""
+
+#: inc/demo-list.php:95
+msgid "Block Visibility"
+msgstr ""
+
+#: inc/demo-list.php:99
+msgid "Gutena Forms - Contact Forms Block"
+msgstr ""
+
+#: inc/demo-list.php:103
+msgid "The Icon Block"
+msgstr ""
+
+#: inc/demo-list.php:107
+msgid "WooCommerce"
+msgstr ""
+
+#: inc/demo-list.php:111
+msgid "Social Sharing Block"
+msgstr ""
+
+#: inc/demo-list.php:115
+msgid "WP Map Block"
+msgstr ""
+
+#: inc/demo-list.php:119
+msgid "Carousel Slider Block"
+msgstr ""
+
+#: inc/logs.php:41
+msgid "Activation Logs"
+msgstr ""
+
+#: inc/logs.php:44
+msgid "Date"
+msgstr ""
+
+#: inc/logs.php:45 inc/logs.php:106
+msgid "User"
+msgstr ""
+
+#: inc/logs.php:46 inc/logs.php:143
+msgid "Site"
+msgstr ""
+
+#: inc/logs.php:70
+msgid "View Log"
+msgstr ""
+
+#: inc/logs.php:81
+msgid "There are no activation logs to display."
+msgstr ""
+
+#: inc/logs.php:100
+msgid "Activation Log"
+msgstr ""
+
+#: inc/logs.php:114
+msgid "Start"
+msgstr ""
+
+#: inc/logs.php:122
+msgid "End"
+msgstr ""
+
+#: inc/logs.php:130
+msgid "Processing time"
+msgstr ""
+
+#: inc/logs.php:149
+msgid "Site Title"
+msgstr ""
+
+#: inc/logs.php:158
+msgid "Site Tagline"
+msgstr ""
+
+#: inc/logs.php:174 inc/logs.php:394
+msgid "Theme"
+msgstr ""
+
+#: inc/logs.php:191
+msgid "Plugins"
+msgstr ""
+
+#: inc/logs.php:212
+msgid "Design"
+msgstr ""
+
+#: inc/logs.php:251 inc/logs.php:304 inc/logs.php:326 inc/logs.php:351
+msgid "Edit"
+msgstr ""
+
+#: inc/logs.php:268
+msgid "Content"
+msgstr ""
+
+#. translators: %1$s: Link to post editor, %2$s: Link to site editor, %3$s: Post type, %4$s: closing </a> tag.
+#: inc/logs.php:282
+#, php-format
+msgid "Open in %1$s%3$s Editor%4$s or %2$sSite Editor%4$s"
+msgstr ""
+
+#: inc/logs.php:305 inc/logs.php:327 inc/logs.php:352
+msgid "View"
+msgstr ""
+
+#: inc/logs.php:317
+msgid "Media"
+msgstr ""
+
+#: inc/logs.php:340
+msgid "Terms"
+msgstr ""
+
+#: inc/logs.php:368
+msgid "Other"
+msgstr ""
+
+#: inc/logs.php:388
+msgid "Category"
+msgstr ""
+
+#: inc/logs.php:390
+msgid "Tag"
+msgstr ""
+
+#: inc/logs.php:392
+msgid "Product category"
+msgstr ""
+
+#: inc/logs.php:396
+msgid "Template part area"
+msgstr ""
+
+#: inc/logs.php:398
+msgid "Page"
+msgstr ""
+
+#: inc/logs.php:400
+msgid "Post"
+msgstr ""
+
+#: inc/logs.php:402
+msgid "Product"
+msgstr ""
+
+#: inc/logs.php:404
+msgid "Product Variation"
+msgstr ""
+
+#: inc/logs.php:406
+msgid "Attachment"
+msgstr ""
+
+#: inc/logs.php:408
+msgid "Navigation"
+msgstr ""
+
+#: inc/logs.php:410
+msgid "Styles"
+msgstr ""
+
+#: inc/logs.php:412
+msgid "Template"
+msgstr ""
+
+#: inc/logs.php:414
+msgid "Template part"
+msgstr ""
+
+#: inc/logs.php:416
+msgid "Pattern"
+msgstr ""
+
+#: inc/logs.php:418
+msgid "Font"
+msgstr ""
+
+#: inc/logs.php:427
+msgid "No change"
+msgstr ""
+
+#: inc/logs.php:430
+msgid "Activated"
+msgstr ""
+
+#: inc/logs.php:433
+msgid "Installed and activated"
+msgstr ""
+
+#: inc/logs.php:436
+msgid "Not installed"
+msgstr ""
+
+#: inc/logs.php:439
+msgid "Updated"
+msgstr ""
+
+#: inc/logs.php:442
+msgid "Added"
+msgstr ""
+
+#: inc/logs.php:445
+msgid "Not added"
+msgstr ""
+
+#. Plugin Name of the plugin/theme
+#: inc/main.php:80 inc/main.php:300 inc/main.php:345
+msgid "Starter Sites"
+msgstr ""
+
+#: inc/main.php:134 inc/main.php:353 starter-sites.php:150
+msgid "Settings"
+msgstr ""
+
+#: inc/main.php:140
+msgid "Menu Location"
+msgstr ""
+
+#: inc/main.php:147
+msgid "Minimal Mode"
+msgstr ""
+
+#: inc/main.php:190
+msgid "Before Dashboard"
+msgstr ""
+
+#: inc/main.php:192
+msgid "Before Posts"
+msgstr ""
+
+#: inc/main.php:194
+msgid "Before Media"
+msgstr ""
+
+#: inc/main.php:196
+msgid "Before Pages"
+msgstr ""
+
+#: inc/main.php:198
+msgid "Before Comments"
+msgstr ""
+
+#: inc/main.php:200
+msgid "Before Appearance"
+msgstr ""
+
+#: inc/main.php:202
+msgid "Before Plugins"
+msgstr ""
+
+#: inc/main.php:207
+msgid "Before Users"
+msgstr ""
+
+#: inc/main.php:209
+msgid "Before Profile"
+msgstr ""
+
+#: inc/main.php:214
+msgid "Before Tools"
+msgstr ""
+
+#: inc/main.php:216
+msgid "Before Settings"
+msgstr ""
+
+#: inc/main.php:218
+msgid "After Settings"
+msgstr ""
+
+#: inc/main.php:220
+msgid "Sub-item in Appearance"
+msgstr ""
+
+#: inc/main.php:222
+msgid "Sub-item in Tools"
+msgstr ""
+
+#: inc/main.php:224
+msgid "Choose where to place the plugin menu item."
+msgstr ""
+
+#: inc/main.php:232
+msgid ""
+"Disable the site activation/importer and move the plugin settings to a sub-"
+"item in the Settings page of your dashboard. This also overrides the Menu "
+"Location setting."
+msgstr ""
+
+#: inc/main.php:298 inc/main.php:343
+msgid "Back to Dashboard"
+msgstr ""
+
+#: inc/main.php:305 inc/main.php:358
+msgid "Full Page On/Off"
+msgstr ""
+
+#: inc/main.php:308 inc/main.php:361
+msgid "Light/Dark Mode"
+msgstr ""
+
+#: inc/main.php:350 starter-sites.php:153
+msgid "Browse Sites"
+msgstr ""
+
+#: inc/main.php:351
+msgid "Upload"
+msgstr ""
+
+#: inc/main.php:352
+msgid "Logs"
+msgstr ""
+
+#: inc/main.php:395
+msgid "Activating the required theme and plugin(s)."
+msgstr ""
+
+#: inc/main.php:396
+msgid "Importing the content and design elements."
+msgstr ""
+
+#: inc/main.php:397
+msgid "This process may take a while on some hosts, so please be patient."
+msgstr ""
+
+#: inc/main.php:412
+#, php-format
+msgid ""
+"It is highly recommended to %s for your website before importing a starter "
+"site."
+msgstr ""
+
+#: inc/main.php:412
+msgid "select the permalink structure"
+msgstr ""
+
+#: inc/main.php:413
+msgid ""
+"If you are really sure you want plain links for your pages, posts, "
+"categories, navigation menus etc. you can ignore this notice."
+msgstr ""
+
+#: inc/main.php:440 inc/main.php:528
+msgid "Premium"
+msgstr ""
+
+#: inc/main.php:444 inc/main.php:532
+msgid "Free"
+msgstr ""
+
+#: inc/main.php:449 inc/main.php:537
+msgid "Ecommerce"
+msgstr ""
+
+#: inc/main.php:457
+msgid "Details"
+msgstr ""
+
+#: inc/main.php:464
+msgid "Not seeing any sites you like?"
+msgstr ""
+
+#: inc/main.php:465
+msgid "We welcome your suggestions for new sites."
+msgstr ""
+
+#: inc/main.php:466
+msgid ""
+"Please let us know what new Starter Sites you would like to see included in "
+"the plugin."
+msgstr ""
+
+#: inc/main.php:467
+msgid "Suggest a Site"
+msgstr ""
+
+#: inc/main.php:470
+msgid "Need help with Starter Sites?"
+msgstr ""
+
+#: inc/main.php:471
+msgid "We welcome your support questions."
+msgstr ""
+
+#: inc/main.php:472
+msgid ""
+"Please ask us and we will do our best to help you with any queries regarding "
+"this plugin."
+msgstr ""
+
+#: inc/main.php:473 starter-sites.php:164
+msgid "Support"
+msgstr ""
+
+#: inc/main.php:477
+msgid "Please rate or review this plugin."
+msgstr ""
+
+#: inc/main.php:478
+msgid ""
+"This helps us grow, and that means we can create even more Starter Sites for "
+"you."
+msgstr ""
+
+#: inc/main.php:479
+msgid "Rate or Review"
+msgstr ""
+
+#. translators: %d = number of products
+#: inc/main.php:557
+#, php-format
+msgid "Products (%d):"
+msgstr ""
+
+#. translators: %d = number of pages
+#: inc/main.php:578
+#, php-format
+msgid "Pages (%d):"
+msgstr ""
+
+#. translators: %d = number of posts
+#: inc/main.php:599
+#, php-format
+msgid "Posts (%d):"
+msgstr ""
+
+#. translators: %d = number of patterns
+#: inc/main.php:620
+#, php-format
+msgid "Patterns (%d):"
+msgstr ""
+
+#. translators: %d = number of fonts
+#: inc/main.php:641
+#, php-format
+msgid "Fonts (%d):"
+msgstr ""
+
+#: inc/main.php:666
+msgid "Theme:"
+msgstr ""
+
+#. translators: %s = name of currently active child theme
+#: inc/main.php:674
+#, php-format
+msgid "(or the currently active <b>%s</b> child theme, choose below)"
+msgstr ""
+
+#: inc/main.php:706
+msgid "Plugins:"
+msgstr ""
+
+#: inc/main.php:727
+msgid ""
+"This Starter Site can be purchased individually, or you can upgrade to "
+"access all Premium Starter Sites."
+msgstr ""
+
+#: inc/main.php:736
+msgid "Buy"
+msgstr ""
+
+#: inc/main.php:737 starter-sites.php:166
+msgid "Upgrade to Premium"
+msgstr ""
+
+#: inc/main.php:741
+msgid "Activate"
+msgstr ""
+
+#: inc/main.php:745
+msgid "Preview"
+msgstr ""
+
+#: inc/main.php:772
+msgid "Only .xml files may be uploaded."
+msgstr ""
+
+#: inc/main.php:797
+msgid ""
+"The uploaded file does not appear to contain a genuine Starter Site. You may "
+"need to update the plugin to the latest version."
+msgstr ""
+
+#: inc/main.php:797
+msgid ""
+"If you are sure it is a genuine Starter Sites file, please reach out to our "
+"support team."
+msgstr ""
+
+#: inc/main.php:797
+msgid "Get Help"
+msgstr ""
+
+#: inc/main.php:805
+msgid ""
+"Occasionally we may release limited edition individual Starter Sites that "
+"are not available within the plugin. If you have such a site in a .xml file "
+"format, you may import and activate it by uploading it here."
+msgstr ""
+
+#: inc/main.php:809
+msgid "Import and Activate"
+msgstr ""
+
+#: inc/patterns.php:32
+msgid "Starter Sites - "
+msgstr ""
+
+#: starter-sites.php:165
+msgid "Rate or Review Starter Sites ★★★★★"
+msgstr ""
+
+#. Plugin URI of the plugin/theme
+msgid "https://wpstartersites.com/plugin/"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid ""
+"Ready to go WordPress full site editing starter sites and website demos, all "
+"with full pages of real content, and all created with the block editor."
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "WP Starter Sites"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "https://wpstartersites.com/"
+msgstr ""
