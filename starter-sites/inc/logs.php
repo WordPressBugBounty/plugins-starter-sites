@@ -104,7 +104,7 @@ class Logs {
 			?>
 			<tr>
 				<td class="row-type"><?php esc_html_e('User', 'starter-sites');?></td>
-				<td colspan="4"><?php esc_html_e( get_userdata($log['user_id'])->display_name );?></td>
+				<td colspan="4"><?php echo esc_html( get_userdata($log['user_id'])->display_name );?></td>
 			</tr>
 			<?php
 		}
@@ -112,7 +112,7 @@ class Logs {
 			?>
 			<tr>
 				<td class="row-type"><?php esc_html_e('Start', 'starter-sites');?></td>
-				<td colspan="4"><?php esc_html_e( wp_date( $site_date_format, $log['time_start'] ) );?> <?php esc_html_e( wp_date( $site_time_format, $log['time_start'] ) );?></td>
+				<td colspan="4"><?php echo esc_html( wp_date( $site_date_format, $log['time_start'] ) );?> <?php echo esc_html( wp_date( $site_time_format, $log['time_start'] ) );?></td>
 			</tr>
 			<?php
 		}
@@ -120,7 +120,7 @@ class Logs {
 			?>
 			<tr>
 				<td class="row-type"><?php esc_html_e('End', 'starter-sites');?></td>
-				<td colspan="4"><?php esc_html_e( wp_date( $site_date_format, $log['time_end'] ) );?> <?php esc_html_e( wp_date( $site_time_format, $log['time_end'] ) );?></td>
+				<td colspan="4"><?php echo esc_html( wp_date( $site_date_format, $log['time_end'] ) );?> <?php echo esc_html( wp_date( $site_time_format, $log['time_end'] ) );?></td>
 			</tr>
 			<?php
 		}
@@ -128,7 +128,7 @@ class Logs {
 			?>
 			<tr>
 				<td class="row-type"><?php esc_html_e('Processing time', 'starter-sites');?></td>
-				<td colspan="4"><?php esc_html_e( human_time_diff( $log['time_start'], $log['time_end'] ) );?></td>
+				<td colspan="4"><?php echo esc_html( human_time_diff( $log['time_start'], $log['time_end'] ) );?></td>
 			</tr>
 			<?php
 		}

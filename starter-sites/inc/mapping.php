@@ -31,6 +31,9 @@ class Mapping {
 	}
 
 	public function content( $log ) {
+		set_time_limit( 0 );
+		// get user email for mapping e.g. contact forms
+		$user_email = wp_get_current_user()->user_email;
 		// map options
 		if ( isset($log['map_options']) && !empty($log['map_options']) ) {
 			foreach ( $log['map_options'] as $option_name => $option_value ) {
@@ -109,7 +112,7 @@ class Mapping {
 						// parse blocks
 						$content_parsed = parse_blocks( $content );
 						// map content in blocks
-						$new_content_parsed = $this->renovate_blocks( $content_parsed, $log, $urls_map, $image_sizes_map );
+						$new_content_parsed = $this->renovate_blocks( $content_parsed, $log, $urls_map, $image_sizes_map, $user_email );
 						// serialize new content
 						$new_content = serialize_blocks( $new_content_parsed ); // can we use traverse_and_serialize_blocks() here? In testing there seems to be no difference.
 						$new_content = $this->quoted_element_attr( $new_content );
@@ -234,13 +237,13 @@ class Mapping {
 				unset( $block['attrs']['theme'] );
 			}
 			if ( ! empty( $block['innerBlocks'] ) ) {
-				$this->detheme_template_part( $block['innerBlocks'], );
+				$this->detheme_template_part( $block['innerBlocks'] );
 			}
 		}
 		return $blocks;
 	}
 
-	public function renovate_blocks( &$blocks, $log, $urls_map, $image_sizes_map ) {
+	public function renovate_blocks( &$blocks, $log, $urls_map, $image_sizes_map, $user_email ) {
 		foreach ( $blocks as $key => &$block ) {
 			if ( 'core/group' === $block['blockName'] ) {
 				if ( isset( $block['attrs']['style']['background']['backgroundImage']['id'] ) && isset( $block['attrs']['style']['background']['backgroundImage']['url'] ) ) {
@@ -249,7 +252,7 @@ class Mapping {
 					$block['attrs']['style']['background']['backgroundImage']['url'] = $new_attrs['url'];
 				}
 			}
-			elseif ( 'core/cover' === $block['blockName'] ) {
+			if ( 'core/cover' === $block['blockName'] ) {
 				if ( isset( $block['attrs']['id'] ) && isset( $block['attrs']['url'] ) ) {
 					$new_attrs = $this->replace_attrs( $log, $block['attrs']['id'], 'media' );
 					$block = $this->replace_content( $block, 'wp-image-'.$block['attrs']['id'], 'wp-image-'.$new_attrs['id'] );
@@ -258,7 +261,7 @@ class Mapping {
 					$block['attrs']['url'] = $new_attrs['url'];
 				}
 			}
-			elseif ( 'core/image' === $block['blockName'] ) {
+			if ( 'core/image' === $block['blockName'] ) {
 				if ( isset( $block['attrs']['id'] ) ) {
 					$new_attrs = $this->replace_attrs( $log, $block['attrs']['id'], 'media' );
 					$block = $this->replace_content( $block, 'wp-image-'.$block['attrs']['id'], 'wp-image-'.$new_attrs['id'] );
@@ -268,7 +271,7 @@ class Mapping {
 					$block['attrs']['id'] = (int) $new_attrs['id'];
 				}
 			}
-			elseif ( 'core/media-text' === $block['blockName'] ) {
+			if ( 'core/media-text' === $block['blockName'] ) {
 				if ( isset( $block['attrs']['mediaId'] ) ) {
 					$new_attrs = $this->replace_attrs( $log, $block['attrs']['mediaId'], 'media' );
 					$block = $this->replace_content( $block, 'wp-image-'.$block['attrs']['mediaId'], 'wp-image-'.$new_attrs['id'] );
@@ -279,29 +282,42 @@ class Mapping {
 					$block['attrs']['mediaLink'] = $new_attrs['url'];
 				}
 			}
-			elseif ( 'core/navigation-link' === $block['blockName'] ) {
+			if ( 'core/navigation-link' === $block['blockName'] ) {
 				if ( isset( $block['attrs']['id'] ) ) {
 					$new_attrs = $this->replace_attrs( $log, $block['attrs']['id'], $block['attrs']['kind'] );
 					$block['attrs']['id'] = (int) $new_attrs['id'];
 					$block['attrs']['url'] = $new_attrs['url'];
 				}
 			}
-			elseif ( 'core/navigation' === $block['blockName'] ) {
+			if ( 'core/navigation' === $block['blockName'] ) {
 				if ( isset( $block['attrs']['ref'] ) ) {
 					$new_attrs = $this->replace_attrs( $log, $block['attrs']['ref'], 'navigation' );
 					$block['attrs']['ref'] = (int) $new_attrs['id'];
 				}
 			}
-			elseif ( 'core/block' === $block['blockName'] ) {
+			if ( 'core/block' === $block['blockName'] ) {
 				if ( isset( $block['attrs']['ref'] ) ) {
 					$new_attrs = $this->replace_attrs( $log, $block['attrs']['ref'], 'block' );
 					$block['attrs']['ref'] = (int) $new_attrs['id'];
 				}
 			}
+			if ( 'core/query' === $block['blockName'] ) {
+				if ( isset( $block['attrs']['query']['author'] ) ) {
+					$block['attrs']['query']['author'] = '';
+				}
+				if ( isset( $block['attrs']['query']['taxQuery'] ) && is_array( $block['attrs']['query']['taxQuery'] ) ) {
+					$block['attrs']['query']['taxQuery'] = $this->replace_attrs_tax_query( $log, $block['attrs']['query']['taxQuery'] );
+				}
+			}
 			// unset patternName if it refs a post ID
-			if ( isset( $block['attrs']['metadata']['patternName'] ) && str_starts_with( $block['attrs']['metadata']['patternName'], 'core/block/' ) ) {
+			if ( isset( $block['attrs']['metadata']['patternName'] ) && str_starts_with( $block['attrs']['metadata']['patternName'] ?? '', 'core/block/' ) ) {
 				unset( $block['attrs']['metadata']['patternName'] );
 			}
+
+			if ( isset( $block['attrs'] ) ) {
+				$block['attrs'] = $this->replace_attrs_recursive( $block['attrs'], 'mail@example.com', $user_email );
+			}
+
 			// replace any inline text links that contain "data-type" & "data-id" attributes
 			$block = $this->replace_text_links( $log, $block );
 			// replace image URLs
@@ -313,7 +329,7 @@ class Mapping {
 				$block = $this->replace_content( $block, $url_old, $url_new );
 			}
 			if ( ! empty( $block['innerBlocks'] ) ) {
-				$this->renovate_blocks( $block['innerBlocks'], $log, $urls_map, $image_sizes_map );
+				$this->renovate_blocks( $block['innerBlocks'], $log, $urls_map, $image_sizes_map, $user_email );
 			}
 		}
 		return $blocks;
@@ -390,17 +406,21 @@ class Mapping {
 
 	public function replace_content( $block, $old_value, $new_value ) {
 		foreach ( $block['attrs'] as $key => $value ) {
-			if ( !is_array($value) && ( str_starts_with($value, 'https://') || str_starts_with($value, 'http://') ) ) {
+			if ( !is_array($value) && ( str_starts_with($value ?? '', 'https://') || str_starts_with($value ?? '', 'http://') ) ) {
 				if ( isset($block['attrs'][$key]) ) {
 					$block['attrs'][$key] = str_replace( $old_value, $new_value, $value );
 				}
 			}
 		}
 		$values = array(
-			'"' . $old_value . '"' => '"' .$new_value . '"',
-			"'" . $old_value . "'" => "'" .$new_value . "'",
-			'(' . $old_value . ')' => '(' .$new_value . ')',
+			'"' . $old_value . '"' => '"' . $new_value . '"',
+			"'" . $old_value . "'" => "'" . $new_value . "'",
+			'(' . $old_value . ')' => '(' . $new_value . ')',
 		);
+		if ( str_starts_with($old_value ?? '', 'wp-image-') && str_starts_with($new_value ?? '', 'wp-image-') ) {
+			$values[$old_value . '"'] = $new_value . '"';
+			$values[$old_value . ' '] = $new_value . ' ';
+		}
 		foreach ( $values as $key => $value ) {
 			$block['innerHTML'] = str_replace( $key, $value, $block['innerHTML'] );
 			if ( is_array( $block['innerContent'] ) ) {
@@ -451,6 +471,36 @@ class Mapping {
 		if ( isset( $log[$map][$id]['demo_url'] ) ) {
 			// useful for image block where it only has img src in content, and does not have a "url" attr
 			$attrs['old_url'] = $log[$map][$id]['demo_url'];
+		}
+		return $attrs;
+	}
+
+	public function replace_attrs_tax_query( $log, $tax_query ) {
+		$map_terms = $log['map_terms'];
+		$new_tax_query = array();
+		foreach ( $tax_query as $tax_slug => $tax_ids ) {
+			foreach ( $tax_ids as $tax_id ) {
+				if ( isset( $map_terms[$tax_id]['taxonomy'] ) && $map_terms[$tax_id]['taxonomy'] === $tax_slug ) {
+						$new_tax_query[$tax_slug][] = (int) $map_terms[$tax_id]['new_id'];
+				}
+			}
+		}
+		return $new_tax_query;
+	}
+
+	public function replace_attrs_recursive( &$attrs, $old_value, $new_value ) {
+		if ( '' === $old_value && '' === $new_value ) {
+			return $attrs;
+		}
+		foreach ( $attrs as &$attr ) {
+			if ( ! is_array( $attr ) ) {
+				if ( $old_value === $attr ) {
+					$attr = $new_value;
+				}
+			}
+			if ( is_array( $attr ) && ! empty( $attr ) ) {
+				$this->replace_attrs_recursive( $attr, $old_value, $new_value );
+			}
 		}
 		return $attrs;
 	}

@@ -91,6 +91,17 @@ jQuery(document).ready( function($) {
 			var modalClass = '.starter-sites-demo-modal.demo-modal-id-' + thisDemoID + ' .starter-sites-demo-options';
 			$(modalClass).toggleClass('is-open');
 		});
+
+		var modalClass = '.starter-sites-demo-modal.demo-modal-id-' + thisDemoID;
+		$('.expand-list', modalClass).each( function() {
+			$(this).on('click', function() {
+				var thisListID = $(this).data('list-id');
+				var listClass = modalClass + ' .starter-sites-feature-list.list-id-' + thisListID;
+				$(this).toggleClass('is-open');
+				$(listClass).toggleClass('is-open');
+			});
+		});
+
 	});
 
 	// Open post editor & site editor links

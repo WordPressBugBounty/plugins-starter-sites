@@ -105,7 +105,7 @@ class Main {
 		} else {
 			$priority = 59;
 			$settings = get_option( 'starter_sites_settings' );
-			if ( isset($settings['menu_location']) && str_starts_with($settings['menu_location'], 'top-level-') ) {
+			if ( isset($settings['menu_location']) && str_starts_with($settings['menu_location'] ?? '', 'top-level-') ) {
 				$priority = (int) str_replace('top-level-', '', $settings['menu_location']);
 			}
 			add_menu_page( 
@@ -370,7 +370,6 @@ class Main {
 					check_admin_referer( 'activate_site_' . $site_slug, '_wpnonce' );
 					(new Activate)->site_extensions( $site_values );
 				} elseif ( $is_doing_content ) {
-					//$site_slug = sanitize_key( $_GET['activate'] );
 					$log_id = sanitize_key( $_GET['id'] );
 					(new Activate)->site_content( $log_id );
 				} else {
@@ -403,13 +402,32 @@ class Main {
 	}
 
 	/**
+	 * PHP safe mode notice.
+	 */
+	public function view_safemode_notice() {
+		if ( ! $this->is_minimal() && ini_get( 'safe_mode' ) ) {
+			?>
+			<div class="starter-sites-safemode">
+				<p><?php echo sprintf(
+					/* translators: %1$s: opening <strong> tag, %2$s: closing </strong> tag. */
+					esc_html__( 'Warning: your server is using %1$sPHP safe mode%2$s. This means that you might experience server timeout errors when importing a starter site.', 'starter-sites' ), '<strong>', '</strong>'
+					); ?></p>
+			</div>
+			<?php
+		}
+	}
+
+	/**
 	 * Permalink notice.
 	 */
 	public function view_permalink_notice() {
 		if ( ! $this->is_minimal() && ! get_option( 'permalink_structure' ) ) {
 			?>
 			<div class="starter-sites-permalink">
-				<p><?php echo sprintf( esc_html__( 'It is highly recommended to %s for your website before importing a starter site.', 'starter-sites' ), '<a href="' . esc_url( admin_url( 'options-permalink.php' ) ) . '">' . __( 'select the permalink structure', 'starter-sites' ) . '</a>'); ?></p>
+				<p><?php echo sprintf(
+					/* translators: %s: text link to permalink option. */
+					esc_html__( 'It is highly recommended to %s for your website before importing a starter site.', 'starter-sites' ), '<a href="' . esc_url( admin_url( 'options-permalink.php' ) ) . '">' . __( 'select the permalink structure', 'starter-sites' ) . '</a>'
+					); ?></p>
 				<p><?php esc_html_e( 'If you are really sure you want plain links for your pages, posts, categories, navigation menus etc. you can ignore this notice.', 'starter-sites' ); ?></p>
 			</div>
 			<?php
@@ -420,17 +438,21 @@ class Main {
 	 * The demos grid view.
 	 */
 	public function view_sites_grid() {
+		$this->view_safemode_notice();
 		$this->view_permalink_notice();
 		?>
 		<div class="starter-sites-demos-grid">
 		<?php
 		foreach ( starter_sites_demo_list() as $demo_site => $demo_site_data ) {
-			if ( file_exists( STARTER_SITES_PATH . 'content/sites/' . $demo_site . '/screenshot.jpg' ) ) {
-				$demo_site_img_url = STARTER_SITES_URL . 'content/sites/' . $demo_site . '/screenshot.jpg';
+			if ( isset($demo_site_data['image']) && '' !== $demo_site_data['image'] ) {
+				$demo_site_img_url = STARTER_SITES_HOME_URL . 'wp-content/uploads/' . $demo_site_data['image'];
 			} else {
-				$demo_site_img_url = STARTER_SITES_URL . 'assets/images/screenshot-placeholder.png';
+				if ( file_exists( STARTER_SITES_PATH . 'content/sites/' . $demo_site . '/screenshot.jpg' ) ) {
+					$demo_site_img_url = STARTER_SITES_URL . 'content/sites/' . $demo_site . '/screenshot.jpg';
+				} else {
+					$demo_site_img_url = STARTER_SITES_URL . 'assets/images/screenshot-placeholder.png';
+				}
 			}
-			$demo_site_img_url = $demo_site_img_url . '?ver=' . STARTER_SITES_VERSION;
 			?>
 			<div class="starter-sites-demo demo-id-<?php echo esc_attr( $demo_site );?>" data-demo-id="<?php echo esc_attr( $demo_site );?>">
 				<div class="badges">
@@ -453,7 +475,7 @@ class Main {
 				</div>
 				<div class="starter-sites-demo-screenshot"><button class="image modal-open"><img src="<?php echo esc_url( $demo_site_img_url );?>" alt="<?php echo esc_attr( $demo_site_data['title'] );?>"/></button></div>
 				<div class="starter-sites-demo-cta">
-					<div class="starter-sites-demo-title"><button class="title modal-open"><?php esc_html_e( $demo_site_data['title'] );?></button></div>
+					<div class="starter-sites-demo-title"><button class="title modal-open"><?php echo esc_html( $demo_site_data['title'] );?></button></div>
 					<div class="starter-sites-demo-more-info"><button class="button button-tertiary starter-sites-button modal-open"><i class="dashicons dashicons-info-outline"></i> <?php esc_html_e( 'Details', 'starter-sites' );?></button></div>
 				</div>
 			</div>
@@ -497,16 +519,19 @@ class Main {
 		<div class="starter-sites-demos-modals">
 		<?php
 		foreach ( starter_sites_demo_list() as $demo_site => $demo_site_data ) {
-			if ( file_exists( STARTER_SITES_PATH . 'content/sites/' . $demo_site . '/screenshot-full.jpg' ) ) {
-				$demo_site_img_url = STARTER_SITES_URL . 'content/sites/' . $demo_site . '/screenshot-full.jpg';
+			if ( isset($demo_site_data['image_full']) && '' !== $demo_site_data['image_full'] ) {
+				$demo_site_img_url = STARTER_SITES_HOME_URL . 'wp-content/uploads/' . $demo_site_data['image_full'];
 			} else {
-				if ( file_exists( STARTER_SITES_PATH . 'content/sites/' . $demo_site . '/screenshot.jpg' ) ) {
-					$demo_site_img_url = STARTER_SITES_URL . 'content/sites/' . $demo_site . '/screenshot.jpg';
+				if ( file_exists( STARTER_SITES_PATH . 'content/sites/' . $demo_site . '/screenshot-full.jpg' ) ) {
+					$demo_site_img_url = STARTER_SITES_URL . 'content/sites/' . $demo_site . '/screenshot-full.jpg';
 				} else {
-					$demo_site_img_url = STARTER_SITES_URL . 'assets/images/screenshot-placeholder.png';
+					if ( file_exists( STARTER_SITES_PATH . 'content/sites/' . $demo_site . '/screenshot.jpg' ) ) {
+						$demo_site_img_url = STARTER_SITES_URL . 'content/sites/' . $demo_site . '/screenshot.jpg';
+					} else {
+						$demo_site_img_url = STARTER_SITES_URL . 'assets/images/screenshot-placeholder.png';
+					}
 				}
 			}
-			$demo_site_img_url = $demo_site_img_url . '?ver=' . STARTER_SITES_VERSION;
 			$form_activate_url = add_query_arg( [ 'page' => 'starter-sites' ], $admin_link );
 			?>
 			<div class="starter-sites-demo-modal demo-modal-id-<?php echo esc_attr( $demo_site );?>" data-demo-modal-id="<?php echo esc_attr( $demo_site );?>">
@@ -552,12 +577,15 @@ class Main {
 						if ( isset( $demo_site_data['products'] ) && !empty($demo_site_data['products']) ) {
 							?>
 							<div class="starter-sites-demo-sub-section">
-								<p class="starter-sites-sub-heading products"><?php echo sprintf(
-									/* translators: %d = number of products */
-									__( 'Products (%d):', 'starter-sites' ),
-									count($demo_site_data['products'])
-								);?></p>
-								<ul class="starter-sites-feature-list products">
+								<div class="sub-heading-list-wrap">
+									<p class="starter-sites-sub-heading products"><?php echo sprintf(
+										/* translators: %d = number of products */
+										__( 'Products (%d):', 'starter-sites' ),
+										count($demo_site_data['products'])
+									);?></p>
+									<p class="expand-list" data-list-id="products"><i class="dashicons dashicons-arrow-down-alt2"></i></p>
+								</div>
+								<ul class="starter-sites-feature-list list-id-products products">
 								<?php
 								foreach ( $demo_site_data['products'] as $product ) {
 									?>
@@ -573,12 +601,15 @@ class Main {
 						if ( isset( $demo_site_data['pages'] ) && !empty($demo_site_data['pages']) ) {
 							?>
 							<div class="starter-sites-demo-sub-section">
-								<p class="starter-sites-sub-heading pages"><?php echo sprintf(
-									/* translators: %d = number of pages */
-									__( 'Pages (%d):', 'starter-sites' ),
-									count($demo_site_data['pages'])
-								);?></p>
-								<ul class="starter-sites-feature-list pages">
+								<div class="sub-heading-list-wrap">
+									<p class="starter-sites-sub-heading pages"><?php echo sprintf(
+										/* translators: %d = number of pages */
+										__( 'Pages (%d):', 'starter-sites' ),
+										count($demo_site_data['pages'])
+									);?></p>
+									<p class="expand-list" data-list-id="pages"><i class="dashicons dashicons-arrow-down-alt2"></i></p>
+								</div>
+								<ul class="starter-sites-feature-list list-id-pages pages">
 								<?php
 								foreach ( $demo_site_data['pages'] as $page ) {
 									?>
@@ -594,12 +625,15 @@ class Main {
 						if ( isset( $demo_site_data['posts'] ) && !empty($demo_site_data['posts']) ) {
 							?>
 							<div class="starter-sites-demo-sub-section">
-								<p class="starter-sites-sub-heading posts"><?php echo sprintf(
-									/* translators: %d = number of posts */
-									__( 'Posts (%d):', 'starter-sites' ),
-									count($demo_site_data['posts'])
-								);?></p>
-								<ul class="starter-sites-feature-list posts">
+								<div class="sub-heading-list-wrap">
+									<p class="starter-sites-sub-heading posts"><?php echo sprintf(
+										/* translators: %d = number of posts */
+										__( 'Posts (%d):', 'starter-sites' ),
+										count($demo_site_data['posts'])
+									);?></p>
+									<p class="expand-list" data-list-id="posts"><i class="dashicons dashicons-arrow-down-alt2"></i></p>
+								</div>
+								<ul class="starter-sites-feature-list list-id-posts posts">
 								<?php
 								foreach ( $demo_site_data['posts'] as $post ) {
 									?>
@@ -611,16 +645,71 @@ class Main {
 							</div>
 							<?php
 						}
+
+
+						// Templates
+						if ( isset( $demo_site_data['templates'] ) && !empty($demo_site_data['templates']) ) {
+							?>
+							<div class="starter-sites-demo-sub-section">
+								<div class="sub-heading-list-wrap">
+									<p class="starter-sites-sub-heading templates"><?php echo sprintf(
+										/* translators: %d = number of templates */
+										__( 'Templates (%d):', 'starter-sites' ),
+										count($demo_site_data['templates'])
+									);?></p>
+									<p class="expand-list" data-list-id="templates"><i class="dashicons dashicons-arrow-down-alt2"></i></p>
+								</div>
+								<ul class="starter-sites-feature-list list-id-templates templates">
+								<?php
+								foreach ( $demo_site_data['templates'] as $template ) {
+									?>
+									<li class="wppss-feature-item template"><?php echo esc_html( wp_unslash($template) );?></li>
+									<?php
+								}
+								?>
+								</ul>
+							</div>
+							<?php
+						}
+
+						// Template Parts
+						if ( isset( $demo_site_data['template_parts'] ) && !empty($demo_site_data['template_parts']) ) {
+							?>
+							<div class="starter-sites-demo-sub-section">
+								<div class="sub-heading-list-wrap">
+									<p class="starter-sites-sub-heading template-parts"><?php echo sprintf(
+										/* translators: %d = number of template parts */
+										__( 'Template Parts (%d):', 'starter-sites' ),
+										count($demo_site_data['template_parts'])
+									);?></p>
+									<p class="expand-list" data-list-id="template-parts"><i class="dashicons dashicons-arrow-down-alt2"></i></p>
+								</div>
+								<ul class="starter-sites-feature-list list-id-template-parts template-parts">
+								<?php
+								foreach ( $demo_site_data['template_parts'] as $template_part ) {
+									?>
+									<li class="wppss-feature-item template-part"><?php echo esc_html( wp_unslash($template_part) );?></li>
+									<?php
+								}
+								?>
+								</ul>
+							</div>
+							<?php
+						}
+
 						// Patterns
 						if ( isset( $demo_site_data['patterns'] ) && !empty($demo_site_data['patterns']) ) {
 							?>
 							<div class="starter-sites-demo-sub-section">
-								<p class="starter-sites-sub-heading patterns"><?php echo sprintf(
-									/* translators: %d = number of patterns */
-									__( 'Patterns (%d):', 'starter-sites' ),
-									count($demo_site_data['patterns'])
-								);?></p>
-								<ul class="starter-sites-feature-list patterns">
+								<div class="sub-heading-list-wrap">
+									<p class="starter-sites-sub-heading patterns"><?php echo sprintf(
+										/* translators: %d = number of patterns */
+										__( 'Patterns (%d):', 'starter-sites' ),
+										count($demo_site_data['patterns'])
+									);?></p>
+									<p class="expand-list" data-list-id="patterns"><i class="dashicons dashicons-arrow-down-alt2"></i></p>
+								</div>
+								<ul class="starter-sites-feature-list list-id-patterns patterns">
 								<?php
 								foreach ( $demo_site_data['patterns'] as $pattern ) {
 									?>
@@ -636,12 +725,15 @@ class Main {
 						if ( isset( $demo_site_data['fonts'] ) && !empty($demo_site_data['fonts']) ) {
 							?>
 							<div class="starter-sites-demo-sub-section">
-								<p class="starter-sites-sub-heading fonts"><?php echo sprintf(
-									/* translators: %d = number of fonts */
-									__( 'Fonts (%d):', 'starter-sites' ),
-									count($demo_site_data['fonts'])
-								);?></p>
-								<ul class="starter-sites-feature-list fonts">
+								<div class="sub-heading-list-wrap">
+									<p class="starter-sites-sub-heading fonts"><?php echo sprintf(
+										/* translators: %d = number of fonts */
+										__( 'Fonts (%d):', 'starter-sites' ),
+										count($demo_site_data['fonts'])
+									);?></p>
+									<p class="expand-list" data-list-id="fonts"><i class="dashicons dashicons-arrow-down-alt2"></i></p>
+								</div>
+								<ul class="starter-sites-feature-list list-id-fonts fonts">
 								<?php
 								foreach ( $demo_site_data['fonts'] as $font ) {
 									?>
@@ -664,7 +756,7 @@ class Main {
 							?>
 							<div class="starter-sites-demo-sub-section">
 								<p class="starter-sites-sub-heading theme"><?php esc_html_e( 'Theme:', 'starter-sites' );?></p>
-								<ul class="starter-sites-feature-list theme">
+								<ul class="starter-sites-feature-list is-open theme">
 									<li class="wppss-feature-item theme">
 										<?php
 										if ( $active_theme_template === $theme_slug && $active_theme_name !== $theme_title && 'included' === $demo_site_data['type'] ) {
@@ -697,14 +789,21 @@ class Main {
 									</li>
 								</ul>
 							</div>
-							<?php
+						<?php
 						}
 						// Plugins
 						if ( isset( $demo_site_data['plugins'] ) && !empty($demo_site_data['plugins']) ) {
 							?>
 							<div class="starter-sites-demo-sub-section">
-								<p class="starter-sites-sub-heading plugins"><?php esc_html_e( 'Plugins:', 'starter-sites' );?></p>
-								<ul class="starter-sites-feature-list plugins">
+								<div class="sub-heading-list-wrap">
+									<p class="starter-sites-sub-heading plugins"><?php echo sprintf(
+										/* translators: %d = number of plugins */
+										__( 'Plugins (%d):', 'starter-sites' ),
+										count($demo_site_data['plugins'])
+									);?></p>
+									<p class="expand-list" data-list-id="plugins"><i class="dashicons dashicons-arrow-down-alt2"></i></p>
+								</div>
+								<ul class="starter-sites-feature-list list-id-plugins plugins">
 								<?php
 								foreach ( $demo_site_data['plugins'] as $plugin ) {
 									if ( isset($plugin_list[$plugin]['title']) && $plugin_list[$plugin]['title'] !== '' ) {
@@ -721,6 +820,141 @@ class Main {
 							</div>
 							<?php
 						}
+						// Advanced Options
+						?>
+							<div class="starter-sites-demo-sub-section">
+								<div class="sub-heading-list-wrap">
+									<p class="starter-sites-sub-heading advanced-options"><?php esc_html_e( 'Advanced Options', 'starter-sites' );?></p>
+									<p class="expand-list" data-list-id="advanced-options"><i class="dashicons dashicons-arrow-down-alt2"></i></p>
+								</div>
+								<ul class="starter-sites-feature-list list-id-advanced-options advanced-options">
+									<li class="wppss-feature-item premium-nudge">
+										<p class="premium-upgrade"><a href="https://wpstartersites.com/pricing/" target="_blank" class="premium-upgrade-button"><?php esc_html_e( 'UPGRADE TO PREMIUM', 'starter-sites' );?> <i class="dashicons dashicons-external"></i></a></p>
+									</li>
+									<?php
+									if ( STARTER_SITES_THEME_DEFAULT === $theme_slug ) {
+									?>
+									<li class="wppss-feature-item custom-theme">
+										<p class="starter-sites-item-heading custom-theme"><?php esc_html_e( 'Create Your Own Custom Theme', 'starter-sites' );?></p>
+										<table class="form-table">
+											<tbody>
+												<tr class="form-field">
+													<th scope="row">
+														<input type="checkbox" name="is_custom_theme" value="1" class="disabled" disabled="disabled"><label for="is_custom_theme"><?php esc_html_e( 'Yes, I would like to create my own custom theme', 'starter-sites' );?></label>
+													</th>
+													<td>
+														<p class="description"><?php esc_html_e( 'Checking this box will create a custom theme and switch to your new custom theme when importing this starter site', 'starter-sites' );?></p>
+													</td>
+												</tr>
+												<tr class="form-field form-required">
+													<th scope="row">
+														<label for="custom_theme[title]"><?php esc_html_e( 'Theme Name (required)', 'starter-sites' );?></label>
+													</th>
+													<td>
+														<input type="text" name="custom_theme[title]" value="" maxlength="50" class="disabled" disabled="disabled">
+														<p class="description"><?php esc_html_e( 'A name for your custom theme', 'starter-sites' );?></p>
+													</td>
+												</tr>
+												<tr class="form-field">
+													<th scope="row">
+														<label for="custom_theme[slug]"><?php esc_html_e( 'Slug', 'starter-sites' );?></label>
+													</th>
+													<td>
+														<input type="text" name="custom_theme[slug]" value="" maxlength="50" class="disabled" disabled="disabled">
+														<p class="description"><?php esc_html_e( 'The theme folder name, auto generated from Name if empty', 'starter-sites' );?></p>
+													</td>
+												</tr>
+												<?php $this->screenshot_selector(); ?>
+												<tr class="form-field">
+													<th scope="row">
+														<label for="custom_theme[description]"><?php esc_html_e( 'Description', 'starter-sites' );?></label>
+													</th>
+													<td>
+														<textarea name="custom_theme[description]" rows="3" class="disabled" disabled="disabled"></textarea>
+														<p class="description"><?php esc_html_e( 'A description for your custom theme', 'starter-sites' );?></p>
+													</td>
+												</tr>
+												<tr class="form-field">
+													<th scope="row">
+														<label for="custom_theme[version]"><?php esc_html_e( 'Version', 'starter-sites' );?></label>
+													</th>
+													<td>
+														<input type="text" name="custom_theme[version]" value="" placeholder="1.0" maxlength="12" class="disabled" disabled="disabled">
+														<p class="description"><?php esc_html_e( 'The theme version number', 'starter-sites' );?></p>
+													</td>
+												</tr>
+												<tr class="form-field">
+													<th scope="row">
+														<label for="custom_theme[author]"><?php esc_html_e( 'Author', 'starter-sites' );?></label>
+													</th>
+													<td>
+														<input type="text" name="custom_theme[author]" value="" maxlength="50" class="disabled" disabled="disabled">
+														<p class="description"><?php esc_html_e( 'Your name or company/org name', 'starter-sites' );?></p>
+													</td>
+												</tr>
+												<tr class="form-field">
+													<th scope="row">
+														<label for="custom_theme[author_uri]"><?php esc_html_e( 'Author URL', 'starter-sites' );?></label>
+													</th>
+													<td>
+														<input type="url" name="custom_theme[author_uri]" value="" maxlength="50" class="disabled" disabled="disabled">
+														<p class="description"><?php esc_html_e( 'Your URL or company/org URL', 'starter-sites' );?></p>
+													</td>
+												</tr>
+												<tr class="form-field">
+													<th scope="row">
+														<label for="custom_theme[theme_uri]"><?php esc_html_e( 'Theme URL', 'starter-sites' );?></label>
+													</th>
+													<td>
+														<input type="url" name="custom_theme[theme_uri]" value="" maxlength="50" class="disabled" disabled="disabled">
+														<p class="description"><?php esc_html_e( 'Theme URL if different to above', 'starter-sites' );?></p>
+													</td>
+												</tr>
+												<tr class="form-field">
+													<th scope="row">
+														<label for="custom_theme[wp_requires]"><?php esc_html_e( 'Requires WP', 'starter-sites' );?></label>
+													</th>
+													<td>
+														<input type="text" name="custom_theme[wp_requires]" value="" maxlength="12" placeholder="6.4" class="disabled" disabled="disabled">
+														<p class="description"><?php esc_html_e( 'The minumum required version of WordPress', 'starter-sites' );?></p>
+													</td>
+												</tr>
+												<tr class="form-field">
+													<th scope="row">
+														<label for="custom_theme[wp_tested]"><?php esc_html_e( 'Tested up to', 'starter-sites' );?></label>
+													</th>
+													<td>
+														<input type="text" name="custom_theme[wp_tested]" value="" maxlength="12" placeholder="<?php echo esc_html( $this->get_wp_major_version() ) ;?>" class="disabled" disabled="disabled">
+														<p class="description"><?php esc_html_e( 'The version of WordPress that the theme has been tested up to', 'starter-sites' );?></p>
+													</td>
+												</tr>
+												<tr class="form-field">
+													<th scope="row">
+														<label for="custom_theme[php_requires]"><?php esc_html_e( 'Requires PHP', 'starter-sites' );?></label>
+													</th>
+													<td>
+														<input type="text" name="custom_theme[php_requires]" value="" maxlength="12" placeholder="7.4" class="disabled" disabled="disabled">
+														<p class="description"><?php esc_html_e( 'The minimum required version of PHP', 'starter-sites' );?></p>
+													</td>
+												</tr>
+												<tr class="form-field">
+													<th scope="row">
+														<label for="custom_theme[copyright]"><?php esc_html_e( 'Copyright', 'starter-sites' );?></label>
+													</th>
+													<td>
+														<input type="text" name="custom_theme[copyright]" value="" maxlength="50" class="disabled" disabled="disabled">
+														<p class="description"><?php esc_html_e( 'Your own copyright name, defaults to Author if empty', 'starter-sites' );?></p>
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</li>
+									<?php
+									}
+									?>
+								</ul>
+							</div>
+						<?php
 						if ( 'premium' === $demo_site_data['type'] ) {
 						?>
 							<div class="starter-sites-demo-purchase-info">
@@ -738,7 +972,7 @@ class Main {
 								<?php
 								} else {
 								?>
-								<input type="submit" name="submit" id="submit" class="button button-primary starter-sites-button activate-site" value="<?php esc_html_e( 'Activate', 'starter-sites' );?>"></input>
+								<input formaction="<?php echo esc_url( $form_activate_url );?>" type="submit" name="submit" id="submit" class="button button-primary starter-sites-button activate-site" value="<?php esc_html_e( 'Activate', 'starter-sites' );?>"></input>
 								<?php
 								}
 								?>
@@ -762,13 +996,29 @@ class Main {
 		<?php
 	}
 
+	public function screenshot_selector() {
+		?>
+		<tr class="form-field">
+			<th scope="row">
+				<label for="upload_screenshot_button"><?php esc_html_e( 'Screenshot', 'starter-sites' );?></label>
+			</th>
+			<td>
+				<input formaction="#" id="upload_screenshot_button" name="upload_screenshot_button" type="button" class="button disabled" value="<?php esc_html_e( 'Select/Upload Image', 'starter-sites' );?>" disabled="disabled" />
+				<p class="description"><?php esc_html_e( 'Select or upload an image to use as your theme screenshot', 'starter-sites' );?></p>
+				<p class="description"><?php esc_html_e( 'Recommended image size is 1200 x 900', 'starter-sites' );?></p>
+				<p class="description"><?php esc_html_e( 'Larger images will be resized and cropped', 'starter-sites' );?></p>
+			</td>
+		</tr>
+		<?php
+	}
+
 	/**
 	 * The upload view.
 	 */
 	public function view_upload() {
 		if ( isset( $_GET['starter_sites_upload'] ) && 'yes' === $_GET['starter_sites_upload'] ) {
 			check_admin_referer( 'starter-sites-upload' );
-			if ( isset( $_FILES['starter-site-xml']['name'] ) && ! str_ends_with( strtolower( $_FILES['starter-site-xml']['name'] ), '.xml' ) ) {
+			if ( isset( $_FILES['starter-site-xml']['name'] ) && ! str_ends_with( strtolower( $_FILES['starter-site-xml']['name'] ?? '' ), '.xml' ) ) {
 				wp_die( esc_html__( 'Only .xml files may be uploaded.', 'starter-sites' ) );
 			}
 			if ( $_FILES['starter-site-xml'] ) {
@@ -799,6 +1049,7 @@ class Main {
 				}
 			}
 		} else {
+			$this->view_safemode_notice();
 			$this->view_permalink_notice();
 		?>
 			<div class="starter-sites-upload">
@@ -829,7 +1080,6 @@ class Main {
 	 * The settings view.
 	 */
 	public function view_settings() {
-		$this->view_permalink_notice();
 		?>
 		<div class="starter-sites-settings">
 		<?php $this->settings = get_option( 'starter_sites_settings' );
@@ -871,6 +1121,7 @@ class Main {
 	public function admin_body_class( $classes ) {
 		$screen = get_current_screen();
 		if ( $screen->base === 'toplevel_page_starter-sites' || $screen->base === 'appearance_page_starter-sites' || $screen->base === 'tools_page_starter-sites' || $screen->base === 'settings_page_starter-sites'  ) {
+			$classes .= ' starter-sites';
 			$user_id = get_current_user_id();
 			if ( get_user_meta( $user_id, 'starter_sites_admin_fullpage', true ) === 'yes' ) {
 				$classes .= ' starter-sites-fullpage ';
@@ -879,7 +1130,7 @@ class Main {
 				$classes .= ' starter-sites-darkmode ';
 			}
 		}
-		return $classes . ' starter-sites';
+		return $classes;
 	}
 
 	/**
@@ -891,6 +1142,33 @@ class Main {
 			$icon = '<svg class="logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" aria-hidden="true" focusable="false"><path d="M -0.5,648.5 C -0.5,482.5 -0.5,316.5 -0.5,150.5C 12.0616,87.1071 50.3949,50.9404 114.5,42C 149.833,41.3333 185.167,41.3333 220.5,42C 247.885,47.4178 262.552,64.0845 264.5,92C 263.55,108.814 263.217,125.647 263.5,142.5C 215.499,142.333 167.499,142.5 119.5,143C 108.133,145.703 101.633,152.869 100,164.5C 99.0072,322.868 99.3405,481.201 101,639.5C 104.184,648.342 110.351,653.842 119.5,656C 166.832,656.5 214.165,656.667 261.5,656.5C 261.667,677.503 261.5,698.503 261,719.5C 254.647,740.852 240.481,753.352 218.5,757C 183.833,757.667 149.167,757.667 114.5,757C 50.3949,748.06 12.0616,711.893 -0.5,648.5 Z M 799.5,151.5 C 799.5,316.833 799.5,482.167 799.5,647.5C 787.396,711.435 749.062,747.935 684.5,757C 649.833,757.667 615.167,757.667 580.5,757C 556.261,752.428 541.595,738.095 536.5,714C 537.493,694.91 537.826,675.743 537.5,656.5C 584.835,656.667 632.168,656.5 679.5,656C 688.649,653.842 694.816,648.342 698,639.5C 699.66,481.201 699.993,322.868 699,164.5C 697.367,152.869 690.867,145.703 679.5,143C 631.501,142.5 583.501,142.333 535.5,142.5C 535.783,125.647 535.45,108.814 534.5,92C 536.448,64.0845 551.115,47.4178 578.5,42C 613.833,41.3333 649.167,41.3333 684.5,42C 749.062,51.0645 787.396,87.5645 799.5,151.5 Z M 332.5,184.5 C 389.168,184.333 445.834,184.5 502.5,185C 537.525,189.37 559.358,208.536 568,242.5C 569.317,251.79 570.151,261.124 570.5,270.5C 493.833,270.333 417.166,270.5 340.5,271C 323.808,274.691 313.308,284.857 309,301.5C 305.921,321.505 313.088,336.338 330.5,346C 334.057,347.408 337.724,348.408 341.5,349C 380.167,349.333 418.833,349.667 457.5,350C 508.346,353.237 545.846,377.07 570,421.5C 584.214,459.107 585.214,497.107 573,535.5C 559.167,568 536,591.167 503.5,605C 491.813,609.255 479.813,612.255 467.5,614C 437.354,615.121 407.187,615.621 377,615.5C 347.807,615.633 318.641,615.133 289.5,614C 259.234,608.966 239.734,591.799 231,562.5C 228.843,551.605 227.676,540.605 227.5,529.5C 301.501,529.667 375.501,529.5 449.5,529C 475.059,524.079 488.726,508.579 490.5,482.5C 488.661,457.662 475.661,442.162 451.5,436C 411.833,435.667 372.167,435.333 332.5,435C 290.604,432.146 257.771,413.646 234,379.5C 221.954,358.442 216.454,335.775 217.5,311.5C 216.266,251.615 243.599,211.449 299.5,191C 310.473,187.972 321.473,185.805 332.5,184.5 Z"/></svg>';
 		}
 		return $icon;
+	}
+
+	/**
+	 * Return the MAJOR.MINOR version of installed WP.
+	 * 
+	 * Using version_compare() with get_bloginfo( 'version' )
+	 * does not work properly if the version is beta/RC and is
+	 * not in the MAJOR.MINOR.PATCH format.
+	 * 
+	 * e.g. 5.9-RC3 does not work whereas 5.9.0-RC3 would
+	 * but WordPress regards the second digit as major and omits
+	 * the third digit so we remove unwanted characters here.
+	 */
+	public function get_wp_major_version() {
+		$wp_version = get_bloginfo( 'version' );
+		if ( !$wp_version ) {
+			$wp_version_major = '6.4';
+		} else {
+			$wp_version = strtok( $wp_version, '-' );
+			$wp_version = explode( '.', $wp_version );
+			if ( isset( $wp_version[1] ) ) {
+				$wp_version_major = $wp_version[0] . '.' . $wp_version[1];
+			} else {
+				$wp_version_major = $wp_version[0];
+			}
+		}
+		return $wp_version_major;
 	}
 
 	/**

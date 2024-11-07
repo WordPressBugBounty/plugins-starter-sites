@@ -26,6 +26,38 @@ class Activate {
 	}
 
 	/**
+	 * Returns appropriate starter site content file.
+	 *
+	 * @param  string  $site_slug
+	 * @return string  path to saved file, false otherwise.
+	 */
+	public function get_import_file( $site_slug ) {
+		require_once ABSPATH . 'wp-admin/includes/file.php';
+		$file_url = STARTER_SITES_HOME_URL . 'sites/' . $site_slug . '/content.xml';
+		$temp_file = download_url( $file_url, 60 );
+		if ( is_wp_error($temp_file) ) {
+			return false;
+		}
+		$file = array(
+			'name'     => $site_slug . '-' . wp_basename( $file_url ),
+			'type'     => 'text/xml',
+			'tmp_name' => $temp_file,
+			'error'    => 0,
+			'size'     => filesize( $temp_file ),
+		);
+		$overrides = array(
+			'test_form' => false,
+			'test_type' => false
+		);
+		$file_uploaded = wp_handle_sideload( $file, $overrides );
+		if ( isset($file_uploaded['file']) ) {
+			return $file_uploaded['file'];
+		} else {
+			return false;
+		}
+	}
+
+	/**
 	 * Processes extensions (theme and plugins).
 	 *
 	 * @param array  $site_values demo site parameters.
@@ -37,7 +69,7 @@ class Activate {
 		if ( isset( $site_values['starter_sites_file'] ) ) {
 			$import_file = $site_values['starter_sites_file'];
 		} else {
-			$import_file = STARTER_SITES_PATH . 'content/sites/' . $site_slug . '/content.xml';
+			$import_file = $this->get_import_file( $site_slug );
 		}
 		if ( file_exists( $import_file ) ) {
 			// Process theme
@@ -125,9 +157,6 @@ class Activate {
 			$process_plugins_log = maybe_unserialize( wp_unslash( $log_post->post_content ) );
 			$site_slug = $process_plugins_log['site']['demo_slug'];
 			$import_file = get_post_meta( $process_plugins_log_id, 'starter_sites_file', true );
-			if ( !isset($import_file) && $import_file === '' ) {
-				$import_file = STARTER_SITES_PATH . 'content/sites/' . $site_slug . '/content.xml';
-			}
 			if ( file_exists( $import_file ) ) {
 				// Process content
 				$process_content_log = $this->process_content( $process_plugins_log, $import_file );
@@ -143,15 +172,15 @@ class Activate {
 				?>
 				<p><?php echo sprintf(
 					/* translators: %s = title of the activated starter site */
-					__( 'Congratulations. You have successfully activated the %s starter site!', 'starter-sites' ),
+					esc_html__( 'Congratulations. You have successfully activated the %s starter site!', 'starter-sites' ),
 					'<span class="success-site-title">' . esc_html( $process_content_log['site']['demo_title'] ) . '</span>'
 				);?></p>
 				<ul class="text-list">
-					<li><a class="text-link" href="<?php echo esc_url( home_url( '/' ) ); ?>"><?php esc_html_e( 'View your new site' );?></a></li>
-					<li><a class="text-link" href="<?php echo esc_url( admin_url( 'site-editor.php' ) ); ?>"><?php esc_html_e( 'Edit your new site' );?></a></li>
+					<li><a class="text-link" href="<?php echo esc_url( home_url( '/' ) ); ?>"><?php esc_html_e( 'View your new site', 'starter-sites' );?></a></li>
+					<li><a class="text-link" href="<?php echo esc_url( admin_url( 'site-editor.php' ) ); ?>"><?php esc_html_e( 'Edit your new site', 'starter-sites' );?></a></li>
 					<?php if ( $log_id ) {
 						?>
-						<li><a class="text-link" href="<?php echo esc_url( admin_url( $this->base_link() . '?page=starter-sites&tab=logs&log_id=' . $log_id ) ); ?>"><?php esc_html_e( 'View the activation log' );?></a></li>
+						<li><a class="text-link" href="<?php echo esc_url( admin_url( $this->base_link() . '?page=starter-sites&tab=logs&log_id=' . $log_id ) ); ?>"><?php esc_html_e( 'View the activation log', 'starter-sites' );?></a></li>
 						<?php
 					}
 					?>
@@ -234,6 +263,7 @@ class Activate {
 					'pre_status' => 'inactive',
 					'result' => 'activated'
 				);
+				$this->do_extension_options( $theme );
 			} else {
 				// try to install required theme
 				$theme_install = $this->install_theme( $theme );
@@ -245,6 +275,7 @@ class Activate {
 						'pre_status' => 'not installed',
 						'result' => 'installed and activated'
 					);
+					$this->do_extension_options( $theme );
 				} else {
 					$log['is_error'] = true;
 					$log['error_code'] = 2;
@@ -307,7 +338,7 @@ class Activate {
 		} elseif ( is_null( $result ) ) {
 			global $wp_filesystem;
 			$status['errorCode']    = 'unable_to_connect_to_filesystem';
-			$status['errorMessage'] = __( 'Unable to connect to the filesystem. Please confirm your credentials.' );
+			$status['errorMessage'] = __( 'Unable to connect to the filesystem. Please confirm your credentials.', 'starter-sites' );
 			// Pass through the error from WP_Filesystem if one was raised.
 			if ( $wp_filesystem instanceof \WP_Filesystem_Base && is_wp_error( $wp_filesystem->errors ) && $wp_filesystem->errors->has_errors() ) {
 				$status['errorMessage'] = esc_html( $wp_filesystem->errors->get_error_message() );
@@ -361,6 +392,7 @@ class Activate {
 								'pre_status' => $plugin_install['pre_status'],
 								'result' => $result
 							);
+							$this->do_extension_options( $plugin );
 						} else {
 							$log['is_error'] = true;
 							$log['error_code'] = 3;
@@ -375,6 +407,19 @@ class Activate {
 			}
 		}
 		return $log;
+	}
+
+	public function do_extension_options( $name ) {
+		if ( 'eternal' === $name ) {
+			update_user_meta( get_current_user_id(), 'eternal_admin_notice_dismiss', 1 );
+		}
+		if ( 'wp-map-block' === $name ) {
+			update_option( 'wpmapblock_ablocks_install_notice_hidden', true, false );
+		}
+		if ( 'gutena-forms' === $name ) {
+			update_option( 'gutena_forms_dismiss_notices', array( 'gutena-forms-view-dashboard-notice' ) );
+		}
+		return;
 	}
 
 	/*
@@ -445,7 +490,7 @@ class Activate {
 			} elseif ( is_null( $result ) ) {
 				global $wp_filesystem;
 				$status['errorCode']    = 'unable_to_connect_to_filesystem';
-				$status['errorMessage'] = __( 'Unable to connect to the filesystem. Please confirm your credentials.' );
+				$status['errorMessage'] = __( 'Unable to connect to the filesystem. Please confirm your credentials.', 'starter-sites' );
 				// Pass through the error from WP_Filesystem if one was raised.
 				if ( $wp_filesystem instanceof \WP_Filesystem_Base && is_wp_error( $wp_filesystem->errors ) && $wp_filesystem->errors->has_errors() ) {
 					$status['errorMessage'] = esc_html( $wp_filesystem->errors->get_error_message() );
@@ -470,6 +515,7 @@ class Activate {
 	 * @return array  $log appended activation log.
 	 */
 	public function process_content( $log, $file ) {
+		set_time_limit( 0 );
 		$site_slug = $log['site']['demo_slug'];
 		$theme = $log['theme']['slug'];
 		$theme_parent = $log['theme_parent'];
@@ -635,12 +681,14 @@ class Activate {
 				);
 				if ( $term_link !== '' ) {
 					$log['map_terms'][$term_id] = array(
+						'taxonomy' => $term_taxonomy,
 						'new_id' => $term_exists['term_id'],
 						'demo_url' => $term_link,
 						'new_url' => get_term_link( (int) $term_exists['term_id'] )
 					);
 				} else {
 					$log['map_terms'][$term_id] = array(
+						'taxonomy' => $term_taxonomy,
 						'new_id' => $term_exists['term_id']
 					);
 				}
@@ -668,12 +716,14 @@ class Activate {
 						);
 						if ( $term_link !== '' ) {
 							$log['map_terms'][$term_id] = array(
+								'taxonomy' => $term_taxonomy,
 								'new_id' => $insert_term['term_id'],
 								'demo_url' => $term_link,
 								'new_url' => get_term_link( (int) $insert_term['term_id'] )
 							);
 						} else {
 							$log['map_terms'][$term_id] = array(
+								'taxonomy' => $term_taxonomy,
 								'new_id' => $insert_term['term_id']
 							);
 						}
@@ -782,7 +832,7 @@ class Activate {
 					);
 				} else {
 					if ( 'post' === $post_type || 'product' === $post_type ) {
-						$post_date = date( 'Y-m-d H:i:s', time() - mt_rand(1,864000) );
+						$post_date = wp_date( 'Y-m-d H:i:s', time() - wp_rand(1,864000) );
 					} else {
 						$post_date = '';
 					}
@@ -834,7 +884,7 @@ class Activate {
 					$term_attributes = array();
 					// build an array of taxonomy (product attribute) => terms (options)
 					foreach ( $post_terms as $term => $taxonomy ) {
-						if ( str_starts_with($taxonomy, 'pa_') ) {
+						if ( str_starts_with($taxonomy ?? '', 'pa_') ) {
 							if ( isset($term_attributes[$taxonomy]) ) {
 								$term_attributes[$taxonomy] .= '|' . $term;
 							} else {
@@ -866,7 +916,7 @@ class Activate {
 					$prod_var_attrs = array();
 					foreach ($post_meta as $key => $value) {
 						//if key starts with attribute_ then add it to $prod_var_attrs
-						if ( str_starts_with($key, 'attribute_') ) {
+						if ( str_starts_with($key ?? '', 'attribute_') ) {
 							$prod_var_attrs[$key] = $value;
 						}
 					}
@@ -1540,6 +1590,8 @@ class Activate {
 	 */
 	public function attachment_upload( $url, $title ) {
 		require_once( ABSPATH . 'wp-admin/includes/file.php' );
+		set_time_limit( 150 );
+		wp_raise_memory_limit( 'image' );
 		$temp_file = download_url( $url );
 		if( is_wp_error( $temp_file ) ) {
 			return false;

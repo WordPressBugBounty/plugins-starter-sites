@@ -4,11 +4,11 @@ Tags: import, content, demo, starter site, website
 Requires at least: 6.4
 Tested up to: 6.6
 Requires PHP: 7.4
-Stable tag: 2.0.1
+Stable tag: 2.0.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Ready to go WordPress full site editing starter sites and website demos, all with full pages of real content, and all created with the block editor.
+Ready to go WordPress starter sites and website demos, all with full pages of real content, and all created with the full site editing block editor. Quickly import global styles, templates, template parts, patterns, fonts and full website demo content including pages, posts, products and images.
 
 == Description ==
 
@@ -84,6 +84,10 @@ Fixed issue where some images would not be properly mapped to imported content
 Added Interior Designer site
 
 == Changelog ==
+
+**2.0.2 - November 2024**
+- Fix for image id mapping in parallax cover block
+- Fix for Query Loop taxonomy filters mapping
 
 **2.0.1 - September 2024**
 - Added Interior Designer site
