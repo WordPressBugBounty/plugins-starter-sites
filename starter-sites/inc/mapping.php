@@ -144,6 +144,41 @@ class Mapping {
 							update_post_meta( $content_key['new_id'], '_wp_font_face_file', wp_basename($log['map_font_faces'][$meta_value]['new_url']) );
 						}
 					}
+					if ( $meta_key === '_product_image_gallery' && $meta_value !== '' ) {
+						$old_product_gallery = explode( ',', $meta_value );
+						if ( is_array( $old_product_gallery ) ) {
+							$new_product_gallery = array();
+							foreach ( $old_product_gallery as $old_image_id ) {
+								if ( isset( $log['map_attachments'][$old_image_id]['new_id'] ) ) {
+									$new_product_gallery[] = $log['map_attachments'][$old_image_id]['new_id'];
+								}
+							}
+							$new_product_gallery = implode( ',', $new_product_gallery );
+							update_post_meta( $content_key['new_id'], '_product_image_gallery', $new_product_gallery );
+						} else {
+							if ( isset( $log['map_attachments'][$meta_value]['new_id'] ) ) {
+								update_post_meta( $content_key['new_id'], '_product_image_gallery', $log['map_attachments'][$meta_value]['new_id'] );
+							}
+						}
+					}
+				}
+			}
+		}
+
+		// map product variation images
+		if ( isset( $log['product_variations'] ) ) {
+			foreach ( $log['product_variations'] as $product ) {
+				foreach ( $product as $old_variation_id => $value ) {
+					if ( isset( $value['new_id'] ) ) {
+						$new_variation_id = $value['new_id'];
+						if ( isset( $log['product_vars_to_add'][$old_variation_id]['_thumbnail_id'] ) ) {
+							$old_image_id = $log['product_vars_to_add'][$old_variation_id]['_thumbnail_id'];
+							if ( isset( $log['map_attachments'][$old_image_id]['new_id'] ) ) {
+								$new_image_id = $log['map_attachments'][$old_image_id]['new_id'];
+								update_post_meta( $new_variation_id, '_thumbnail_id', $new_image_id );
+							}
+						}
+					}
 				}
 			}
 		}

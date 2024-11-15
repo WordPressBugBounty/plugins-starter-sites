@@ -1,14 +1,14 @@
 === Starter Sites ===
 Contributors: uxl
 Tags: import, content, demo, starter site, website
-Requires at least: 6.4
-Tested up to: 6.6
+Requires at least: 6.6
+Tested up to: 6.7
 Requires PHP: 7.4
-Stable tag: 2.0.2
+Stable tag: 2.0.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Ready to go WordPress starter sites and website demos, all with full pages of real content, and all created with the full site editing block editor. Quickly import global styles, templates, template parts, patterns, fonts and full website demo content including pages, posts, products and images.
+Import website demos, full pages of block editor content, posts, products, images, global styles, templates, template parts, patterns and fonts.
 
 == Description ==
 
@@ -84,6 +84,9 @@ Fixed issue where some images would not be properly mapped to imported content
 Added Interior Designer site
 
 == Changelog ==
+**2.0.3 - November 2024**
+- Fixed product gallery images mapping
+- Fixed product variation image mapping
 
 **2.0.2 - November 2024**
 - Fix for image id mapping in parallax cover block

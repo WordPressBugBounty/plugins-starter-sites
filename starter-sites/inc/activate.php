@@ -580,14 +580,6 @@ class Activate {
 			'page_on_front' => $this->sanitize_data( $site_options->page_on_front, 'page_on_front' ),
 			'page_for_posts' => $this->sanitize_data( $site_options->page_for_posts, 'page_for_posts' )
 		);
-		$log['site']['demo_title'] = wp_slash($site_title);
-		$log['site']['orig_title'] = wp_slash( get_bloginfo('name') );
-		if ( $site_title === $orig_site_title ) {
-			$log['site']['title_result'] = 'none';
-		} else {
-			update_option( 'blogname', wp_unslash( $site_title ) );
-			$log['site']['title_result'] = 'updated';
-		}
 		// WooCommerce product attributes
 		if ( class_exists( 'WooCommerce' ) ) {
 			foreach ( $channel_namespace->wc_attribute as $wc_attribute ) {
@@ -1456,10 +1448,13 @@ class Activate {
 			// add the product variations
 			if ( isset($log['product_vars_to_add']) ) {
 				foreach ( $log['product_vars_to_add'] as $key => $props ) {
-					if ( in_array( $props['display_slug'], $this->get_product_variations( $props['parent_id'] ) ) ) {
+					$product_variations = $this->get_product_variations( $props['parent_id'] );
+					if ( array_key_exists( $props['display_slug'], $product_variations ) ) {
+						$variation_id = $product_variations[$props['display_slug']];
 						$log['product_variations'][$props['parent_id']][$key] = array(
 							'title' => wp_slash($props['display_excerpt']),
 							'slug' => $props['display_slug'],
+							'new_id' => $variation_id,
 							'pre_status' => 'exists',
 							'result' => 'none'
 						);
@@ -1469,6 +1464,7 @@ class Activate {
 							$log['product_variations'][$props['parent_id']][$key] = array(
 								'title' => wp_slash($props['display_excerpt']),
 								'slug' => $props['display_slug'],
+								'new_id' => $variation_id,
 								'pre_status' => 'none',
 								'result' => 'added'
 							);
@@ -1526,7 +1522,7 @@ class Activate {
 		) );
 		if ( $variations ) {
 			foreach ( $variations as $variation ) {
-				$product_variations[] = $variation->get_slug();
+				$product_variations[$variation->get_slug()] = $variation->get_id();
 			}
 		}
 		return $product_variations;
@@ -1572,7 +1568,7 @@ class Activate {
 			}*/ elseif ( $key === '_variation_description' ) {
 				$variation->set_description( $value );
 			} elseif ( $key === '_thumbnail_id' ) {
-				$variation->set_image_id( $value );// need to map to new attachment ID
+				$variation->set_image_id( $value );
 			} elseif ( $key === 'attributes' ) {
 				$variation->set_attributes( $value );
 			}
