@@ -165,6 +165,20 @@ class Mapping {
 			}
 		}
 
+		// map term meta thumbnail_id
+		if ( isset( $log['terms'] ) ) {
+			foreach ( $log['terms'] as $term ) {
+				if ( isset( $term['new_id'] ) ) {
+					$new_term_id = $term['new_id'];
+					$old_image_id = get_term_meta( $new_term_id, 'thumbnail_id', true );
+					if ( $old_image_id && isset( $log['map_attachments'][$old_image_id]['new_id'] ) ) {
+						$new_image_id = $log['map_attachments'][$old_image_id]['new_id'];
+						update_term_meta( $new_term_id, 'thumbnail_id', $new_image_id );
+					}
+				}
+			}
+		}
+
 		// map product variation images
 		if ( isset( $log['product_variations'] ) ) {
 			foreach ( $log['product_variations'] as $product ) {
@@ -344,6 +358,11 @@ class Mapping {
 					$block['attrs']['query']['taxQuery'] = $this->replace_attrs_tax_query( $log, $block['attrs']['query']['taxQuery'] );
 				}
 			}
+
+			if ( str_starts_with( $block['blockName'], 'woocommerce/' ) ) {
+				$block['attrs'] = $this->replace_wc_attrs( $log, $block['attrs'] );
+			}
+
 			// unset patternName if it refs a post ID
 			if ( isset( $block['attrs']['metadata']['patternName'] ) && str_starts_with( $block['attrs']['metadata']['patternName'] ?? '', 'core/block/' ) ) {
 				unset( $block['attrs']['metadata']['patternName'] );
@@ -368,6 +387,127 @@ class Mapping {
 			}
 		}
 		return $blocks;
+	}
+
+	public function replace_wc_attrs( $log, $attrs ) {
+
+		if ( isset( $attrs['attributeId'] ) ) {
+			$old_attribute_id = $attrs['attributeId'];
+			if ( isset( $log['wc_taxonomies'][$old_attribute_id]['new_id'] ) ) {
+				$attrs['attributeId'] = (int) $log['wc_taxonomies'][$old_attribute_id]['new_id'];
+			}
+		}
+
+		if ( isset( $attrs['categoryId'] ) ) {
+			$new_attrs_cat_id = $this->replace_attrs( $log, $attrs['categoryId'], 'taxonomy' );
+			$attrs['categoryId'] = (int) $new_attrs_cat_id['id'];
+		}
+
+		if ( isset( $attrs['productId'] ) ) {
+			$new_attrs_product_id = $this->replace_attrs( $log, $attrs['productId'], 'post-type' );
+			$attrs['productId'] = (int) $new_attrs_product_id['id'];
+		}
+
+		if ( isset( $attrs['mediaId'] ) ) {
+			unset( $attrs['mediaId'] );
+		}
+
+		if ( isset( $attrs['mediaSrc'] ) ) {
+			unset( $attrs['mediaSrc'] );
+		}
+
+		if ( isset( $attrs['products'] ) && is_array( $attrs['products'] ) ) {
+			$new_attrs_prods = array();
+			foreach ( $attrs['products'] as $prod_id ) {
+				$new_attrs_prods_id = $this->replace_attrs( $log, $prod_id, 'post-type' );
+				$new_attrs_prods[] = $new_attrs_prods_id['id'];
+			}
+			$attrs['products'] = $new_attrs_prods;
+		}
+
+		if ( isset( $attrs['categories'] ) && is_array( $attrs['categories'] ) ) {
+			$new_attrs_cats = array();
+			foreach ( $attrs['categories'] as $cat_id ) {
+				$new_attrs_cats_id = $this->replace_attrs( $log, $cat_id, 'taxonomy' );
+				$new_attrs_cats[] = $new_attrs_cats_id['id'];
+			}
+			$attrs['categories'] = $new_attrs_cats;
+		}
+
+		if ( isset( $attrs['categoryIds'] ) && is_array( $attrs['categoryIds'] ) ) {
+			$new_attrs_catids = array();
+			foreach ( $attrs['categoryIds'] as $cat_id ) {
+				$new_attrs_catids_id = $this->replace_attrs( $log, $cat_id, 'taxonomy' );
+				$new_attrs_catids[] = $new_attrs_catids_id['id'];
+			}
+			$attrs['categoryIds'] = $new_attrs_catids;
+		}
+
+		if ( isset( $attrs['tags'] ) && is_array( $attrs['tags'] ) ) {
+			$new_attrs_tags = array();
+			foreach ( $attrs['tags'] as $tag_id ) {
+				$new_attrs_tags_id = $this->replace_attrs( $log, $tag_id, 'taxonomy' );
+				$new_attrs_tags[] = $new_attrs_tags_id['id'];
+			}
+			$attrs['tags'] = $new_attrs_tags;
+		}
+
+		if ( isset( $attrs['attributes'] ) && is_array( $attrs['attributes'] ) ) {
+			$new_attrs_attributes = array();
+			foreach ( $attrs['attributes'] as $key => $attribute ) {
+				if ( isset( $attribute['id'] ) && isset( $attribute['attr_slug'] ) ) {
+					$new_attribute_id = $this->replace_attrs( $log, $attribute['id'], 'taxonomy' );
+					$new_attrs_attributes[$key] = array(
+						'id' => $new_attribute_id['id'],
+						'attr_slug' => $attribute['attr_slug']
+					);
+				}
+			}
+			$attrs['attributes'] = $new_attrs_attributes;
+		}
+
+		if ( isset( $attrs['query']['taxQuery']['product_cat'] ) && is_array( $attrs['query']['taxQuery']['product_cat'] ) ) {
+			$new_tax_cats = array();
+			foreach ( $attrs['query']['taxQuery']['product_cat'] as $tax_cat ) {
+				$new_tax_cat_id = $this->replace_attrs( $log, $tax_cat, 'taxonomy' );
+				$new_tax_cats[] = $new_tax_cat_id['id'];
+			}
+			$attrs['query']['taxQuery']['product_cat'] = $new_tax_cats;
+		}
+
+		if ( isset( $attrs['query']['taxQuery']['product_tag'] ) && is_array( $attrs['query']['taxQuery']['product_tag'] ) ) {
+			$new_tax_tags = array();
+			foreach ( $attrs['query']['taxQuery']['product_tag'] as $tax_tag ) {
+				$new_tax_tag_id = $this->replace_attrs( $log, $tax_tag, 'taxonomy' );
+				$new_tax_tags[] = $new_tax_tag_id['id'];
+			}
+			$attrs['query']['taxQuery']['product_tag'] = $new_tax_tags;
+		}
+
+		if ( isset( $attrs['query']['woocommerceAttributes'] ) && is_array( $attrs['query']['woocommerceAttributes'] ) ) {
+			$new_attrs_wcattributes = array();
+			foreach ( $attrs['query']['woocommerceAttributes'] as $key => $attribute ) {
+				if ( isset( $attribute['termId'] ) && isset( $attribute['taxonomy'] ) ) {
+					$new_attribute_id = $this->replace_attrs( $log, $attribute['termId'], 'taxonomy' );
+					$new_attrs_wcattributes[$key] = array(
+						'termId' => $new_attribute_id['id'],
+						'taxonomy' => $attribute['taxonomy']
+					);
+				}
+			}
+			$attrs['query']['woocommerceAttributes'] = $new_attrs_wcattributes;
+		}
+
+		if ( isset( $attrs['query']['woocommerceHandPickedProducts'] ) && is_array( $attrs['query']['woocommerceHandPickedProducts'] ) ) {
+			$new_wc_hp_products = array();
+			foreach ( $attrs['query']['woocommerceHandPickedProducts'] as $product ) {
+				$new_product = $this->replace_attrs( $log, $product, 'post-type' );
+				$new_wc_hp_products[] = $new_product['id'];
+			}
+			$attrs['query']['woocommerceHandPickedProducts'] = $new_wc_hp_products;
+		}
+
+		return $attrs;
 	}
 
 	public function quoted_element_attr( $content ) {

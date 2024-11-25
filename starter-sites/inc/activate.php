@@ -656,6 +656,19 @@ class Activate {
 			$term_link = $this->sanitize_data( $term_namespace->term_link, 'term_link' );
 			$term_name = $this->sanitize_data( $term_namespace->term_name, 'term_name' );
 			$term_description = $this->sanitize_data( $term_namespace->term_description, 'term_description' );
+
+			$term_meta = array();
+			if ( !empty($term_namespace->termmeta)) {
+				foreach ($term_namespace->termmeta as $meta) {
+					$meta_key = $this->sanitize_data( $meta->meta_key, 'meta_key' );
+					$meta_value = $this->sanitize_data( $meta->meta_value, 'meta_value' );
+					$meta_array = array(
+						$meta_key => $meta_value
+					);
+					$term_meta = array_merge( $term_meta, $meta_array );
+				}
+			}
+
 			// if child theme selected
 			if ( $is_child_theme ) {
 				$term_slug = $theme;
@@ -671,6 +684,13 @@ class Activate {
 					'pre_status' => 'exists',
 					'result' => 'none'
 				);
+
+				if ( !empty($term_meta) ) {
+					foreach ($term_meta as $key => $value) {
+						update_term_meta( $term_exists['term_id'], $key, $value );
+					}
+				}
+
 				if ( $term_link !== '' ) {
 					$log['map_terms'][$term_id] = array(
 						'taxonomy' => $term_taxonomy,
@@ -706,6 +726,13 @@ class Activate {
 							'pre_status' => 'new',
 							'result' => 'added'
 						);
+
+						if ( !empty($term_meta) ) {
+							foreach ($term_meta as $key => $value) {
+								update_term_meta( $insert_term['term_id'], $key, $value );
+							}
+						}
+
 						if ( $term_link !== '' ) {
 							$log['map_terms'][$term_id] = array(
 								'taxonomy' => $term_taxonomy,
@@ -888,6 +915,7 @@ class Activate {
 						// if a product attribute (from the post_meta '_product_attributes' value)
 						// e.g. 'pa_color' matches with a taxonomy of the post terms
 						if ( isset($product_attributes[$key]) ) {
+							$value = str_replace( '-', ' ', $value );
 							$product_attributes[$key]['options'] = explode('|', $value);
 						}
 					}
@@ -915,6 +943,7 @@ class Activate {
 					$prod_var_props['attributes'] = $prod_var_attrs;
 					$prod_var_props['display_slug'] = $post_name;
 					$prod_var_props['display_excerpt'] = $post_excerpt;
+					$prod_var_props['demo_url'] = $post_url;
 					// **save this until after all content as we need to make sure it is processed AFTER the parent product**
 					$log['product_vars_to_add'][$post_id] = $prod_var_props;
 				}
@@ -1458,6 +1487,11 @@ class Activate {
 							'pre_status' => 'exists',
 							'result' => 'none'
 						);
+						$log['map_posts'][$key] = array(
+							'new_id' => $variation_id,
+							'demo_url' => $props['demo_url'],
+							'new_url' => get_permalink($variation_id)
+						);
 					} else {
 						$variation_id = $this->set_product_variation( $props );
 						if ( !is_wp_error($variation_id) ) {
@@ -1467,6 +1501,11 @@ class Activate {
 								'new_id' => $variation_id,
 								'pre_status' => 'none',
 								'result' => 'added'
+							);
+							$log['map_posts'][$key] = array(
+								'new_id' => $variation_id,
+								'demo_url' => $props['demo_url'],
+								'new_url' => get_permalink($variation_id)
 							);
 						} else {
 							$log['product_variations'][$props['parent_id']][$key] = array(

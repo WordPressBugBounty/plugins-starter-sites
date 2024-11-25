@@ -26,12 +26,24 @@ function starter_sites_template_design_patterns() {
 				if ( '' !== $site_title ) {
 					$site_title = $site_title . ' - ';
 				}
+
+				$prefix = 'template-';
+				$block_types = '';
+				if ( $post->post_type === 'starter_sites_pd' ) {
+					$prefix = 'template-part-';
+					$part = get_block_template( $site_theme . '//' . $post->post_name, 'wp_template_part' );
+					if ( $part ) {
+						$block_types = 'core/template-part/' . $part->area;
+					}
+				}
+
 				register_block_pattern(
-					'starter-sites/template-' . $post->post_name,
+					'starter-sites/' . $prefix . $post->post_name,
 					array(
 						'title'			=> __( 'Starter Sites - ', 'starter-sites' ) . $site_title . $post->post_title,
 						'content'		=> $post->post_content,
 						'inserter'		=> 'no',
+						'blockTypes'   => array( $block_types ),
 						'templateTypes'	=> array( $post->post_name )
 					)
 				);

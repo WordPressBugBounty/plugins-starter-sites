@@ -444,42 +444,44 @@ class Main {
 		<div class="starter-sites-demos-grid">
 		<?php
 		foreach ( starter_sites_demo_list() as $demo_site => $demo_site_data ) {
-			if ( isset($demo_site_data['image']) && '' !== $demo_site_data['image'] ) {
-				$demo_site_img_url = STARTER_SITES_HOME_URL . 'wp-content/uploads/' . $demo_site_data['image'];
-			} else {
-				if ( file_exists( STARTER_SITES_PATH . 'content/sites/' . $demo_site . '/screenshot.jpg' ) ) {
-					$demo_site_img_url = STARTER_SITES_URL . 'content/sites/' . $demo_site . '/screenshot.jpg';
+			if ( $demo_site_data['type'] === 'included' || $demo_site_data['type'] === 'premium' ) {
+				if ( isset($demo_site_data['image']) && '' !== $demo_site_data['image'] ) {
+					$demo_site_img_url = STARTER_SITES_HOME_URL . 'wp-content/uploads/' . $demo_site_data['image'];
 				} else {
-					$demo_site_img_url = STARTER_SITES_URL . 'assets/images/screenshot-placeholder.png';
-				}
-			}
-			?>
-			<div class="starter-sites-demo demo-id-<?php echo esc_attr( $demo_site );?>" data-demo-id="<?php echo esc_attr( $demo_site );?>">
-				<div class="badges">
-				<?php
-				if ( 'premium' === $demo_site_data['type'] ) {
-					?>
-					<span class="label-badge premium"><?php esc_html_e( 'Premium', 'starter-sites' );?></span>
-					<?php
-				} elseif ( 'included' === $demo_site_data['type'] ) {
-					?>
-					<span class="label-badge included"><?php esc_html_e( 'Free', 'starter-sites' );?></span>
-					<?php
-				}
-				if ( in_array('woocommerce', $demo_site_data['plugins']) ) {
-					?>
-					<span class="label-badge ecommerce"><?php esc_html_e( 'Ecommerce', 'starter-sites' );?></span>
-					<?php
+					if ( file_exists( STARTER_SITES_PATH . 'content/sites/' . $demo_site . '/screenshot.jpg' ) ) {
+						$demo_site_img_url = STARTER_SITES_URL . 'content/sites/' . $demo_site . '/screenshot.jpg';
+					} else {
+						$demo_site_img_url = STARTER_SITES_URL . 'assets/images/screenshot-placeholder.png';
+					}
 				}
 				?>
+				<div class="starter-sites-demo demo-id-<?php echo esc_attr( $demo_site );?>" data-demo-id="<?php echo esc_attr( $demo_site );?>">
+					<div class="badges">
+					<?php
+					if ( 'premium' === $demo_site_data['type'] ) {
+						?>
+						<span class="label-badge premium"><?php esc_html_e( 'Premium', 'starter-sites' );?></span>
+						<?php
+					} elseif ( 'included' === $demo_site_data['type'] ) {
+						?>
+						<span class="label-badge included"><?php esc_html_e( 'Free', 'starter-sites' );?></span>
+						<?php
+					}
+					if ( in_array('woocommerce', $demo_site_data['plugins']) ) {
+						?>
+						<span class="label-badge ecommerce"><?php esc_html_e( 'Ecommerce', 'starter-sites' );?></span>
+						<?php
+					}
+					?>
+					</div>
+					<div class="starter-sites-demo-screenshot"><button class="image modal-open"><img src="<?php echo esc_url( $demo_site_img_url );?>" alt="<?php echo esc_attr( $demo_site_data['title'] );?>"/></button></div>
+					<div class="starter-sites-demo-cta">
+						<div class="starter-sites-demo-title"><button class="title modal-open"><?php echo esc_html( $demo_site_data['title'] );?></button></div>
+						<div class="starter-sites-demo-more-info"><button class="button button-tertiary starter-sites-button modal-open"><i class="dashicons dashicons-info-outline"></i> <?php esc_html_e( 'Details', 'starter-sites' );?></button></div>
+					</div>
 				</div>
-				<div class="starter-sites-demo-screenshot"><button class="image modal-open"><img src="<?php echo esc_url( $demo_site_img_url );?>" alt="<?php echo esc_attr( $demo_site_data['title'] );?>"/></button></div>
-				<div class="starter-sites-demo-cta">
-					<div class="starter-sites-demo-title"><button class="title modal-open"><?php echo esc_html( $demo_site_data['title'] );?></button></div>
-					<div class="starter-sites-demo-more-info"><button class="button button-tertiary starter-sites-button modal-open"><i class="dashicons dashicons-info-outline"></i> <?php esc_html_e( 'Details', 'starter-sites' );?></button></div>
-				</div>
-			</div>
-			<?php
+				<?php
+			}
 		}
 		?>
 			<div class="starter-sites-demo is-info">
@@ -519,477 +521,479 @@ class Main {
 		<div class="starter-sites-demos-modals">
 		<?php
 		foreach ( starter_sites_demo_list() as $demo_site => $demo_site_data ) {
-			if ( isset($demo_site_data['image_full']) && '' !== $demo_site_data['image_full'] ) {
-				$demo_site_img_url = STARTER_SITES_HOME_URL . 'wp-content/uploads/' . $demo_site_data['image_full'];
-			} else {
-				if ( file_exists( STARTER_SITES_PATH . 'content/sites/' . $demo_site . '/screenshot-full.jpg' ) ) {
-					$demo_site_img_url = STARTER_SITES_URL . 'content/sites/' . $demo_site . '/screenshot-full.jpg';
+			if ( $demo_site_data['type'] === 'included' || $demo_site_data['type'] === 'premium' ) {
+				if ( isset($demo_site_data['image_full']) && '' !== $demo_site_data['image_full'] ) {
+					$demo_site_img_url = STARTER_SITES_HOME_URL . 'wp-content/uploads/' . $demo_site_data['image_full'];
 				} else {
-					if ( file_exists( STARTER_SITES_PATH . 'content/sites/' . $demo_site . '/screenshot.jpg' ) ) {
-						$demo_site_img_url = STARTER_SITES_URL . 'content/sites/' . $demo_site . '/screenshot.jpg';
+					if ( file_exists( STARTER_SITES_PATH . 'content/sites/' . $demo_site . '/screenshot-full.jpg' ) ) {
+						$demo_site_img_url = STARTER_SITES_URL . 'content/sites/' . $demo_site . '/screenshot-full.jpg';
 					} else {
-						$demo_site_img_url = STARTER_SITES_URL . 'assets/images/screenshot-placeholder.png';
+						if ( file_exists( STARTER_SITES_PATH . 'content/sites/' . $demo_site . '/screenshot.jpg' ) ) {
+							$demo_site_img_url = STARTER_SITES_URL . 'content/sites/' . $demo_site . '/screenshot.jpg';
+						} else {
+							$demo_site_img_url = STARTER_SITES_URL . 'assets/images/screenshot-placeholder.png';
+						}
 					}
 				}
-			}
-			$form_activate_url = add_query_arg( [ 'page' => 'starter-sites' ], $admin_link );
-			?>
-			<div class="starter-sites-demo-modal demo-modal-id-<?php echo esc_attr( $demo_site );?>" data-demo-modal-id="<?php echo esc_attr( $demo_site );?>">
-				<div class="starter-sites-demo-modal-header">
-					<div class="starter-sites-demo-modal-nav">
-						<button class="button starter-sites-button-nav modal-previous"><i class="dashicons dashicons-arrow-left-alt2"></i></button>
-						<button class="button starter-sites-button-nav modal-next"><i class="dashicons dashicons-arrow-right-alt2"></i></button>
-					</div>
-					<div class="starter-sites-demo-modal-nav-close">
-						<button class="button starter-sites-button-nav modal-close"><i class="dashicons dashicons-no-alt"></i></button>
-					</div>
-				</div>
-				<div class="starter-sites-demo-modal-body">
-					<div class="starter-sites-demo-details">
-						<div class="badges">
-						<?php
-						if ( 'premium' === $demo_site_data['type'] ) {
-							?>
-							<span class="label-badge premium"><?php esc_html_e( 'Premium', 'starter-sites' );?></span>
-							<?php
-						} elseif ( 'included' === $demo_site_data['type'] ) {
-							?>
-							<span class="label-badge included"><?php esc_html_e( 'Free', 'starter-sites' );?></span>
-							<?php
-						}
-						if ( in_array('woocommerce', $demo_site_data['plugins']) ) {
-							?>
-							<span class="label-badge ecommerce"><?php esc_html_e( 'Ecommerce', 'starter-sites' );?></span>
-							<?php
-						}
-						?>
+				$form_activate_url = add_query_arg( [ 'page' => 'starter-sites' ], $admin_link );
+				?>
+				<div class="starter-sites-demo-modal demo-modal-id-<?php echo esc_attr( $demo_site );?>" data-demo-modal-id="<?php echo esc_attr( $demo_site );?>">
+					<div class="starter-sites-demo-modal-header">
+						<div class="starter-sites-demo-modal-nav">
+							<button class="button starter-sites-button-nav modal-previous"><i class="dashicons dashicons-arrow-left-alt2"></i></button>
+							<button class="button starter-sites-button-nav modal-next"><i class="dashicons dashicons-arrow-right-alt2"></i></button>
 						</div>
-						<div class="starter-sites-demo-title"><?php echo esc_html( $demo_site_data['title'] );?></div>
-						<?php
-						if ( 'included' === $demo_site_data['type'] ) {
-						?>
-						<form method="post" action="<?php echo esc_url( $form_activate_url );?>" novalidate="novalidate">
-							<input type="hidden" id="starter_site_activate" name="starter_site_activate" value="<?php echo esc_attr($demo_site);?>">
-							<input type="hidden" id="_wpnonce" name="_wpnonce" value="<?php echo wp_create_nonce( 'activate_site_' . $demo_site );?>">
-						<?php
-						}
-						// Products
-						if ( isset( $demo_site_data['products'] ) && !empty($demo_site_data['products']) ) {
-							?>
-							<div class="starter-sites-demo-sub-section">
-								<div class="sub-heading-list-wrap">
-									<p class="starter-sites-sub-heading products"><?php echo sprintf(
-										/* translators: %d = number of products */
-										__( 'Products (%d):', 'starter-sites' ),
-										count($demo_site_data['products'])
-									);?></p>
-									<p class="expand-list" data-list-id="products"><i class="dashicons dashicons-arrow-down-alt2"></i></p>
-								</div>
-								<ul class="starter-sites-feature-list list-id-products products">
-								<?php
-								foreach ( $demo_site_data['products'] as $product ) {
-									?>
-									<li class="wppss-feature-item product"><?php echo esc_html( wp_unslash($product) );?></li>
-									<?php
-								}
-								?>
-								</ul>
-							</div>
+						<div class="starter-sites-demo-modal-nav-close">
+							<button class="button starter-sites-button-nav modal-close"><i class="dashicons dashicons-no-alt"></i></button>
+						</div>
+					</div>
+					<div class="starter-sites-demo-modal-body">
+						<div class="starter-sites-demo-details">
+							<div class="badges">
 							<?php
-						}
-						// Pages
-						if ( isset( $demo_site_data['pages'] ) && !empty($demo_site_data['pages']) ) {
-							?>
-							<div class="starter-sites-demo-sub-section">
-								<div class="sub-heading-list-wrap">
-									<p class="starter-sites-sub-heading pages"><?php echo sprintf(
-										/* translators: %d = number of pages */
-										__( 'Pages (%d):', 'starter-sites' ),
-										count($demo_site_data['pages'])
-									);?></p>
-									<p class="expand-list" data-list-id="pages"><i class="dashicons dashicons-arrow-down-alt2"></i></p>
-								</div>
-								<ul class="starter-sites-feature-list list-id-pages pages">
-								<?php
-								foreach ( $demo_site_data['pages'] as $page ) {
-									?>
-									<li class="wppss-feature-item page"><?php echo esc_html( wp_unslash($page) );?></li>
-									<?php
-								}
+							if ( 'premium' === $demo_site_data['type'] ) {
 								?>
-								</ul>
-							</div>
-							<?php
-						}
-						// Posts
-						if ( isset( $demo_site_data['posts'] ) && !empty($demo_site_data['posts']) ) {
-							?>
-							<div class="starter-sites-demo-sub-section">
-								<div class="sub-heading-list-wrap">
-									<p class="starter-sites-sub-heading posts"><?php echo sprintf(
-										/* translators: %d = number of posts */
-										__( 'Posts (%d):', 'starter-sites' ),
-										count($demo_site_data['posts'])
-									);?></p>
-									<p class="expand-list" data-list-id="posts"><i class="dashicons dashicons-arrow-down-alt2"></i></p>
-								</div>
-								<ul class="starter-sites-feature-list list-id-posts posts">
+								<span class="label-badge premium"><?php esc_html_e( 'Premium', 'starter-sites' );?></span>
 								<?php
-								foreach ( $demo_site_data['posts'] as $post ) {
-									?>
-									<li class="wppss-feature-item post"><?php echo esc_html( wp_unslash($post) );?></li>
-									<?php
-								}
+							} elseif ( 'included' === $demo_site_data['type'] ) {
 								?>
-								</ul>
-							</div>
-							<?php
-						}
-
-
-						// Templates
-						if ( isset( $demo_site_data['templates'] ) && !empty($demo_site_data['templates']) ) {
-							?>
-							<div class="starter-sites-demo-sub-section">
-								<div class="sub-heading-list-wrap">
-									<p class="starter-sites-sub-heading templates"><?php echo sprintf(
-										/* translators: %d = number of templates */
-										__( 'Templates (%d):', 'starter-sites' ),
-										count($demo_site_data['templates'])
-									);?></p>
-									<p class="expand-list" data-list-id="templates"><i class="dashicons dashicons-arrow-down-alt2"></i></p>
-								</div>
-								<ul class="starter-sites-feature-list list-id-templates templates">
+								<span class="label-badge included"><?php esc_html_e( 'Free', 'starter-sites' );?></span>
 								<?php
-								foreach ( $demo_site_data['templates'] as $template ) {
-									?>
-									<li class="wppss-feature-item template"><?php echo esc_html( wp_unslash($template) );?></li>
-									<?php
-								}
+							}
+							if ( in_array('woocommerce', $demo_site_data['plugins']) ) {
 								?>
-								</ul>
-							</div>
-							<?php
-						}
-
-						// Template Parts
-						if ( isset( $demo_site_data['template_parts'] ) && !empty($demo_site_data['template_parts']) ) {
-							?>
-							<div class="starter-sites-demo-sub-section">
-								<div class="sub-heading-list-wrap">
-									<p class="starter-sites-sub-heading template-parts"><?php echo sprintf(
-										/* translators: %d = number of template parts */
-										__( 'Template Parts (%d):', 'starter-sites' ),
-										count($demo_site_data['template_parts'])
-									);?></p>
-									<p class="expand-list" data-list-id="template-parts"><i class="dashicons dashicons-arrow-down-alt2"></i></p>
-								</div>
-								<ul class="starter-sites-feature-list list-id-template-parts template-parts">
+								<span class="label-badge ecommerce"><?php esc_html_e( 'Ecommerce', 'starter-sites' );?></span>
 								<?php
-								foreach ( $demo_site_data['template_parts'] as $template_part ) {
-									?>
-									<li class="wppss-feature-item template-part"><?php echo esc_html( wp_unslash($template_part) );?></li>
-									<?php
-								}
-								?>
-								</ul>
-							</div>
-							<?php
-						}
-
-						// Patterns
-						if ( isset( $demo_site_data['patterns'] ) && !empty($demo_site_data['patterns']) ) {
-							?>
-							<div class="starter-sites-demo-sub-section">
-								<div class="sub-heading-list-wrap">
-									<p class="starter-sites-sub-heading patterns"><?php echo sprintf(
-										/* translators: %d = number of patterns */
-										__( 'Patterns (%d):', 'starter-sites' ),
-										count($demo_site_data['patterns'])
-									);?></p>
-									<p class="expand-list" data-list-id="patterns"><i class="dashicons dashicons-arrow-down-alt2"></i></p>
-								</div>
-								<ul class="starter-sites-feature-list list-id-patterns patterns">
-								<?php
-								foreach ( $demo_site_data['patterns'] as $pattern ) {
-									?>
-									<li class="wppss-feature-item pattern"><?php echo esc_html( wp_unslash($pattern) );?></li>
-									<?php
-								}
-								?>
-								</ul>
-							</div>
-							<?php
-						}
-						// Fonts
-						if ( isset( $demo_site_data['fonts'] ) && !empty($demo_site_data['fonts']) ) {
-							?>
-							<div class="starter-sites-demo-sub-section">
-								<div class="sub-heading-list-wrap">
-									<p class="starter-sites-sub-heading fonts"><?php echo sprintf(
-										/* translators: %d = number of fonts */
-										__( 'Fonts (%d):', 'starter-sites' ),
-										count($demo_site_data['fonts'])
-									);?></p>
-									<p class="expand-list" data-list-id="fonts"><i class="dashicons dashicons-arrow-down-alt2"></i></p>
-								</div>
-								<ul class="starter-sites-feature-list list-id-fonts fonts">
-								<?php
-								foreach ( $demo_site_data['fonts'] as $font ) {
-									?>
-									<li class="wppss-feature-item font"><?php echo esc_html( wp_unslash($font) );?></li>
-									<?php
-								}
-								?>
-								</ul>
-							</div>
-							<?php
-						}
-						// Theme
-						if ( isset( $demo_site_data['theme'] ) && !empty($demo_site_data['theme']) ) {
-							$theme_slug = $demo_site_data['theme'];
-							if ( isset($theme_list[$theme_slug]['title']) && $theme_list[$theme_slug]['title'] !== '' ) {
-								$theme_title = $theme_list[$theme_slug]['title'];
-							} else {
-								$theme_title = $theme_slug;
 							}
 							?>
-							<div class="starter-sites-demo-sub-section">
-								<p class="starter-sites-sub-heading theme"><?php esc_html_e( 'Theme:', 'starter-sites' );?></p>
-								<ul class="starter-sites-feature-list is-open theme">
-									<li class="wppss-feature-item theme">
+							</div>
+							<div class="starter-sites-demo-title"><?php echo esc_html( $demo_site_data['title'] );?></div>
+							<?php
+							if ( 'included' === $demo_site_data['type'] ) {
+							?>
+							<form method="post" action="<?php echo esc_url( $form_activate_url );?>" novalidate="novalidate">
+								<input type="hidden" id="starter_site_activate" name="starter_site_activate" value="<?php echo esc_attr($demo_site);?>">
+								<input type="hidden" id="_wpnonce" name="_wpnonce" value="<?php echo wp_create_nonce( 'activate_site_' . $demo_site );?>">
+							<?php
+							}
+							// Products
+							if ( isset( $demo_site_data['products'] ) && !empty($demo_site_data['products']) ) {
+								?>
+								<div class="starter-sites-demo-sub-section">
+									<div class="sub-heading-list-wrap">
+										<p class="starter-sites-sub-heading products"><?php echo sprintf(
+											/* translators: %d = number of products */
+											__( 'Products (%d):', 'starter-sites' ),
+											count($demo_site_data['products'])
+										);?></p>
+										<p class="expand-list" data-list-id="products"><i class="dashicons dashicons-arrow-down-alt2"></i></p>
+									</div>
+									<ul class="starter-sites-feature-list list-id-products products">
+									<?php
+									foreach ( $demo_site_data['products'] as $product ) {
+										?>
+										<li class="wppss-feature-item product"><?php echo esc_html( wp_unslash($product) );?></li>
 										<?php
-										if ( $active_theme_template === $theme_slug && $active_theme_name !== $theme_title && 'included' === $demo_site_data['type'] ) {
-											?><b><?php echo esc_html( $theme_title );?></b>
-											<br><span class="subtext"><?php echo sprintf(
-												/* translators: %s = name of currently active child theme */
-												__( '(or the currently active <b>%s</b> child theme, choose below)', 'starter-sites' ),
-												$active_theme_name
-											);?></span>
-											<input type="hidden" id="parent_theme_slug" name="parent_theme_slug" value="<?php echo esc_attr($theme_slug);?>">
-											<input type="hidden" id="child_theme_slug" name="child_theme_slug" value="<?php echo esc_attr($active_theme_slug);?>">
-											<input type="hidden" id="child_theme_name" name="child_theme_name" value="<?php echo esc_attr($active_theme_name);?>">
+									}
+									?>
+									</ul>
+								</div>
+								<?php
+							}
+							// Pages
+							if ( isset( $demo_site_data['pages'] ) && !empty($demo_site_data['pages']) ) {
+								?>
+								<div class="starter-sites-demo-sub-section">
+									<div class="sub-heading-list-wrap">
+										<p class="starter-sites-sub-heading pages"><?php echo sprintf(
+											/* translators: %d = number of pages */
+											__( 'Pages (%d):', 'starter-sites' ),
+											count($demo_site_data['pages'])
+										);?></p>
+										<p class="expand-list" data-list-id="pages"><i class="dashicons dashicons-arrow-down-alt2"></i></p>
+									</div>
+									<ul class="starter-sites-feature-list list-id-pages pages">
+									<?php
+									foreach ( $demo_site_data['pages'] as $page ) {
+										?>
+										<li class="wppss-feature-item page"><?php echo esc_html( wp_unslash($page) );?></li>
+										<?php
+									}
+									?>
+									</ul>
+								</div>
+								<?php
+							}
+							// Posts
+							if ( isset( $demo_site_data['posts'] ) && !empty($demo_site_data['posts']) ) {
+								?>
+								<div class="starter-sites-demo-sub-section">
+									<div class="sub-heading-list-wrap">
+										<p class="starter-sites-sub-heading posts"><?php echo sprintf(
+											/* translators: %d = number of posts */
+											__( 'Posts (%d):', 'starter-sites' ),
+											count($demo_site_data['posts'])
+										);?></p>
+										<p class="expand-list" data-list-id="posts"><i class="dashicons dashicons-arrow-down-alt2"></i></p>
+									</div>
+									<ul class="starter-sites-feature-list list-id-posts posts">
+									<?php
+									foreach ( $demo_site_data['posts'] as $post ) {
+										?>
+										<li class="wppss-feature-item post"><?php echo esc_html( wp_unslash($post) );?></li>
+										<?php
+									}
+									?>
+									</ul>
+								</div>
+								<?php
+							}
+
+
+							// Templates
+							if ( isset( $demo_site_data['templates'] ) && !empty($demo_site_data['templates']) ) {
+								?>
+								<div class="starter-sites-demo-sub-section">
+									<div class="sub-heading-list-wrap">
+										<p class="starter-sites-sub-heading templates"><?php echo sprintf(
+											/* translators: %d = number of templates */
+											__( 'Templates (%d):', 'starter-sites' ),
+											count($demo_site_data['templates'])
+										);?></p>
+										<p class="expand-list" data-list-id="templates"><i class="dashicons dashicons-arrow-down-alt2"></i></p>
+									</div>
+									<ul class="starter-sites-feature-list list-id-templates templates">
+									<?php
+									foreach ( $demo_site_data['templates'] as $template ) {
+										?>
+										<li class="wppss-feature-item template"><?php echo esc_html( wp_unslash($template) );?></li>
+										<?php
+									}
+									?>
+									</ul>
+								</div>
+								<?php
+							}
+
+							// Template Parts
+							if ( isset( $demo_site_data['template_parts'] ) && !empty($demo_site_data['template_parts']) ) {
+								?>
+								<div class="starter-sites-demo-sub-section">
+									<div class="sub-heading-list-wrap">
+										<p class="starter-sites-sub-heading template-parts"><?php echo sprintf(
+											/* translators: %d = number of template parts */
+											__( 'Template Parts (%d):', 'starter-sites' ),
+											count($demo_site_data['template_parts'])
+										);?></p>
+										<p class="expand-list" data-list-id="template-parts"><i class="dashicons dashicons-arrow-down-alt2"></i></p>
+									</div>
+									<ul class="starter-sites-feature-list list-id-template-parts template-parts">
+									<?php
+									foreach ( $demo_site_data['template_parts'] as $template_part ) {
+										?>
+										<li class="wppss-feature-item template-part"><?php echo esc_html( wp_unslash($template_part) );?></li>
+										<?php
+									}
+									?>
+									</ul>
+								</div>
+								<?php
+							}
+
+							// Patterns
+							if ( isset( $demo_site_data['patterns'] ) && !empty($demo_site_data['patterns']) ) {
+								?>
+								<div class="starter-sites-demo-sub-section">
+									<div class="sub-heading-list-wrap">
+										<p class="starter-sites-sub-heading patterns"><?php echo sprintf(
+											/* translators: %d = number of patterns */
+											__( 'Patterns (%d):', 'starter-sites' ),
+											count($demo_site_data['patterns'])
+										);?></p>
+										<p class="expand-list" data-list-id="patterns"><i class="dashicons dashicons-arrow-down-alt2"></i></p>
+									</div>
+									<ul class="starter-sites-feature-list list-id-patterns patterns">
+									<?php
+									foreach ( $demo_site_data['patterns'] as $pattern ) {
+										?>
+										<li class="wppss-feature-item pattern"><?php echo esc_html( wp_unslash($pattern) );?></li>
+										<?php
+									}
+									?>
+									</ul>
+								</div>
+								<?php
+							}
+							// Fonts
+							if ( isset( $demo_site_data['fonts'] ) && !empty($demo_site_data['fonts']) ) {
+								?>
+								<div class="starter-sites-demo-sub-section">
+									<div class="sub-heading-list-wrap">
+										<p class="starter-sites-sub-heading fonts"><?php echo sprintf(
+											/* translators: %d = number of fonts */
+											__( 'Fonts (%d):', 'starter-sites' ),
+											count($demo_site_data['fonts'])
+										);?></p>
+										<p class="expand-list" data-list-id="fonts"><i class="dashicons dashicons-arrow-down-alt2"></i></p>
+									</div>
+									<ul class="starter-sites-feature-list list-id-fonts fonts">
+									<?php
+									foreach ( $demo_site_data['fonts'] as $font ) {
+										?>
+										<li class="wppss-feature-item font"><?php echo esc_html( wp_unslash($font) );?></li>
+										<?php
+									}
+									?>
+									</ul>
+								</div>
+								<?php
+							}
+							// Theme
+							if ( isset( $demo_site_data['theme'] ) && !empty($demo_site_data['theme']) ) {
+								$theme_slug = $demo_site_data['theme'];
+								if ( isset($theme_list[$theme_slug]['title']) && $theme_list[$theme_slug]['title'] !== '' ) {
+									$theme_title = $theme_list[$theme_slug]['title'];
+								} else {
+									$theme_title = $theme_slug;
+								}
+								?>
+								<div class="starter-sites-demo-sub-section">
+									<p class="starter-sites-sub-heading theme"><?php esc_html_e( 'Theme:', 'starter-sites' );?></p>
+									<ul class="starter-sites-feature-list is-open theme">
+										<li class="wppss-feature-item theme">
+											<?php
+											if ( $active_theme_template === $theme_slug && $active_theme_name !== $theme_title && 'included' === $demo_site_data['type'] ) {
+												?><b><?php echo esc_html( $theme_title );?></b>
+												<br><span class="subtext"><?php echo sprintf(
+													/* translators: %s = name of currently active child theme */
+													__( '(or the currently active <b>%s</b> child theme, choose below)', 'starter-sites' ),
+													$active_theme_name
+												);?></span>
+												<input type="hidden" id="parent_theme_slug" name="parent_theme_slug" value="<?php echo esc_attr($theme_slug);?>">
+												<input type="hidden" id="child_theme_slug" name="child_theme_slug" value="<?php echo esc_attr($active_theme_slug);?>">
+												<input type="hidden" id="child_theme_name" name="child_theme_name" value="<?php echo esc_attr($active_theme_name);?>">
+												<table class="form-table">
+													<tbody>
+														<tr>
+															<td>
+																<fieldset>
+																<label><input type="radio" name="theme" value="<?php echo esc_attr( $theme_slug );?>" checked="checked"><?php echo esc_html( $theme_title );?></label><br>
+																<label><input type="radio" name="theme" value="<?php echo esc_attr( $active_theme_slug );?>"><?php echo esc_html( $active_theme_name );?></label><br>
+																</fieldset>
+															</td>
+														</tr>
+													</tbody>
+												</table>
+												<?php
+											} else {
+												echo esc_html( $theme_title );
+											}
+											?>
+										</li>
+									</ul>
+								</div>
+							<?php
+							}
+							// Plugins
+							if ( isset( $demo_site_data['plugins'] ) && !empty($demo_site_data['plugins']) ) {
+								?>
+								<div class="starter-sites-demo-sub-section">
+									<div class="sub-heading-list-wrap">
+										<p class="starter-sites-sub-heading plugins"><?php echo sprintf(
+											/* translators: %d = number of plugins */
+											__( 'Plugins (%d):', 'starter-sites' ),
+											count($demo_site_data['plugins'])
+										);?></p>
+										<p class="expand-list" data-list-id="plugins"><i class="dashicons dashicons-arrow-down-alt2"></i></p>
+									</div>
+									<ul class="starter-sites-feature-list list-id-plugins plugins">
+									<?php
+									foreach ( $demo_site_data['plugins'] as $plugin ) {
+										if ( isset($plugin_list[$plugin]['title']) && $plugin_list[$plugin]['title'] !== '' ) {
+											$plugin_title = $plugin_list[$plugin]['title'];
+										} else {
+											$plugin_title = $plugin;
+										}
+										?>
+										<li class="wppss-feature-item plugin"><?php echo esc_html( $plugin_title );?></li>
+										<?php
+									}
+									?>
+									</ul>
+								</div>
+								<?php
+							}
+							// Advanced Options
+							?>
+								<div class="starter-sites-demo-sub-section">
+									<div class="sub-heading-list-wrap">
+										<p class="starter-sites-sub-heading advanced-options"><?php esc_html_e( 'Advanced Options', 'starter-sites' );?></p>
+										<p class="expand-list" data-list-id="advanced-options"><i class="dashicons dashicons-arrow-down-alt2"></i></p>
+									</div>
+									<ul class="starter-sites-feature-list list-id-advanced-options advanced-options">
+										<li class="wppss-feature-item premium-nudge">
+											<p class="premium-upgrade"><a href="https://wpstartersites.com/pricing/" target="_blank" class="premium-upgrade-button"><?php esc_html_e( 'UPGRADE TO PREMIUM', 'starter-sites' );?> <i class="dashicons dashicons-external"></i></a></p>
+										</li>
+										<?php
+										if ( STARTER_SITES_THEME_DEFAULT === $theme_slug ) {
+										?>
+										<li class="wppss-feature-item custom-theme">
+											<p class="starter-sites-item-heading custom-theme"><?php esc_html_e( 'Create Your Own Custom Theme', 'starter-sites' );?></p>
 											<table class="form-table">
 												<tbody>
-													<tr>
+													<tr class="form-field">
+														<th scope="row">
+															<input type="checkbox" name="is_custom_theme" value="1" class="disabled" disabled="disabled"><label for="is_custom_theme"><?php esc_html_e( 'Yes, I would like to create my own custom theme', 'starter-sites' );?></label>
+														</th>
 														<td>
-															<fieldset>
-															<label><input type="radio" name="theme" value="<?php echo esc_attr( $theme_slug );?>" checked="checked"><?php echo esc_html( $theme_title );?></label><br>
-															<label><input type="radio" name="theme" value="<?php echo esc_attr( $active_theme_slug );?>"><?php echo esc_html( $active_theme_name );?></label><br>
-															</fieldset>
+															<p class="description"><?php esc_html_e( 'Checking this box will create a custom theme and switch to your new custom theme when importing this starter site', 'starter-sites' );?></p>
+														</td>
+													</tr>
+													<tr class="form-field form-required">
+														<th scope="row">
+															<label for="custom_theme[title]"><?php esc_html_e( 'Theme Name (required)', 'starter-sites' );?></label>
+														</th>
+														<td>
+															<input type="text" name="custom_theme[title]" value="" maxlength="50" class="disabled" disabled="disabled">
+															<p class="description"><?php esc_html_e( 'A name for your custom theme', 'starter-sites' );?></p>
+														</td>
+													</tr>
+													<tr class="form-field">
+														<th scope="row">
+															<label for="custom_theme[slug]"><?php esc_html_e( 'Slug', 'starter-sites' );?></label>
+														</th>
+														<td>
+															<input type="text" name="custom_theme[slug]" value="" maxlength="50" class="disabled" disabled="disabled">
+															<p class="description"><?php esc_html_e( 'The theme folder name, auto generated from Name if empty', 'starter-sites' );?></p>
+														</td>
+													</tr>
+													<?php $this->screenshot_selector(); ?>
+													<tr class="form-field">
+														<th scope="row">
+															<label for="custom_theme[description]"><?php esc_html_e( 'Description', 'starter-sites' );?></label>
+														</th>
+														<td>
+															<textarea name="custom_theme[description]" rows="3" class="disabled" disabled="disabled"></textarea>
+															<p class="description"><?php esc_html_e( 'A description for your custom theme', 'starter-sites' );?></p>
+														</td>
+													</tr>
+													<tr class="form-field">
+														<th scope="row">
+															<label for="custom_theme[version]"><?php esc_html_e( 'Version', 'starter-sites' );?></label>
+														</th>
+														<td>
+															<input type="text" name="custom_theme[version]" value="" placeholder="1.0" maxlength="12" class="disabled" disabled="disabled">
+															<p class="description"><?php esc_html_e( 'The theme version number', 'starter-sites' );?></p>
+														</td>
+													</tr>
+													<tr class="form-field">
+														<th scope="row">
+															<label for="custom_theme[author]"><?php esc_html_e( 'Author', 'starter-sites' );?></label>
+														</th>
+														<td>
+															<input type="text" name="custom_theme[author]" value="" maxlength="50" class="disabled" disabled="disabled">
+															<p class="description"><?php esc_html_e( 'Your name or company/org name', 'starter-sites' );?></p>
+														</td>
+													</tr>
+													<tr class="form-field">
+														<th scope="row">
+															<label for="custom_theme[author_uri]"><?php esc_html_e( 'Author URL', 'starter-sites' );?></label>
+														</th>
+														<td>
+															<input type="url" name="custom_theme[author_uri]" value="" maxlength="50" class="disabled" disabled="disabled">
+															<p class="description"><?php esc_html_e( 'Your URL or company/org URL', 'starter-sites' );?></p>
+														</td>
+													</tr>
+													<tr class="form-field">
+														<th scope="row">
+															<label for="custom_theme[theme_uri]"><?php esc_html_e( 'Theme URL', 'starter-sites' );?></label>
+														</th>
+														<td>
+															<input type="url" name="custom_theme[theme_uri]" value="" maxlength="50" class="disabled" disabled="disabled">
+															<p class="description"><?php esc_html_e( 'Theme URL if different to above', 'starter-sites' );?></p>
+														</td>
+													</tr>
+													<tr class="form-field">
+														<th scope="row">
+															<label for="custom_theme[wp_requires]"><?php esc_html_e( 'Requires WP', 'starter-sites' );?></label>
+														</th>
+														<td>
+															<input type="text" name="custom_theme[wp_requires]" value="" maxlength="12" placeholder="6.4" class="disabled" disabled="disabled">
+															<p class="description"><?php esc_html_e( 'The minumum required version of WordPress', 'starter-sites' );?></p>
+														</td>
+													</tr>
+													<tr class="form-field">
+														<th scope="row">
+															<label for="custom_theme[wp_tested]"><?php esc_html_e( 'Tested up to', 'starter-sites' );?></label>
+														</th>
+														<td>
+															<input type="text" name="custom_theme[wp_tested]" value="" maxlength="12" placeholder="<?php echo esc_html( $this->get_wp_major_version() ) ;?>" class="disabled" disabled="disabled">
+															<p class="description"><?php esc_html_e( 'The version of WordPress that the theme has been tested up to', 'starter-sites' );?></p>
+														</td>
+													</tr>
+													<tr class="form-field">
+														<th scope="row">
+															<label for="custom_theme[php_requires]"><?php esc_html_e( 'Requires PHP', 'starter-sites' );?></label>
+														</th>
+														<td>
+															<input type="text" name="custom_theme[php_requires]" value="" maxlength="12" placeholder="7.4" class="disabled" disabled="disabled">
+															<p class="description"><?php esc_html_e( 'The minimum required version of PHP', 'starter-sites' );?></p>
+														</td>
+													</tr>
+													<tr class="form-field">
+														<th scope="row">
+															<label for="custom_theme[copyright]"><?php esc_html_e( 'Copyright', 'starter-sites' );?></label>
+														</th>
+														<td>
+															<input type="text" name="custom_theme[copyright]" value="" maxlength="50" class="disabled" disabled="disabled">
+															<p class="description"><?php esc_html_e( 'Your own copyright name, defaults to Author if empty', 'starter-sites' );?></p>
 														</td>
 													</tr>
 												</tbody>
 											</table>
-											<?php
-										} else {
-											echo esc_html( $theme_title );
+										</li>
+										<?php
 										}
 										?>
-									</li>
-								</ul>
-							</div>
-						<?php
-						}
-						// Plugins
-						if ( isset( $demo_site_data['plugins'] ) && !empty($demo_site_data['plugins']) ) {
-							?>
-							<div class="starter-sites-demo-sub-section">
-								<div class="sub-heading-list-wrap">
-									<p class="starter-sites-sub-heading plugins"><?php echo sprintf(
-										/* translators: %d = number of plugins */
-										__( 'Plugins (%d):', 'starter-sites' ),
-										count($demo_site_data['plugins'])
-									);?></p>
-									<p class="expand-list" data-list-id="plugins"><i class="dashicons dashicons-arrow-down-alt2"></i></p>
+									</ul>
 								</div>
-								<ul class="starter-sites-feature-list list-id-plugins plugins">
-								<?php
-								foreach ( $demo_site_data['plugins'] as $plugin ) {
-									if ( isset($plugin_list[$plugin]['title']) && $plugin_list[$plugin]['title'] !== '' ) {
-										$plugin_title = $plugin_list[$plugin]['title'];
-									} else {
-										$plugin_title = $plugin;
-									}
-									?>
-									<li class="wppss-feature-item plugin"><?php echo esc_html( $plugin_title );?></li>
-									<?php
-								}
-								?>
-								</ul>
-							</div>
 							<?php
-						}
-						// Advanced Options
-						?>
-							<div class="starter-sites-demo-sub-section">
-								<div class="sub-heading-list-wrap">
-									<p class="starter-sites-sub-heading advanced-options"><?php esc_html_e( 'Advanced Options', 'starter-sites' );?></p>
-									<p class="expand-list" data-list-id="advanced-options"><i class="dashicons dashicons-arrow-down-alt2"></i></p>
+							if ( 'premium' === $demo_site_data['type'] ) {
+							?>
+								<div class="starter-sites-demo-purchase-info">
+									<p><?php esc_html_e( 'This Starter Site can be purchased individually, or you can upgrade to access all Premium Starter Sites.', 'starter-sites' );?></p>
 								</div>
-								<ul class="starter-sites-feature-list list-id-advanced-options advanced-options">
-									<li class="wppss-feature-item premium-nudge">
-										<p class="premium-upgrade"><a href="https://wpstartersites.com/pricing/" target="_blank" class="premium-upgrade-button"><?php esc_html_e( 'UPGRADE TO PREMIUM', 'starter-sites' );?> <i class="dashicons dashicons-external"></i></a></p>
-									</li>
+							<?php
+							}
+							?>
+								<div class="starter-sites-demo-cta">
 									<?php
-									if ( STARTER_SITES_THEME_DEFAULT === $theme_slug ) {
+									if ( 'premium' === $demo_site_data['type'] ) {
 									?>
-									<li class="wppss-feature-item custom-theme">
-										<p class="starter-sites-item-heading custom-theme"><?php esc_html_e( 'Create Your Own Custom Theme', 'starter-sites' );?></p>
-										<table class="form-table">
-											<tbody>
-												<tr class="form-field">
-													<th scope="row">
-														<input type="checkbox" name="is_custom_theme" value="1" class="disabled" disabled="disabled"><label for="is_custom_theme"><?php esc_html_e( 'Yes, I would like to create my own custom theme', 'starter-sites' );?></label>
-													</th>
-													<td>
-														<p class="description"><?php esc_html_e( 'Checking this box will create a custom theme and switch to your new custom theme when importing this starter site', 'starter-sites' );?></p>
-													</td>
-												</tr>
-												<tr class="form-field form-required">
-													<th scope="row">
-														<label for="custom_theme[title]"><?php esc_html_e( 'Theme Name (required)', 'starter-sites' );?></label>
-													</th>
-													<td>
-														<input type="text" name="custom_theme[title]" value="" maxlength="50" class="disabled" disabled="disabled">
-														<p class="description"><?php esc_html_e( 'A name for your custom theme', 'starter-sites' );?></p>
-													</td>
-												</tr>
-												<tr class="form-field">
-													<th scope="row">
-														<label for="custom_theme[slug]"><?php esc_html_e( 'Slug', 'starter-sites' );?></label>
-													</th>
-													<td>
-														<input type="text" name="custom_theme[slug]" value="" maxlength="50" class="disabled" disabled="disabled">
-														<p class="description"><?php esc_html_e( 'The theme folder name, auto generated from Name if empty', 'starter-sites' );?></p>
-													</td>
-												</tr>
-												<?php $this->screenshot_selector(); ?>
-												<tr class="form-field">
-													<th scope="row">
-														<label for="custom_theme[description]"><?php esc_html_e( 'Description', 'starter-sites' );?></label>
-													</th>
-													<td>
-														<textarea name="custom_theme[description]" rows="3" class="disabled" disabled="disabled"></textarea>
-														<p class="description"><?php esc_html_e( 'A description for your custom theme', 'starter-sites' );?></p>
-													</td>
-												</tr>
-												<tr class="form-field">
-													<th scope="row">
-														<label for="custom_theme[version]"><?php esc_html_e( 'Version', 'starter-sites' );?></label>
-													</th>
-													<td>
-														<input type="text" name="custom_theme[version]" value="" placeholder="1.0" maxlength="12" class="disabled" disabled="disabled">
-														<p class="description"><?php esc_html_e( 'The theme version number', 'starter-sites' );?></p>
-													</td>
-												</tr>
-												<tr class="form-field">
-													<th scope="row">
-														<label for="custom_theme[author]"><?php esc_html_e( 'Author', 'starter-sites' );?></label>
-													</th>
-													<td>
-														<input type="text" name="custom_theme[author]" value="" maxlength="50" class="disabled" disabled="disabled">
-														<p class="description"><?php esc_html_e( 'Your name or company/org name', 'starter-sites' );?></p>
-													</td>
-												</tr>
-												<tr class="form-field">
-													<th scope="row">
-														<label for="custom_theme[author_uri]"><?php esc_html_e( 'Author URL', 'starter-sites' );?></label>
-													</th>
-													<td>
-														<input type="url" name="custom_theme[author_uri]" value="" maxlength="50" class="disabled" disabled="disabled">
-														<p class="description"><?php esc_html_e( 'Your URL or company/org URL', 'starter-sites' );?></p>
-													</td>
-												</tr>
-												<tr class="form-field">
-													<th scope="row">
-														<label for="custom_theme[theme_uri]"><?php esc_html_e( 'Theme URL', 'starter-sites' );?></label>
-													</th>
-													<td>
-														<input type="url" name="custom_theme[theme_uri]" value="" maxlength="50" class="disabled" disabled="disabled">
-														<p class="description"><?php esc_html_e( 'Theme URL if different to above', 'starter-sites' );?></p>
-													</td>
-												</tr>
-												<tr class="form-field">
-													<th scope="row">
-														<label for="custom_theme[wp_requires]"><?php esc_html_e( 'Requires WP', 'starter-sites' );?></label>
-													</th>
-													<td>
-														<input type="text" name="custom_theme[wp_requires]" value="" maxlength="12" placeholder="6.4" class="disabled" disabled="disabled">
-														<p class="description"><?php esc_html_e( 'The minumum required version of WordPress', 'starter-sites' );?></p>
-													</td>
-												</tr>
-												<tr class="form-field">
-													<th scope="row">
-														<label for="custom_theme[wp_tested]"><?php esc_html_e( 'Tested up to', 'starter-sites' );?></label>
-													</th>
-													<td>
-														<input type="text" name="custom_theme[wp_tested]" value="" maxlength="12" placeholder="<?php echo esc_html( $this->get_wp_major_version() ) ;?>" class="disabled" disabled="disabled">
-														<p class="description"><?php esc_html_e( 'The version of WordPress that the theme has been tested up to', 'starter-sites' );?></p>
-													</td>
-												</tr>
-												<tr class="form-field">
-													<th scope="row">
-														<label for="custom_theme[php_requires]"><?php esc_html_e( 'Requires PHP', 'starter-sites' );?></label>
-													</th>
-													<td>
-														<input type="text" name="custom_theme[php_requires]" value="" maxlength="12" placeholder="7.4" class="disabled" disabled="disabled">
-														<p class="description"><?php esc_html_e( 'The minimum required version of PHP', 'starter-sites' );?></p>
-													</td>
-												</tr>
-												<tr class="form-field">
-													<th scope="row">
-														<label for="custom_theme[copyright]"><?php esc_html_e( 'Copyright', 'starter-sites' );?></label>
-													</th>
-													<td>
-														<input type="text" name="custom_theme[copyright]" value="" maxlength="50" class="disabled" disabled="disabled">
-														<p class="description"><?php esc_html_e( 'Your own copyright name, defaults to Author if empty', 'starter-sites' );?></p>
-													</td>
-												</tr>
-											</tbody>
-										</table>
-									</li>
+									<a class="button button-primary starter-sites-button" href="<?php echo esc_url( 'https://wpstartersites.com/product/' . $demo_site . '/' );?>" target="_blank"><?php esc_html_e( 'Buy', 'starter-sites' );?> <i class="dashicons dashicons-external"></i></a>
+									<a class="button button-secondary starter-sites-button" href="https://wpstartersites.com/pricing/" target="_blank"><?php esc_html_e( 'Upgrade to Premium', 'starter-sites' );?> <i class="dashicons dashicons-external"></i></a>
+									<?php
+									} else {
+									?>
+									<input formaction="<?php echo esc_url( $form_activate_url );?>" type="submit" name="submit" id="submit" class="button button-primary starter-sites-button activate-site" value="<?php esc_html_e( 'Activate', 'starter-sites' );?>"></input>
 									<?php
 									}
 									?>
-								</ul>
-							</div>
-						<?php
-						if ( 'premium' === $demo_site_data['type'] ) {
-						?>
-							<div class="starter-sites-demo-purchase-info">
-								<p><?php esc_html_e( 'This Starter Site can be purchased individually, or you can upgrade to access all Premium Starter Sites.', 'starter-sites' );?></p>
-							</div>
-						<?php
-						}
-						?>
-							<div class="starter-sites-demo-cta">
-								<?php
-								if ( 'premium' === $demo_site_data['type'] ) {
-								?>
-								<a class="button button-primary starter-sites-button" href="<?php echo esc_url( 'https://wpstartersites.com/product/' . $demo_site . '/' );?>" target="_blank"><?php esc_html_e( 'Buy', 'starter-sites' );?> <i class="dashicons dashicons-external"></i></a>
-								<a class="button button-secondary starter-sites-button" href="https://wpstartersites.com/pricing/" target="_blank"><?php esc_html_e( 'Upgrade to Premium', 'starter-sites' );?> <i class="dashicons dashicons-external"></i></a>
-								<?php
-								} else {
-								?>
-								<input formaction="<?php echo esc_url( $form_activate_url );?>" type="submit" name="submit" id="submit" class="button button-primary starter-sites-button activate-site" value="<?php esc_html_e( 'Activate', 'starter-sites' );?>"></input>
-								<?php
-								}
-								?>
-								<a class="button button-tertiary starter-sites-button" href="<?php echo esc_url( STARTER_SITES_PREVIEW_URL . $demo_site . '/' );?>" target="_blank"><?php esc_html_e( 'Preview', 'starter-sites' );?> <i class="dashicons dashicons-external"></i></a>
-							</div>
-						<?php
-						if ( 'included' === $demo_site_data['type'] ) {
-						?>
-						</form>
-						<?php
-						}
-						?>
+									<a class="button button-tertiary starter-sites-button" href="<?php echo esc_url( STARTER_SITES_PREVIEW_URL . $demo_site . '/' );?>" target="_blank"><?php esc_html_e( 'Preview', 'starter-sites' );?> <i class="dashicons dashicons-external"></i></a>
+								</div>
+							<?php
+							if ( 'included' === $demo_site_data['type'] ) {
+							?>
+							</form>
+							<?php
+							}
+							?>
+						</div>
+						<div class="starter-sites-demo-screenshot"><img src="<?php echo esc_url( $demo_site_img_url );?>" alt="<?php echo esc_attr( $demo_site_data['title'] );?>"/></div>
 					</div>
-					<div class="starter-sites-demo-screenshot"><img src="<?php echo esc_url( $demo_site_img_url );?>" alt="<?php echo esc_attr( $demo_site_data['title'] );?>"/></div>
 				</div>
-			</div>
-			<?php
+				<?php
+			}
 		}
 		?>
 		</div>

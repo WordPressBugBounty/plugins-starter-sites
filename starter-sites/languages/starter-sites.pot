@@ -1,8 +1,8 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: Starter Sites 2.0.3\n"
-"POT-Creation-Date: 2024-11-15 17:14+0000\n"
+"Project-Id-Version: Starter Sites 2.0.4\n"
+"POT-Creation-Date: 2024-11-25 15:29+0000\n"
 "PO-Revision-Date: 2020-05-22 10:11+0100\n"
 "Last-Translator: \n"
 "Language-Team: WP Starter Sites - https://wpstartersites.com\n"
@@ -71,27 +71,27 @@ msgstr ""
 msgid "Unable to connect to the filesystem. Please confirm your credentials."
 msgstr ""
 
-#: inc/activate.php:1689
+#: inc/activate.php:1728
 msgid "Sorry, you are not allowed to upload this file type."
 msgstr ""
 
-#: inc/activate.php:1852
+#: inc/activate.php:1891
 msgid "There was an unknown error."
 msgstr ""
 
-#: inc/activate.php:1853
+#: inc/activate.php:1892
 msgid "The requested import file could not be found."
 msgstr ""
 
-#: inc/activate.php:1854
+#: inc/activate.php:1893
 msgid "The required theme could not be installed."
 msgstr ""
 
-#: inc/activate.php:1855
+#: inc/activate.php:1894
 msgid "A required plugin could not be installed."
 msgstr ""
 
-#: inc/activate.php:1856
+#: inc/activate.php:1895
 msgid "This is not a valid starter site."
 msgstr ""
 
@@ -334,7 +334,7 @@ msgstr ""
 msgid "Starter Sites"
 msgstr ""
 
-#: inc/main.php:134 inc/main.php:353 starter-sites.php:151
+#: inc/main.php:134 inc/main.php:353 starter-sites.php:159
 msgid "Settings"
 msgstr ""
 
@@ -425,7 +425,7 @@ msgstr ""
 msgid "Light/Dark Mode"
 msgstr ""
 
-#: inc/main.php:350 starter-sites.php:154
+#: inc/main.php:350 starter-sites.php:162
 msgid "Browse Sites"
 msgstr ""
 
@@ -475,318 +475,318 @@ msgid ""
 "categories, navigation menus etc. you can ignore this notice."
 msgstr ""
 
-#: inc/main.php:462 inc/main.php:553
+#: inc/main.php:463 inc/main.php:556
 msgid "Premium"
 msgstr ""
 
-#: inc/main.php:466 inc/main.php:557
+#: inc/main.php:467 inc/main.php:560
 msgid "Free"
 msgstr ""
 
-#: inc/main.php:471 inc/main.php:562
+#: inc/main.php:472 inc/main.php:565
 msgid "Ecommerce"
 msgstr ""
 
-#: inc/main.php:479
+#: inc/main.php:480
 msgid "Details"
 msgstr ""
 
-#: inc/main.php:486
+#: inc/main.php:488
 msgid "Not seeing any sites you like?"
 msgstr ""
 
-#: inc/main.php:487
+#: inc/main.php:489
 msgid "We welcome your suggestions for new sites."
 msgstr ""
 
-#: inc/main.php:488
+#: inc/main.php:490
 msgid ""
 "Please let us know what new Starter Sites you would like to see included in "
 "the plugin."
 msgstr ""
 
-#: inc/main.php:489
+#: inc/main.php:491
 msgid "Suggest a Site"
 msgstr ""
 
-#: inc/main.php:492
+#: inc/main.php:494
 msgid "Need help with Starter Sites?"
 msgstr ""
 
-#: inc/main.php:493
+#: inc/main.php:495
 msgid "We welcome your support questions."
 msgstr ""
 
-#: inc/main.php:494
+#: inc/main.php:496
 msgid ""
 "Please ask us and we will do our best to help you with any queries regarding "
 "this plugin."
 msgstr ""
 
-#: inc/main.php:495 starter-sites.php:165
+#: inc/main.php:497 starter-sites.php:173
 msgid "Support"
 msgstr ""
 
-#: inc/main.php:499
+#: inc/main.php:501
 msgid "Please rate or review this plugin."
 msgstr ""
 
-#: inc/main.php:500
+#: inc/main.php:502
 msgid ""
 "This helps us grow, and that means we can create even more Starter Sites for "
 "you."
 msgstr ""
 
-#: inc/main.php:501
+#: inc/main.php:503
 msgid "Rate or Review"
 msgstr ""
 
 #. translators: %d = number of products
-#: inc/main.php:583
+#: inc/main.php:586
 #, php-format
 msgid "Products (%d):"
 msgstr ""
 
 #. translators: %d = number of pages
-#: inc/main.php:607
+#: inc/main.php:610
 #, php-format
 msgid "Pages (%d):"
 msgstr ""
 
 #. translators: %d = number of posts
-#: inc/main.php:631
+#: inc/main.php:634
 #, php-format
 msgid "Posts (%d):"
 msgstr ""
 
 #. translators: %d = number of templates
-#: inc/main.php:657
+#: inc/main.php:660
 #, php-format
 msgid "Templates (%d):"
 msgstr ""
 
 #. translators: %d = number of template parts
-#: inc/main.php:682
+#: inc/main.php:685
 #, php-format
 msgid "Template Parts (%d):"
 msgstr ""
 
 #. translators: %d = number of patterns
-#: inc/main.php:707
+#: inc/main.php:710
 #, php-format
 msgid "Patterns (%d):"
 msgstr ""
 
 #. translators: %d = number of fonts
-#: inc/main.php:731
+#: inc/main.php:734
 #, php-format
 msgid "Fonts (%d):"
 msgstr ""
 
-#: inc/main.php:758
+#: inc/main.php:761
 msgid "Theme:"
 msgstr ""
 
 #. translators: %s = name of currently active child theme
-#: inc/main.php:766
+#: inc/main.php:769
 #, php-format
 msgid "(or the currently active <b>%s</b> child theme, choose below)"
 msgstr ""
 
 #. translators: %d = number of plugins
-#: inc/main.php:801
+#: inc/main.php:804
 #, php-format
 msgid "Plugins (%d):"
 msgstr ""
 
-#: inc/main.php:827
+#: inc/main.php:830
 msgid "Advanced Options"
 msgstr ""
 
-#: inc/main.php:832
+#: inc/main.php:835
 msgid "UPGRADE TO PREMIUM"
 msgstr ""
 
-#: inc/main.php:838
+#: inc/main.php:841
 msgid "Create Your Own Custom Theme"
 msgstr ""
 
-#: inc/main.php:843
+#: inc/main.php:846
 msgid "Yes, I would like to create my own custom theme"
 msgstr ""
 
-#: inc/main.php:846
+#: inc/main.php:849
 msgid ""
 "Checking this box will create a custom theme and switch to your new custom "
 "theme when importing this starter site"
 msgstr ""
 
-#: inc/main.php:851
+#: inc/main.php:854
 msgid "Theme Name (required)"
 msgstr ""
 
-#: inc/main.php:855
+#: inc/main.php:858
 msgid "A name for your custom theme"
 msgstr ""
 
-#: inc/main.php:860
+#: inc/main.php:863
 msgid "Slug"
 msgstr ""
 
-#: inc/main.php:864
+#: inc/main.php:867
 msgid "The theme folder name, auto generated from Name if empty"
 msgstr ""
 
-#: inc/main.php:870
+#: inc/main.php:873
 msgid "Description"
 msgstr ""
 
-#: inc/main.php:874
+#: inc/main.php:877
 msgid "A description for your custom theme"
 msgstr ""
 
-#: inc/main.php:879
+#: inc/main.php:882
 msgid "Version"
 msgstr ""
 
-#: inc/main.php:883
+#: inc/main.php:886
 msgid "The theme version number"
 msgstr ""
 
-#: inc/main.php:888
+#: inc/main.php:891
 msgid "Author"
 msgstr ""
 
-#: inc/main.php:892
+#: inc/main.php:895
 msgid "Your name or company/org name"
 msgstr ""
 
-#: inc/main.php:897
+#: inc/main.php:900
 msgid "Author URL"
 msgstr ""
 
-#: inc/main.php:901
+#: inc/main.php:904
 msgid "Your URL or company/org URL"
 msgstr ""
 
-#: inc/main.php:906
+#: inc/main.php:909
 msgid "Theme URL"
 msgstr ""
 
-#: inc/main.php:910
+#: inc/main.php:913
 msgid "Theme URL if different to above"
 msgstr ""
 
-#: inc/main.php:915
+#: inc/main.php:918
 msgid "Requires WP"
 msgstr ""
 
-#: inc/main.php:919
+#: inc/main.php:922
 msgid "The minumum required version of WordPress"
 msgstr ""
 
-#: inc/main.php:924
+#: inc/main.php:927
 msgid "Tested up to"
 msgstr ""
 
-#: inc/main.php:928
+#: inc/main.php:931
 msgid "The version of WordPress that the theme has been tested up to"
 msgstr ""
 
-#: inc/main.php:933
+#: inc/main.php:936
 msgid "Requires PHP"
 msgstr ""
 
-#: inc/main.php:937
+#: inc/main.php:940
 msgid "The minimum required version of PHP"
 msgstr ""
 
-#: inc/main.php:942
+#: inc/main.php:945
 msgid "Copyright"
 msgstr ""
 
-#: inc/main.php:946
+#: inc/main.php:949
 msgid "Your own copyright name, defaults to Author if empty"
 msgstr ""
 
-#: inc/main.php:961
+#: inc/main.php:964
 msgid ""
 "This Starter Site can be purchased individually, or you can upgrade to "
 "access all Premium Starter Sites."
 msgstr ""
 
-#: inc/main.php:970
+#: inc/main.php:973
 msgid "Buy"
 msgstr ""
 
-#: inc/main.php:971 starter-sites.php:167
+#: inc/main.php:974 starter-sites.php:175
 msgid "Upgrade to Premium"
 msgstr ""
 
-#: inc/main.php:975
+#: inc/main.php:978
 msgid "Activate"
 msgstr ""
 
-#: inc/main.php:979
+#: inc/main.php:982
 msgid "Preview"
 msgstr ""
 
-#: inc/main.php:1003
+#: inc/main.php:1007
 msgid "Screenshot"
 msgstr ""
 
-#: inc/main.php:1006
+#: inc/main.php:1010
 msgid "Select/Upload Image"
 msgstr ""
 
-#: inc/main.php:1007
+#: inc/main.php:1011
 msgid "Select or upload an image to use as your theme screenshot"
 msgstr ""
 
-#: inc/main.php:1008
+#: inc/main.php:1012
 msgid "Recommended image size is 1200 x 900"
 msgstr ""
 
-#: inc/main.php:1009
+#: inc/main.php:1013
 msgid "Larger images will be resized and cropped"
 msgstr ""
 
-#: inc/main.php:1022
+#: inc/main.php:1026
 msgid "Only .xml files may be uploaded."
 msgstr ""
 
-#: inc/main.php:1047
+#: inc/main.php:1051
 msgid ""
 "The uploaded file does not appear to contain a genuine Starter Site. You may "
 "need to update the plugin to the latest version."
 msgstr ""
 
-#: inc/main.php:1047
+#: inc/main.php:1051
 msgid ""
 "If you are sure it is a genuine Starter Sites file, please reach out to our "
 "support team."
 msgstr ""
 
-#: inc/main.php:1047
+#: inc/main.php:1051
 msgid "Get Help"
 msgstr ""
 
-#: inc/main.php:1056
+#: inc/main.php:1060
 msgid ""
 "Occasionally we may release limited edition individual Starter Sites that "
 "are not available within the plugin. If you have such a site in a .xml file "
 "format, you may import and activate it by uploading it here."
 msgstr ""
 
-#: inc/main.php:1060
+#: inc/main.php:1064
 msgid "Import and Activate"
 msgstr ""
 
-#: inc/patterns.php:32
+#: inc/patterns.php:43
 msgid "Starter Sites - "
 msgstr ""
 
-#: starter-sites.php:166
+#: starter-sites.php:174
 msgid "Rate or Review Starter Sites ★★★★★"
 msgstr ""
 
