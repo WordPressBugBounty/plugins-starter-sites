@@ -1,8 +1,8 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: Starter Sites 2.0.4\n"
-"POT-Creation-Date: 2024-11-25 15:29+0000\n"
+"Project-Id-Version: Starter Sites 2.0.5\n"
+"POT-Creation-Date: 2024-12-02 18:26+0000\n"
 "PO-Revision-Date: 2020-05-22 10:11+0100\n"
 "Last-Translator: \n"
 "Language-Team: WP Starter Sites - https://wpstartersites.com\n"
@@ -149,6 +149,10 @@ msgstr ""
 
 #: inc/demo-list.php:142
 msgid "Carousel Slider Block"
+msgstr ""
+
+#: inc/demo-list.php:146
+msgid "YITH WooCommerce Wishlist"
 msgstr ""
 
 #: inc/logs.php:41

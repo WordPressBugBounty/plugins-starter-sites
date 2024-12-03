@@ -4,7 +4,7 @@ Tags: import, content, demo, starter site, website
 Requires at least: 6.6
 Tested up to: 6.7
 Requires PHP: 7.4
-Stable tag: 2.0.4
+Stable tag: 2.0.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -84,6 +84,9 @@ Fixed issue where some images would not be properly mapped to imported content
 Added Interior Designer site
 
 == Changelog ==
+**2.0.5 - December 2024**
+- Fixed navigation submenu link id mapping
+
 **2.0.4 - November 2024**
 - Minor update to template and template part design patterns
 - Improved import of WooCommerce blocks

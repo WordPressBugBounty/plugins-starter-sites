@@ -141,6 +141,10 @@ function starter_sites_plugin_list() {
 			'file' => 'carousel-block/plugin.php',
 			'title' => __( 'Carousel Slider Block', 'starter-sites' ),
 		),
+		'yith-woocommerce-wishlist' => array(
+			'file' => 'yith-woocommerce-wishlist/init.php',
+			'title' => __( 'YITH WooCommerce Wishlist', 'starter-sites' ),
+		),
 
 	);
 

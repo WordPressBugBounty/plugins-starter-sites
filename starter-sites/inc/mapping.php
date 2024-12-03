@@ -331,7 +331,7 @@ class Mapping {
 					$block['attrs']['mediaLink'] = $new_attrs['url'];
 				}
 			}
-			if ( 'core/navigation-link' === $block['blockName'] ) {
+			if ( 'core/navigation-link' === $block['blockName'] || 'core/navigation-submenu' === $block['blockName'] ) {
 				if ( isset( $block['attrs']['id'] ) ) {
 					$new_attrs = $this->replace_attrs( $log, $block['attrs']['id'], $block['attrs']['kind'] );
 					$block['attrs']['id'] = (int) $new_attrs['id'];
