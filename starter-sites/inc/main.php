@@ -58,6 +58,15 @@ class Main {
 		}
 	}
 
+	public function is_modal_view() {
+		$settings = get_option( 'starter_sites_settings' );
+		if ( isset($settings['sites_view']) && 'modal' === $settings['sites_view'] ) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 	public function base_link() {
 		$settings = get_option( 'starter_sites_settings' );
 		$base_link = 'admin.php';
@@ -149,6 +158,87 @@ class Main {
 			'starter-sites-settings',
 			'starter_sites_settings_section'
 		);
+		add_settings_field(
+			'sites_view',
+			__( 'Browse Sites View', 'starter-sites' ),
+			[ $this, 'settings_sites_view' ],
+			'starter-sites-settings',
+			'starter_sites_settings_section'
+		);
+		add_settings_section(
+			'starter_sites_settings_section_2',
+			__( 'Advanced Options', 'starter-sites' ),
+			[ $this, 'settings_section_info' ],
+			'starter-sites-settings',
+			[
+				'before_section' => '<div class="%s">',
+				'after_section' => '</div>',
+				'section_class' => 'unavailable'
+			]
+		);
+		add_settings_field(
+			'default_sections_open',
+			__( 'Site details sections open', 'starter-sites' ),
+			[ $this, 'settings_default_sections_open' ],
+			'starter-sites-settings',
+			'starter_sites_settings_section_2'
+		);
+		add_settings_field(
+			'default_keepsitetitle',
+			__( 'Keep current site title', 'starter-sites' ),
+			[ $this, 'settings_default_keepsitetitle' ],
+			'starter-sites-settings',
+			'starter_sites_settings_section_2'
+		);
+		add_settings_field(
+			'default_keeptagline',
+			__( 'Keep current tagline', 'starter-sites' ),
+			[ $this, 'settings_default_keeptagline' ],
+			'starter-sites-settings',
+			'starter_sites_settings_section_2'
+		);
+		add_settings_field(
+			'default_keepsitelogo',
+			__( 'Keep current site logo', 'starter-sites' ),
+			[ $this, 'settings_default_keepsitelogo' ],
+			'starter-sites-settings',
+			'starter_sites_settings_section_2'
+		);
+		add_settings_field(
+			'default_keepsiteicon',
+			__( 'Keep current site icon', 'starter-sites' ),
+			[ $this, 'settings_default_keepsiteicon' ],
+			'starter-sites-settings',
+			'starter_sites_settings_section_2'
+		);
+		add_settings_field(
+			'import_content',
+			__( 'Import content', 'starter-sites' ),
+			[ $this, 'settings_import_content' ],
+			'starter-sites-settings',
+			'starter_sites_settings_section_2'
+		);
+		add_settings_field(
+			'import_fontpage',
+			__( 'Import front page', 'starter-sites' ),
+			[ $this, 'settings_import_frontpage' ],
+			'starter-sites-settings',
+			'starter_sites_settings_section_2'
+		);
+		add_settings_field(
+			'import_design',
+			__( 'Import design', 'starter-sites' ),
+			[ $this, 'settings_import_design' ],
+			'starter-sites-settings',
+			'starter_sites_settings_section_2'
+		);
+		add_settings_field(
+			'import_media',
+			__( 'Import media', 'starter-sites' ),
+			[ $this, 'settings_import_media' ],
+			'starter-sites-settings',
+			'starter_sites_settings_section_2'
+		);
 	}
 
 	public function settings_option_sanitize($input) {
@@ -158,6 +248,9 @@ class Main {
 		}
 		if ( isset( $input['menu_location'] ) ) {
 			$sanitary_values['menu_location'] = $input['menu_location'];
+		}
+		if ( isset( $input['sites_view'] ) ) {
+			$sanitary_values['sites_view'] = $input['sites_view'];
 		}
 		return $sanitary_values;
 	}
@@ -230,6 +323,85 @@ class Main {
 			'<input type="checkbox" name="starter_sites_settings[is_minimal]" id="is_minimal" value="yes" %1$s> <label for="is_minimal">%2$s</label>',
 			( isset( $this->settings['is_minimal'] ) && $this->settings['is_minimal'] === 'yes' ) ? 'checked' : '',
 			esc_html__( 'Disable the site activation/importer and move the plugin settings to a sub-item in the Settings page of your dashboard. This also overrides the Menu Location setting.', 'starter-sites' )
+		);
+	}
+
+	public function settings_sites_view() {
+		$selected_default = 'selected';
+		if ( isset( $this->settings['sites_view'] ) ) {
+			$selected_default = '';
+		}
+		?>
+		<select name="starter_sites_settings[sites_view]" id="sites_view">
+			<?php $selected = (isset( $this->settings['sites_view'] ) && $this->settings['sites_view'] === 'grid') ? 'selected' : '' ; ?>
+			<option value="grid" <?php echo $selected . $selected_default; ?>><?php esc_html_e( 'Grid Layout', 'starter-sites' );?></option>
+			<?php $selected = (isset( $this->settings['sites_view'] ) && $this->settings['sites_view'] === 'modal') ? 'selected' : '' ; ?>
+			<option value="modal" <?php echo $selected; ?>><?php esc_html_e( 'Site Details', 'starter-sites' );?></option>
+		</select><br>
+		<label for="menu_location"><?php esc_html_e( 'The default browse sites view when opening this plugin page.', 'starter-sites' );?></label>
+		<?php
+	}
+
+	public function settings_default_sections_open() {
+		printf(
+			'<input type="checkbox" name="starter_sites_settings[default_sections_open]" id="default_sections_open" value="yes" class="disabled" disabled="disabled"> <label for="default_sections_open">%1$s</label>',
+			esc_html__( 'The site details expanding sections open by default.', 'starter-sites' )
+		);
+	}
+
+	public function settings_default_keepsitetitle() {
+		printf(
+			'<input type="checkbox" name="starter_sites_settings[default_keepsitetitle]" id="default_keepsitetitle" value="yes" class="disabled" disabled="disabled"> <label for="default_keepsitetitle">%1$s</label>',
+			esc_html__( 'The keep current site title advanced option checked by default.', 'starter-sites' )
+		);
+	}
+
+	public function settings_default_keeptagline() {
+		printf(
+			'<input type="checkbox" name="starter_sites_settings[default_keeptagline]" id="default_keeptagline" value="yes" class="disabled" disabled="disabled"> <label for="default_keeptagline">%1$s</label>',
+			esc_html__( 'The keep current tagline advanced option checked by default.', 'starter-sites' )
+		);
+	}
+
+	public function settings_default_keepsitelogo() {
+		printf(
+			'<input type="checkbox" name="starter_sites_settings[default_keepsitelogo]" id="default_keepsitelogo" value="yes" class="disabled" disabled="disabled"> <label for="default_keepsitelogo">%1$s</label>',
+			esc_html__( 'The keep current site logo advanced option checked by default.', 'starter-sites' )
+		);
+	}
+
+	public function settings_default_keepsiteicon() {
+		printf(
+			'<input type="checkbox" name="starter_sites_settings[default_keepsiteicon]" id="default_keepsiteicon" value="yes" class="disabled" disabled="disabled"> <label for="default_keepsiteicon">%1$s</label>',
+			esc_html__( 'The keep current site icon advanced option checked by default.', 'starter-sites' )
+		);
+	}
+
+	public function settings_import_content() {
+		printf(
+			'<input type="checkbox" name="starter_sites_settings[import_content]" id="import_content" value="yes" class="disabled" disabled="disabled" checked="checked"> <label for="import_content">%1$s</label>',
+			esc_html__( 'The import content advanced option checked by default.', 'starter-sites' )
+		);
+	}
+
+	public function settings_import_frontpage() {
+		printf(
+			'<input type="checkbox" name="starter_sites_settings[import_frontpage]" id="import_frontpage" value="yes" class="disabled" disabled="disabled" checked="checked"> <label for="import_frontpage">%1$s</label>',
+			esc_html__( 'The import Front Page template with content advanced option checked by default.', 'starter-sites' )
+		);
+	}
+
+	public function settings_import_design() {
+		printf(
+			'<input type="checkbox" name="starter_sites_settings[import_design]" id="import_design" value="yes" class="disabled" disabled="disabled" checked="checked"> <label for="import_design">%1$s</label>',
+			esc_html__( 'The import design advanced option checked by default.', 'starter-sites' )
+		);
+	}
+
+	public function settings_import_media() {
+		printf(
+			'<input type="checkbox" name="starter_sites_settings[import_media]" id="import_media" value="yes" class="disabled" disabled="disabled" checked="checked"> <label for="import_media">%1$s</label>',
+			esc_html__( 'The import media advanced option checked by default.', 'starter-sites' )
 		);
 	}
 
@@ -342,7 +514,7 @@ class Main {
 				<div class="starter-sites-branding">
 					<a class="navigation-tab fullpage-dash-link" href="<?php echo esc_url( admin_url() ); ?>" title="<?php esc_html_e( 'Back to Dashboard', 'starter-sites' ); ?>"><span class="dashicons dashicons-arrow-left-alt2 starter-sites-link-dashboard"></span></a>
 					<div class="branding-inner">
-						<?php echo $this->logo_icon( 'svg-path' ) . apply_filters( 'starter_sites_page_title', esc_html__( 'Starter Sites', 'starter-sites' ) ); ?>
+						<?php echo $this->logo_icon( 'svg-path' ) . '<span class="plugin-page-title">' . apply_filters( 'starter_sites_page_title', esc_html__( 'Starter Sites', 'starter-sites' ) ) . '</span>'; ?>
 					</div>
 				</div>
 				<div class="starter-sites-menu">
@@ -351,6 +523,7 @@ class Main {
 						<li><a class="menu-item<?php echo $is_current_upload;?>" href="<?php echo esc_url( add_query_arg( [ 'page' => 'starter-sites', 'tab' => 'upload' ], $admin_link ) );?>"><?php esc_html_e( 'Upload', 'starter-sites' ); ?></a></li>
 						<li><a class="menu-item<?php echo $is_current_logs;?>" href="<?php echo esc_url( add_query_arg( [ 'page' => 'starter-sites', 'tab' => 'logs' ], $admin_link ) );?>"><?php esc_html_e( 'Logs', 'starter-sites' ); ?></a></li>
 						<li><a class="menu-item<?php echo $is_current_settings;?>" href="<?php echo esc_url( add_query_arg( [ 'page' => 'starter-sites', 'tab' => 'settings' ], $admin_link ) );?>"><?php esc_html_e( 'Settings', 'starter-sites' ); ?></a></li>
+						<li class="menu-upgrade"><a href="https://wpstartersites.com/pricing/" target="_blank" class="premium-upgrade-button"><?php esc_html_e( 'UPGRADE', 'starter-sites' );?> <i class="dashicons dashicons-external"></i></a></li>
 					</ul>
 				</div>
 				<div class="starter-sites-options">
@@ -440,22 +613,28 @@ class Main {
 	public function view_sites_grid() {
 		$this->view_safemode_notice();
 		$this->view_permalink_notice();
+		$class_open_modal = '';
+		if ( $this->is_modal_view() ) {
+			$class_open_modal = ' has-open-modal';
+		}
 		?>
-		<div class="starter-sites-demos-grid">
+		<div class="starter-sites-demos-grid<?php echo esc_attr( $class_open_modal );?>">
 		<?php
 		foreach ( starter_sites_demo_list() as $demo_site => $demo_site_data ) {
 			if ( $demo_site_data['type'] === 'included' || $demo_site_data['type'] === 'premium' ) {
+
+				$class_promote = '';
+				if ( isset($demo_site_data['promote']) ) {
+					$class_promote = ' is-promoted';
+				}
+
 				if ( isset($demo_site_data['image']) && '' !== $demo_site_data['image'] ) {
 					$demo_site_img_url = STARTER_SITES_HOME_URL . 'wp-content/uploads/' . $demo_site_data['image'];
 				} else {
-					if ( file_exists( STARTER_SITES_PATH . 'content/sites/' . $demo_site . '/screenshot.jpg' ) ) {
-						$demo_site_img_url = STARTER_SITES_URL . 'content/sites/' . $demo_site . '/screenshot.jpg';
-					} else {
-						$demo_site_img_url = STARTER_SITES_URL . 'assets/images/screenshot-placeholder.png';
-					}
+					$demo_site_img_url = STARTER_SITES_URL . 'assets/images/screenshot-placeholder.png';
 				}
 				?>
-				<div class="starter-sites-demo demo-id-<?php echo esc_attr( $demo_site );?>" data-demo-id="<?php echo esc_attr( $demo_site );?>">
+				<div class="starter-sites-demo demo-id-<?php echo esc_attr( $demo_site ) . esc_attr( $class_promote );?>" data-demo-id="<?php echo esc_attr( $demo_site );?>">
 					<div class="badges">
 					<?php
 					if ( 'premium' === $demo_site_data['type'] ) {
@@ -520,24 +699,21 @@ class Main {
 		?>
 		<div class="starter-sites-demos-modals">
 		<?php
+		$i = 1;
 		foreach ( starter_sites_demo_list() as $demo_site => $demo_site_data ) {
 			if ( $demo_site_data['type'] === 'included' || $demo_site_data['type'] === 'premium' ) {
 				if ( isset($demo_site_data['image_full']) && '' !== $demo_site_data['image_full'] ) {
 					$demo_site_img_url = STARTER_SITES_HOME_URL . 'wp-content/uploads/' . $demo_site_data['image_full'];
 				} else {
-					if ( file_exists( STARTER_SITES_PATH . 'content/sites/' . $demo_site . '/screenshot-full.jpg' ) ) {
-						$demo_site_img_url = STARTER_SITES_URL . 'content/sites/' . $demo_site . '/screenshot-full.jpg';
-					} else {
-						if ( file_exists( STARTER_SITES_PATH . 'content/sites/' . $demo_site . '/screenshot.jpg' ) ) {
-							$demo_site_img_url = STARTER_SITES_URL . 'content/sites/' . $demo_site . '/screenshot.jpg';
-						} else {
-							$demo_site_img_url = STARTER_SITES_URL . 'assets/images/screenshot-placeholder.png';
-						}
-					}
+					$demo_site_img_url = STARTER_SITES_URL . 'assets/images/screenshot-placeholder.png';
 				}
 				$form_activate_url = add_query_arg( [ 'page' => 'starter-sites' ], $admin_link );
+				$class_open_modal = '';
+				if ( $i === 1 && $this->is_modal_view() ) {
+					$class_open_modal = ' is-open';
+				}
 				?>
-				<div class="starter-sites-demo-modal demo-modal-id-<?php echo esc_attr( $demo_site );?>" data-demo-modal-id="<?php echo esc_attr( $demo_site );?>">
+				<div class="starter-sites-demo-modal demo-modal-id-<?php echo esc_attr( $demo_site ) . esc_attr( $class_open_modal );?>" data-demo-modal-id="<?php echo esc_attr( $demo_site );?>">
 					<div class="starter-sites-demo-modal-header">
 						<div class="starter-sites-demo-modal-nav">
 							<button class="button starter-sites-button-nav modal-previous"><i class="dashicons dashicons-arrow-left-alt2"></i></button>
@@ -648,8 +824,6 @@ class Main {
 								</div>
 								<?php
 							}
-
-
 							// Templates
 							if ( isset( $demo_site_data['templates'] ) && !empty($demo_site_data['templates']) ) {
 								?>
@@ -674,7 +848,6 @@ class Main {
 								</div>
 								<?php
 							}
-
 							// Template Parts
 							if ( isset( $demo_site_data['template_parts'] ) && !empty($demo_site_data['template_parts']) ) {
 								?>
@@ -699,7 +872,6 @@ class Main {
 								</div>
 								<?php
 							}
-
 							// Patterns
 							if ( isset( $demo_site_data['patterns'] ) && !empty($demo_site_data['patterns']) ) {
 								?>
@@ -741,6 +913,23 @@ class Main {
 									foreach ( $demo_site_data['fonts'] as $font ) {
 										?>
 										<li class="wppss-feature-item font"><?php echo esc_html( wp_unslash($font) );?></li>
+										<?php
+									}
+									?>
+									</ul>
+								</div>
+								<?php
+							}
+							// Colors
+							if ( isset( $demo_site_data['colors'] ) && !empty($demo_site_data['colors']) ) {
+								?>
+								<div class="starter-sites-demo-sub-section">
+									<p class="starter-sites-sub-heading colors"><?php esc_html_e( 'Colors:', 'starter-sites' );?></p>
+									<ul class="starter-sites-feature-list is-open colors">
+									<?php
+									foreach ( $demo_site_data['colors'] as $color ) {
+										?>
+										<li class="wppss-feature-item color"><span style="background-color: <?php echo esc_attr( $color );?>"></span></li>
 										<?php
 									}
 									?>
@@ -830,132 +1019,39 @@ class Main {
 										<p class="starter-sites-sub-heading advanced-options"><?php esc_html_e( 'Advanced Options', 'starter-sites' );?></p>
 										<p class="expand-list" data-list-id="advanced-options"><i class="dashicons dashicons-arrow-down-alt2"></i></p>
 									</div>
-									<ul class="starter-sites-feature-list list-id-advanced-options advanced-options">
-										<li class="wppss-feature-item premium-nudge">
-											<p class="premium-upgrade"><a href="https://wpstartersites.com/pricing/" target="_blank" class="premium-upgrade-button"><?php esc_html_e( 'UPGRADE TO PREMIUM', 'starter-sites' );?> <i class="dashicons dashicons-external"></i></a></p>
-										</li>
-										<?php
-										if ( STARTER_SITES_THEME_DEFAULT === $theme_slug ) {
-										?>
-										<li class="wppss-feature-item custom-theme">
-											<p class="starter-sites-item-heading custom-theme"><?php esc_html_e( 'Create Your Own Custom Theme', 'starter-sites' );?></p>
-											<table class="form-table">
-												<tbody>
-													<tr class="form-field">
-														<th scope="row">
-															<input type="checkbox" name="is_custom_theme" value="1" class="disabled" disabled="disabled"><label for="is_custom_theme"><?php esc_html_e( 'Yes, I would like to create my own custom theme', 'starter-sites' );?></label>
-														</th>
-														<td>
-															<p class="description"><?php esc_html_e( 'Checking this box will create a custom theme and switch to your new custom theme when importing this starter site', 'starter-sites' );?></p>
-														</td>
-													</tr>
-													<tr class="form-field form-required">
-														<th scope="row">
-															<label for="custom_theme[title]"><?php esc_html_e( 'Theme Name (required)', 'starter-sites' );?></label>
-														</th>
-														<td>
-															<input type="text" name="custom_theme[title]" value="" maxlength="50" class="disabled" disabled="disabled">
-															<p class="description"><?php esc_html_e( 'A name for your custom theme', 'starter-sites' );?></p>
-														</td>
-													</tr>
-													<tr class="form-field">
-														<th scope="row">
-															<label for="custom_theme[slug]"><?php esc_html_e( 'Slug', 'starter-sites' );?></label>
-														</th>
-														<td>
-															<input type="text" name="custom_theme[slug]" value="" maxlength="50" class="disabled" disabled="disabled">
-															<p class="description"><?php esc_html_e( 'The theme folder name, auto generated from Name if empty', 'starter-sites' );?></p>
-														</td>
-													</tr>
-													<?php $this->screenshot_selector(); ?>
-													<tr class="form-field">
-														<th scope="row">
-															<label for="custom_theme[description]"><?php esc_html_e( 'Description', 'starter-sites' );?></label>
-														</th>
-														<td>
-															<textarea name="custom_theme[description]" rows="3" class="disabled" disabled="disabled"></textarea>
-															<p class="description"><?php esc_html_e( 'A description for your custom theme', 'starter-sites' );?></p>
-														</td>
-													</tr>
-													<tr class="form-field">
-														<th scope="row">
-															<label for="custom_theme[version]"><?php esc_html_e( 'Version', 'starter-sites' );?></label>
-														</th>
-														<td>
-															<input type="text" name="custom_theme[version]" value="" placeholder="1.0" maxlength="12" class="disabled" disabled="disabled">
-															<p class="description"><?php esc_html_e( 'The theme version number', 'starter-sites' );?></p>
-														</td>
-													</tr>
-													<tr class="form-field">
-														<th scope="row">
-															<label for="custom_theme[author]"><?php esc_html_e( 'Author', 'starter-sites' );?></label>
-														</th>
-														<td>
-															<input type="text" name="custom_theme[author]" value="" maxlength="50" class="disabled" disabled="disabled">
-															<p class="description"><?php esc_html_e( 'Your name or company/org name', 'starter-sites' );?></p>
-														</td>
-													</tr>
-													<tr class="form-field">
-														<th scope="row">
-															<label for="custom_theme[author_uri]"><?php esc_html_e( 'Author URL', 'starter-sites' );?></label>
-														</th>
-														<td>
-															<input type="url" name="custom_theme[author_uri]" value="" maxlength="50" class="disabled" disabled="disabled">
-															<p class="description"><?php esc_html_e( 'Your URL or company/org URL', 'starter-sites' );?></p>
-														</td>
-													</tr>
-													<tr class="form-field">
-														<th scope="row">
-															<label for="custom_theme[theme_uri]"><?php esc_html_e( 'Theme URL', 'starter-sites' );?></label>
-														</th>
-														<td>
-															<input type="url" name="custom_theme[theme_uri]" value="" maxlength="50" class="disabled" disabled="disabled">
-															<p class="description"><?php esc_html_e( 'Theme URL if different to above', 'starter-sites' );?></p>
-														</td>
-													</tr>
-													<tr class="form-field">
-														<th scope="row">
-															<label for="custom_theme[wp_requires]"><?php esc_html_e( 'Requires WP', 'starter-sites' );?></label>
-														</th>
-														<td>
-															<input type="text" name="custom_theme[wp_requires]" value="" maxlength="12" placeholder="6.4" class="disabled" disabled="disabled">
-															<p class="description"><?php esc_html_e( 'The minumum required version of WordPress', 'starter-sites' );?></p>
-														</td>
-													</tr>
-													<tr class="form-field">
-														<th scope="row">
-															<label for="custom_theme[wp_tested]"><?php esc_html_e( 'Tested up to', 'starter-sites' );?></label>
-														</th>
-														<td>
-															<input type="text" name="custom_theme[wp_tested]" value="" maxlength="12" placeholder="<?php echo esc_html( $this->get_wp_major_version() ) ;?>" class="disabled" disabled="disabled">
-															<p class="description"><?php esc_html_e( 'The version of WordPress that the theme has been tested up to', 'starter-sites' );?></p>
-														</td>
-													</tr>
-													<tr class="form-field">
-														<th scope="row">
-															<label for="custom_theme[php_requires]"><?php esc_html_e( 'Requires PHP', 'starter-sites' );?></label>
-														</th>
-														<td>
-															<input type="text" name="custom_theme[php_requires]" value="" maxlength="12" placeholder="7.4" class="disabled" disabled="disabled">
-															<p class="description"><?php esc_html_e( 'The minimum required version of PHP', 'starter-sites' );?></p>
-														</td>
-													</tr>
-													<tr class="form-field">
-														<th scope="row">
-															<label for="custom_theme[copyright]"><?php esc_html_e( 'Copyright', 'starter-sites' );?></label>
-														</th>
-														<td>
-															<input type="text" name="custom_theme[copyright]" value="" maxlength="50" class="disabled" disabled="disabled">
-															<p class="description"><?php esc_html_e( 'Your own copyright name, defaults to Author if empty', 'starter-sites' );?></p>
-														</td>
-													</tr>
-												</tbody>
-											</table>
-										</li>
-										<?php
-										}
-										?>
-									</ul>
+									<div class="starter-sites-feature-list list-id-advanced-options advanced-options">
+										<p class="premium-upgrade"><a href="https://wpstartersites.com/pricing/" target="_blank" class="premium-upgrade-button"><?php esc_html_e( 'UPGRADE', 'starter-sites' );?> <i class="dashicons dashicons-external"></i></a></p>
+										<p class="starter-sites-sub-heading options-import unavailable"><?php esc_html_e( 'Site Options:', 'starter-sites' );?></p>
+										<p class="unavailable"><label for="option_keepsitetitle">
+											<input name="option_keepsitetitle" type="checkbox" id="option_keepsitetitle" value="1" class="disabled" disabled="disabled">
+											<?php esc_html_e( 'Keep current site title', 'starter-sites' );?>
+										</label></p>
+										<p class="unavailable"><label for="option_keeptagline">
+											<input name="option_keeptagline" type="checkbox" id="option_keeptagline" value="1" class="disabled" disabled="disabled">
+											<?php esc_html_e( 'Keep current tagline', 'starter-sites' );?>
+										</label></p>
+										<p class="unavailable"><label for="option_keepsitelogo">
+											<input name="option_keepsitelogo" type="checkbox" id="option_keepsitelogo" value="1" class="disabled" disabled="disabled">
+											<?php esc_html_e( 'Keep current site logo', 'starter-sites' );?>
+										</label></p>
+										<p class="unavailable"><label for="option_keepsiteicon">
+											<input name="option_keepsiteicon" type="checkbox" id="option_keepsiteicon" value="1" class="disabled" disabled="disabled">
+											<?php esc_html_e( 'Keep current site icon', 'starter-sites' );?>
+										</label></p>
+										<p class="starter-sites-sub-heading options-import unavailable"><?php esc_html_e( 'Import:', 'starter-sites' );?></p>
+										<p class="unavailable"><label for="import_content">
+											<input name="import_content" type="checkbox" id="import_content" value="1" checked="checked" class="disabled" disabled="disabled">
+											<?php esc_html_e( 'Content (posts, pages, products)', 'starter-sites' );?>
+										</label></p>
+										<p class="unavailable"><label for="import_design">
+											<input name="import_design" type="checkbox" id="import_design" value="1" checked="checked" class="disabled" disabled="disabled">
+											<?php esc_html_e( 'Design (styles, templates, parts, patterns, fonts)', 'starter-sites' );?>
+										</label></p>
+										<p class="unavailable"><label for="import_media">
+											<input name="import_media" type="checkbox" id="import_media" value="1" checked="checked" class="disabled" disabled="disabled">
+											<?php esc_html_e( 'Media (images, videos etc.)', 'starter-sites' );?>
+										</label></p>
+									</div>
 								</div>
 							<?php
 							if ( 'premium' === $demo_site_data['type'] ) {
@@ -994,25 +1090,10 @@ class Main {
 				</div>
 				<?php
 			}
+		$i++;
 		}
 		?>
 		</div>
-		<?php
-	}
-
-	public function screenshot_selector() {
-		?>
-		<tr class="form-field">
-			<th scope="row">
-				<label for="upload_screenshot_button"><?php esc_html_e( 'Screenshot', 'starter-sites' );?></label>
-			</th>
-			<td>
-				<input formaction="#" id="upload_screenshot_button" name="upload_screenshot_button" type="button" class="button disabled" value="<?php esc_html_e( 'Select/Upload Image', 'starter-sites' );?>" disabled="disabled" />
-				<p class="description"><?php esc_html_e( 'Select or upload an image to use as your theme screenshot', 'starter-sites' );?></p>
-				<p class="description"><?php esc_html_e( 'Recommended image size is 1200 x 900', 'starter-sites' );?></p>
-				<p class="description"><?php esc_html_e( 'Larger images will be resized and cropped', 'starter-sites' );?></p>
-			</td>
-		</tr>
 		<?php
 	}
 

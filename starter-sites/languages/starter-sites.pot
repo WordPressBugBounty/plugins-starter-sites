@@ -1,8 +1,8 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: Starter Sites 2.0.5\n"
-"POT-Creation-Date: 2024-12-02 18:26+0000\n"
+"Project-Id-Version: Starter Sites 2.1\n"
+"POT-Creation-Date: 2024-12-19 16:48+0000\n"
 "PO-Revision-Date: 2020-05-22 10:11+0100\n"
 "Last-Translator: \n"
 "Language-Team: WP Starter Sites - https://wpstartersites.com\n"
@@ -95,63 +95,43 @@ msgstr ""
 msgid "This is not a valid starter site."
 msgstr ""
 
-#: inc/demo-list.php:25
-msgid "Interior Designer"
-msgstr ""
-
-#: inc/demo-list.php:38
-msgid "Auto Center"
-msgstr ""
-
-#: inc/demo-list.php:51
-msgid "Enchanted Times"
-msgstr ""
-
-#: inc/demo-list.php:64
-msgid "Accountant"
-msgstr ""
-
-#: inc/demo-list.php:77
-msgid "Eternal Theme Demo"
-msgstr ""
-
-#: inc/demo-list.php:100
+#: inc/demo-list.php:61
 msgid "Eternal"
 msgstr ""
 
-#: inc/demo-list.php:114
+#: inc/demo-list.php:75
 msgid "Animations for Blocks"
 msgstr ""
 
-#: inc/demo-list.php:118
+#: inc/demo-list.php:79
 msgid "Block Visibility"
 msgstr ""
 
-#: inc/demo-list.php:122
+#: inc/demo-list.php:83
 msgid "Gutena Forms - Contact Forms Block"
 msgstr ""
 
-#: inc/demo-list.php:126
+#: inc/demo-list.php:87
 msgid "The Icon Block"
 msgstr ""
 
-#: inc/demo-list.php:130
+#: inc/demo-list.php:91
 msgid "WooCommerce"
 msgstr ""
 
-#: inc/demo-list.php:134
+#: inc/demo-list.php:95
 msgid "Social Sharing Block"
 msgstr ""
 
-#: inc/demo-list.php:138
+#: inc/demo-list.php:99
 msgid "WP Map Block"
 msgstr ""
 
-#: inc/demo-list.php:142
+#: inc/demo-list.php:103
 msgid "Carousel Slider Block"
 msgstr ""
 
-#: inc/demo-list.php:146
+#: inc/demo-list.php:107
 msgid "YITH WooCommerce Wishlist"
 msgstr ""
 
@@ -163,11 +143,11 @@ msgstr ""
 msgid "Date"
 msgstr ""
 
-#: inc/logs.php:45 inc/logs.php:106
+#: inc/logs.php:45 inc/logs.php:114
 msgid "User"
 msgstr ""
 
-#: inc/logs.php:46 inc/logs.php:143
+#: inc/logs.php:46 inc/logs.php:151
 msgid "Site"
 msgstr ""
 
@@ -183,278 +163,380 @@ msgstr ""
 msgid "Activation Log"
 msgstr ""
 
-#: inc/logs.php:114
-msgid "Start"
+#: inc/logs.php:106
+msgid "Activated Site"
 msgstr ""
 
 #: inc/logs.php:122
-msgid "End"
+msgid "Start"
 msgstr ""
 
 #: inc/logs.php:130
+msgid "End"
+msgstr ""
+
+#: inc/logs.php:138
 msgid "Processing time"
 msgstr ""
 
-#: inc/logs.php:149
+#: inc/logs.php:157
 msgid "Site Title"
 msgstr ""
 
-#: inc/logs.php:158
+#: inc/logs.php:166
 msgid "Site Tagline"
 msgstr ""
 
-#: inc/logs.php:174 inc/logs.php:394
+#: inc/logs.php:182 inc/logs.php:402
 msgid "Theme"
 msgstr ""
 
-#: inc/logs.php:191
+#: inc/logs.php:199
 msgid "Plugins"
 msgstr ""
 
-#: inc/logs.php:212
+#: inc/logs.php:220
 msgid "Design"
 msgstr ""
 
-#: inc/logs.php:251 inc/logs.php:304 inc/logs.php:326 inc/logs.php:351
+#: inc/logs.php:259 inc/logs.php:312 inc/logs.php:334 inc/logs.php:359
 msgid "Edit"
 msgstr ""
 
-#: inc/logs.php:268
+#: inc/logs.php:276
 msgid "Content"
 msgstr ""
 
 #. translators: %1$s: Link to post editor, %2$s: Link to site editor, %3$s: Post type, %4$s: closing </a> tag.
-#: inc/logs.php:282
+#: inc/logs.php:290
 #, php-format
 msgid "Open in %1$s%3$s Editor%4$s or %2$sSite Editor%4$s"
 msgstr ""
 
-#: inc/logs.php:305 inc/logs.php:327 inc/logs.php:352
+#: inc/logs.php:313 inc/logs.php:335 inc/logs.php:360
 msgid "View"
 msgstr ""
 
-#: inc/logs.php:317
+#: inc/logs.php:325
 msgid "Media"
 msgstr ""
 
-#: inc/logs.php:340
+#: inc/logs.php:348
 msgid "Terms"
 msgstr ""
 
-#: inc/logs.php:368
+#: inc/logs.php:376
 msgid "Other"
 msgstr ""
 
-#: inc/logs.php:388
+#: inc/logs.php:396
 msgid "Category"
 msgstr ""
 
-#: inc/logs.php:390
+#: inc/logs.php:398
 msgid "Tag"
 msgstr ""
 
-#: inc/logs.php:392
+#: inc/logs.php:400
 msgid "Product category"
 msgstr ""
 
-#: inc/logs.php:396
+#: inc/logs.php:404
 msgid "Template part area"
 msgstr ""
 
-#: inc/logs.php:398
+#: inc/logs.php:406
 msgid "Page"
 msgstr ""
 
-#: inc/logs.php:400
+#: inc/logs.php:408
 msgid "Post"
 msgstr ""
 
-#: inc/logs.php:402
+#: inc/logs.php:410
 msgid "Product"
 msgstr ""
 
-#: inc/logs.php:404
+#: inc/logs.php:412
 msgid "Product Variation"
 msgstr ""
 
-#: inc/logs.php:406
+#: inc/logs.php:414
 msgid "Attachment"
 msgstr ""
 
-#: inc/logs.php:408
+#: inc/logs.php:416
 msgid "Navigation"
 msgstr ""
 
-#: inc/logs.php:410
+#: inc/logs.php:418
 msgid "Styles"
 msgstr ""
 
-#: inc/logs.php:412
+#: inc/logs.php:420
 msgid "Template"
 msgstr ""
 
-#: inc/logs.php:414
+#: inc/logs.php:422
 msgid "Template part"
 msgstr ""
 
-#: inc/logs.php:416
+#: inc/logs.php:424
 msgid "Pattern"
 msgstr ""
 
-#: inc/logs.php:418
+#: inc/logs.php:426
 msgid "Font"
 msgstr ""
 
-#: inc/logs.php:427
+#: inc/logs.php:435
 msgid "No change"
 msgstr ""
 
-#: inc/logs.php:430
+#: inc/logs.php:438
 msgid "Activated"
 msgstr ""
 
-#: inc/logs.php:433
+#: inc/logs.php:441
 msgid "Installed and activated"
 msgstr ""
 
-#: inc/logs.php:436
+#: inc/logs.php:444
 msgid "Not installed"
 msgstr ""
 
-#: inc/logs.php:439
+#: inc/logs.php:447
 msgid "Updated"
 msgstr ""
 
-#: inc/logs.php:442
+#: inc/logs.php:450
 msgid "Added"
 msgstr ""
 
-#: inc/logs.php:445
+#: inc/logs.php:453
 msgid "Not added"
 msgstr ""
 
 #. Plugin Name of the plugin/theme
-#: inc/main.php:80 inc/main.php:300 inc/main.php:345
+#: inc/main.php:89 inc/main.php:472 inc/main.php:517
 msgid "Starter Sites"
 msgstr ""
 
-#: inc/main.php:134 inc/main.php:353 starter-sites.php:159
+#: inc/main.php:143 inc/main.php:525 starter-sites.php:159
 msgid "Settings"
 msgstr ""
 
-#: inc/main.php:140
+#: inc/main.php:149
 msgid "Menu Location"
 msgstr ""
 
-#: inc/main.php:147
+#: inc/main.php:156
 msgid "Minimal Mode"
 msgstr ""
 
-#: inc/main.php:190
-msgid "Before Dashboard"
+#: inc/main.php:163
+msgid "Browse Sites View"
 msgstr ""
 
-#: inc/main.php:192
-msgid "Before Posts"
+#: inc/main.php:170 inc/main.php:1019
+msgid "Advanced Options"
 msgstr ""
 
-#: inc/main.php:194
-msgid "Before Media"
+#: inc/main.php:181
+msgid "Site details sections open"
 msgstr ""
 
-#: inc/main.php:196
-msgid "Before Pages"
+#: inc/main.php:188 inc/main.php:1027
+msgid "Keep current site title"
 msgstr ""
 
-#: inc/main.php:198
-msgid "Before Comments"
+#: inc/main.php:195 inc/main.php:1031
+msgid "Keep current tagline"
 msgstr ""
 
-#: inc/main.php:200
-msgid "Before Appearance"
+#: inc/main.php:202 inc/main.php:1035
+msgid "Keep current site logo"
 msgstr ""
 
-#: inc/main.php:202
-msgid "Before Plugins"
-msgstr ""
-
-#: inc/main.php:207
-msgid "Before Users"
-msgstr ""
-
-#: inc/main.php:209
-msgid "Before Profile"
-msgstr ""
-
-#: inc/main.php:214
-msgid "Before Tools"
+#: inc/main.php:209 inc/main.php:1039
+msgid "Keep current site icon"
 msgstr ""
 
 #: inc/main.php:216
+msgid "Import content"
+msgstr ""
+
+#: inc/main.php:223
+msgid "Import front page"
+msgstr ""
+
+#: inc/main.php:230
+msgid "Import design"
+msgstr ""
+
+#: inc/main.php:237
+msgid "Import media"
+msgstr ""
+
+#: inc/main.php:283
+msgid "Before Dashboard"
+msgstr ""
+
+#: inc/main.php:285
+msgid "Before Posts"
+msgstr ""
+
+#: inc/main.php:287
+msgid "Before Media"
+msgstr ""
+
+#: inc/main.php:289
+msgid "Before Pages"
+msgstr ""
+
+#: inc/main.php:291
+msgid "Before Comments"
+msgstr ""
+
+#: inc/main.php:293
+msgid "Before Appearance"
+msgstr ""
+
+#: inc/main.php:295
+msgid "Before Plugins"
+msgstr ""
+
+#: inc/main.php:300
+msgid "Before Users"
+msgstr ""
+
+#: inc/main.php:302
+msgid "Before Profile"
+msgstr ""
+
+#: inc/main.php:307
+msgid "Before Tools"
+msgstr ""
+
+#: inc/main.php:309
 msgid "Before Settings"
 msgstr ""
 
-#: inc/main.php:218
+#: inc/main.php:311
 msgid "After Settings"
 msgstr ""
 
-#: inc/main.php:220
+#: inc/main.php:313
 msgid "Sub-item in Appearance"
 msgstr ""
 
-#: inc/main.php:222
+#: inc/main.php:315
 msgid "Sub-item in Tools"
 msgstr ""
 
-#: inc/main.php:224
+#: inc/main.php:317
 msgid "Choose where to place the plugin menu item."
 msgstr ""
 
-#: inc/main.php:232
+#: inc/main.php:325
 msgid ""
 "Disable the site activation/importer and move the plugin settings to a sub-"
 "item in the Settings page of your dashboard. This also overrides the Menu "
 "Location setting."
 msgstr ""
 
-#: inc/main.php:298 inc/main.php:343
+#: inc/main.php:337
+msgid "Grid Layout"
+msgstr ""
+
+#: inc/main.php:339
+msgid "Site Details"
+msgstr ""
+
+#: inc/main.php:341
+msgid "The default browse sites view when opening this plugin page."
+msgstr ""
+
+#: inc/main.php:348
+msgid "The site details expanding sections open by default."
+msgstr ""
+
+#: inc/main.php:355
+msgid "The keep current site title advanced option checked by default."
+msgstr ""
+
+#: inc/main.php:362
+msgid "The keep current tagline advanced option checked by default."
+msgstr ""
+
+#: inc/main.php:369
+msgid "The keep current site logo advanced option checked by default."
+msgstr ""
+
+#: inc/main.php:376
+msgid "The keep current site icon advanced option checked by default."
+msgstr ""
+
+#: inc/main.php:383
+msgid "The import content advanced option checked by default."
+msgstr ""
+
+#: inc/main.php:390
+msgid ""
+"The import Front Page template with content advanced option checked by "
+"default."
+msgstr ""
+
+#: inc/main.php:397
+msgid "The import design advanced option checked by default."
+msgstr ""
+
+#: inc/main.php:404
+msgid "The import media advanced option checked by default."
+msgstr ""
+
+#: inc/main.php:470 inc/main.php:515
 msgid "Back to Dashboard"
 msgstr ""
 
-#: inc/main.php:305 inc/main.php:358
+#: inc/main.php:477 inc/main.php:531
 msgid "Full Page On/Off"
 msgstr ""
 
-#: inc/main.php:308 inc/main.php:361
+#: inc/main.php:480 inc/main.php:534
 msgid "Light/Dark Mode"
 msgstr ""
 
-#: inc/main.php:350 starter-sites.php:162
+#: inc/main.php:522 starter-sites.php:162
 msgid "Browse Sites"
 msgstr ""
 
-#: inc/main.php:351
+#: inc/main.php:523
 msgid "Upload"
 msgstr ""
 
-#: inc/main.php:352
+#: inc/main.php:524
 msgid "Logs"
 msgstr ""
 
-#: inc/main.php:394
+#: inc/main.php:526 inc/main.php:1023
+msgid "UPGRADE"
+msgstr ""
+
+#: inc/main.php:567
 msgid "Activating the required theme and plugin(s)."
 msgstr ""
 
-#: inc/main.php:395
+#: inc/main.php:568
 msgid "Importing the content and design elements."
 msgstr ""
 
-#: inc/main.php:396
+#: inc/main.php:569
 msgid "This process may take a while on some hosts, so please be patient."
 msgstr ""
 
 #. translators: %1$s: opening <strong> tag, %2$s: closing </strong> tag.
-#: inc/main.php:413
+#: inc/main.php:586
 #, php-format
 msgid ""
 "Warning: your server is using %1$sPHP safe mode%2$s. This means that you "
@@ -462,327 +544,221 @@ msgid ""
 msgstr ""
 
 #. translators: %s: text link to permalink option.
-#: inc/main.php:429
+#: inc/main.php:602
 #, php-format
 msgid ""
 "It is highly recommended to %s for your website before importing a starter "
 "site."
 msgstr ""
 
-#: inc/main.php:429
+#: inc/main.php:602
 msgid "select the permalink structure"
 msgstr ""
 
-#: inc/main.php:431
+#: inc/main.php:604
 msgid ""
 "If you are really sure you want plain links for your pages, posts, "
 "categories, navigation menus etc. you can ignore this notice."
 msgstr ""
 
-#: inc/main.php:463 inc/main.php:556
+#: inc/main.php:642 inc/main.php:732
 msgid "Premium"
 msgstr ""
 
-#: inc/main.php:467 inc/main.php:560
+#: inc/main.php:646 inc/main.php:736
 msgid "Free"
 msgstr ""
 
-#: inc/main.php:472 inc/main.php:565
+#: inc/main.php:651 inc/main.php:741
 msgid "Ecommerce"
 msgstr ""
 
-#: inc/main.php:480
+#: inc/main.php:659
 msgid "Details"
 msgstr ""
 
-#: inc/main.php:488
+#: inc/main.php:667
 msgid "Not seeing any sites you like?"
 msgstr ""
 
-#: inc/main.php:489
+#: inc/main.php:668
 msgid "We welcome your suggestions for new sites."
 msgstr ""
 
-#: inc/main.php:490
+#: inc/main.php:669
 msgid ""
 "Please let us know what new Starter Sites you would like to see included in "
 "the plugin."
 msgstr ""
 
-#: inc/main.php:491
+#: inc/main.php:670
 msgid "Suggest a Site"
 msgstr ""
 
-#: inc/main.php:494
+#: inc/main.php:673
 msgid "Need help with Starter Sites?"
 msgstr ""
 
-#: inc/main.php:495
+#: inc/main.php:674
 msgid "We welcome your support questions."
 msgstr ""
 
-#: inc/main.php:496
+#: inc/main.php:675
 msgid ""
 "Please ask us and we will do our best to help you with any queries regarding "
 "this plugin."
 msgstr ""
 
-#: inc/main.php:497 starter-sites.php:173
+#: inc/main.php:676 starter-sites.php:173
 msgid "Support"
 msgstr ""
 
-#: inc/main.php:501
+#: inc/main.php:680
 msgid "Please rate or review this plugin."
 msgstr ""
 
-#: inc/main.php:502
+#: inc/main.php:681
 msgid ""
 "This helps us grow, and that means we can create even more Starter Sites for "
 "you."
 msgstr ""
 
-#: inc/main.php:503
+#: inc/main.php:682
 msgid "Rate or Review"
 msgstr ""
 
 #. translators: %d = number of products
-#: inc/main.php:586
+#: inc/main.php:762
 #, php-format
 msgid "Products (%d):"
 msgstr ""
 
 #. translators: %d = number of pages
-#: inc/main.php:610
+#: inc/main.php:786
 #, php-format
 msgid "Pages (%d):"
 msgstr ""
 
 #. translators: %d = number of posts
-#: inc/main.php:634
+#: inc/main.php:810
 #, php-format
 msgid "Posts (%d):"
 msgstr ""
 
 #. translators: %d = number of templates
-#: inc/main.php:660
+#: inc/main.php:834
 #, php-format
 msgid "Templates (%d):"
 msgstr ""
 
 #. translators: %d = number of template parts
-#: inc/main.php:685
+#: inc/main.php:858
 #, php-format
 msgid "Template Parts (%d):"
 msgstr ""
 
 #. translators: %d = number of patterns
-#: inc/main.php:710
+#: inc/main.php:882
 #, php-format
 msgid "Patterns (%d):"
 msgstr ""
 
 #. translators: %d = number of fonts
-#: inc/main.php:734
+#: inc/main.php:906
 #, php-format
 msgid "Fonts (%d):"
 msgstr ""
 
-#: inc/main.php:761
+#: inc/main.php:927
+msgid "Colors:"
+msgstr ""
+
+#: inc/main.php:950
 msgid "Theme:"
 msgstr ""
 
 #. translators: %s = name of currently active child theme
-#: inc/main.php:769
+#: inc/main.php:958
 #, php-format
 msgid "(or the currently active <b>%s</b> child theme, choose below)"
 msgstr ""
 
 #. translators: %d = number of plugins
-#: inc/main.php:804
+#: inc/main.php:993
 #, php-format
 msgid "Plugins (%d):"
 msgstr ""
 
-#: inc/main.php:830
-msgid "Advanced Options"
+#: inc/main.php:1024
+msgid "Site Options:"
 msgstr ""
 
-#: inc/main.php:835
-msgid "UPGRADE TO PREMIUM"
+#: inc/main.php:1041
+msgid "Import:"
 msgstr ""
 
-#: inc/main.php:841
-msgid "Create Your Own Custom Theme"
+#: inc/main.php:1044
+msgid "Content (posts, pages, products)"
 msgstr ""
 
-#: inc/main.php:846
-msgid "Yes, I would like to create my own custom theme"
+#: inc/main.php:1048
+msgid "Design (styles, templates, parts, patterns, fonts)"
 msgstr ""
 
-#: inc/main.php:849
-msgid ""
-"Checking this box will create a custom theme and switch to your new custom "
-"theme when importing this starter site"
+#: inc/main.php:1052
+msgid "Media (images, videos etc.)"
 msgstr ""
 
-#: inc/main.php:854
-msgid "Theme Name (required)"
-msgstr ""
-
-#: inc/main.php:858
-msgid "A name for your custom theme"
-msgstr ""
-
-#: inc/main.php:863
-msgid "Slug"
-msgstr ""
-
-#: inc/main.php:867
-msgid "The theme folder name, auto generated from Name if empty"
-msgstr ""
-
-#: inc/main.php:873
-msgid "Description"
-msgstr ""
-
-#: inc/main.php:877
-msgid "A description for your custom theme"
-msgstr ""
-
-#: inc/main.php:882
-msgid "Version"
-msgstr ""
-
-#: inc/main.php:886
-msgid "The theme version number"
-msgstr ""
-
-#: inc/main.php:891
-msgid "Author"
-msgstr ""
-
-#: inc/main.php:895
-msgid "Your name or company/org name"
-msgstr ""
-
-#: inc/main.php:900
-msgid "Author URL"
-msgstr ""
-
-#: inc/main.php:904
-msgid "Your URL or company/org URL"
-msgstr ""
-
-#: inc/main.php:909
-msgid "Theme URL"
-msgstr ""
-
-#: inc/main.php:913
-msgid "Theme URL if different to above"
-msgstr ""
-
-#: inc/main.php:918
-msgid "Requires WP"
-msgstr ""
-
-#: inc/main.php:922
-msgid "The minumum required version of WordPress"
-msgstr ""
-
-#: inc/main.php:927
-msgid "Tested up to"
-msgstr ""
-
-#: inc/main.php:931
-msgid "The version of WordPress that the theme has been tested up to"
-msgstr ""
-
-#: inc/main.php:936
-msgid "Requires PHP"
-msgstr ""
-
-#: inc/main.php:940
-msgid "The minimum required version of PHP"
-msgstr ""
-
-#: inc/main.php:945
-msgid "Copyright"
-msgstr ""
-
-#: inc/main.php:949
-msgid "Your own copyright name, defaults to Author if empty"
-msgstr ""
-
-#: inc/main.php:964
+#: inc/main.php:1060
 msgid ""
 "This Starter Site can be purchased individually, or you can upgrade to "
 "access all Premium Starter Sites."
 msgstr ""
 
-#: inc/main.php:973
+#: inc/main.php:1069
 msgid "Buy"
 msgstr ""
 
-#: inc/main.php:974 starter-sites.php:175
+#: inc/main.php:1070 starter-sites.php:175
 msgid "Upgrade to Premium"
 msgstr ""
 
-#: inc/main.php:978
+#: inc/main.php:1074
 msgid "Activate"
 msgstr ""
 
-#: inc/main.php:982
+#: inc/main.php:1078
 msgid "Preview"
 msgstr ""
 
-#: inc/main.php:1007
-msgid "Screenshot"
-msgstr ""
-
-#: inc/main.php:1010
-msgid "Select/Upload Image"
-msgstr ""
-
-#: inc/main.php:1011
-msgid "Select or upload an image to use as your theme screenshot"
-msgstr ""
-
-#: inc/main.php:1012
-msgid "Recommended image size is 1200 x 900"
-msgstr ""
-
-#: inc/main.php:1013
-msgid "Larger images will be resized and cropped"
-msgstr ""
-
-#: inc/main.php:1026
+#: inc/main.php:1107
 msgid "Only .xml files may be uploaded."
 msgstr ""
 
-#: inc/main.php:1051
+#: inc/main.php:1132
 msgid ""
 "The uploaded file does not appear to contain a genuine Starter Site. You may "
 "need to update the plugin to the latest version."
 msgstr ""
 
-#: inc/main.php:1051
+#: inc/main.php:1132
 msgid ""
 "If you are sure it is a genuine Starter Sites file, please reach out to our "
 "support team."
 msgstr ""
 
-#: inc/main.php:1051
+#: inc/main.php:1132
 msgid "Get Help"
 msgstr ""
 
-#: inc/main.php:1060
+#: inc/main.php:1141
 msgid ""
 "Occasionally we may release limited edition individual Starter Sites that "
 "are not available within the plugin. If you have such a site in a .xml file "
 "format, you may import and activate it by uploading it here."
 msgstr ""
 
-#: inc/main.php:1064
+#: inc/main.php:1145
 msgid "Import and Activate"
 msgstr ""
 

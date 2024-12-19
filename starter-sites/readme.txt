@@ -4,7 +4,7 @@ Tags: import, content, demo, starter site, website
 Requires at least: 6.6
 Tested up to: 6.7
 Requires PHP: 7.4
-Stable tag: 2.0.5
+Stable tag: 2.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -79,11 +79,21 @@ These images can be viewed at *wp-admin -> Media -> Library*
 
 == Upgrade Notice ==
 
-Fixed issue where some images would not be properly mapped to imported content
+Display color palette of each starter site
 
 Added Interior Designer site
 
 == Changelog ==
+**2.1 - December 2024**
+- Remove redundant bundled demo sites content
+- Allow themes to choose a particular demo site to display prominently
+- Add option to change default view when browsing sites
+- Display color palette of each starter site
+- Make site title more prominent in activation log viewer
+- Remove the disabled custom theme form
+- Navigation link block, unset 'id', 'type', 'kind' attrs if url is #
+- Minor update to cover block image url
+
 **2.0.5 - December 2024**
 - Fixed navigation submenu link id mapping
 

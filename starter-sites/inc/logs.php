@@ -100,6 +100,14 @@ class Logs {
 			<td colspan="5"><?php esc_html_e('Activation Log', 'starter-sites');?></td>
 		</tr>
 		<?php
+		if ( isset($log['site']['demo_title']) ) {
+			?>
+			<tr>
+				<td class="row-type"><?php esc_html_e('Activated Site', 'starter-sites');?></td>
+				<td colspan="4"><strong><?php echo esc_html( $log['site']['demo_title'] );?></strong></td>
+			</tr>
+			<?php
+		}
 		if ( isset($log['user_id']) ) {
 			?>
 			<tr>

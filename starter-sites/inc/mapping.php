@@ -305,7 +305,9 @@ class Mapping {
 				if ( isset( $block['attrs']['id'] ) && isset( $block['attrs']['url'] ) ) {
 					$new_attrs = $this->replace_attrs( $log, $block['attrs']['id'], 'media' );
 					$block = $this->replace_content( $block, 'wp-image-'.$block['attrs']['id'], 'wp-image-'.$new_attrs['id'] );
-					$block = $this->replace_content( $block, $block['attrs']['url'], $new_attrs['url'] );
+					if ( isset( $new_attrs['old_url'] ) ) {
+						$block = $this->replace_content( $block, $new_attrs['old_url'], $new_attrs['url'] );
+					}
 					$block['attrs']['id'] = (int) $new_attrs['id'];
 					$block['attrs']['url'] = $new_attrs['url'];
 				}
@@ -336,6 +338,17 @@ class Mapping {
 					$new_attrs = $this->replace_attrs( $log, $block['attrs']['id'], $block['attrs']['kind'] );
 					$block['attrs']['id'] = (int) $new_attrs['id'];
 					$block['attrs']['url'] = $new_attrs['url'];
+					if ( $new_attrs['url'] === '#' ) {
+						if ( isset($block['attrs']['id']) ) {
+							unset( $block['attrs']['id'] );
+						}
+						if ( isset($block['attrs']['type']) ) {
+							unset( $block['attrs']['type'] );
+						}
+						if ( isset($block['attrs']['kind']) ) {
+							unset( $block['attrs']['kind'] );
+						}
+					}
 				}
 			}
 			if ( 'core/navigation' === $block['blockName'] ) {
