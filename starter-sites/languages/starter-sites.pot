@@ -1,8 +1,8 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: Starter Sites 2.1\n"
-"POT-Creation-Date: 2024-12-19 16:48+0000\n"
+"Project-Id-Version: Starter Sites 2.1.1\n"
+"POT-Creation-Date: 2025-01-22 14:55+0000\n"
 "PO-Revision-Date: 2020-05-22 10:11+0100\n"
 "Last-Translator: \n"
 "Language-Team: WP Starter Sites - https://wpstartersites.com\n"
@@ -609,7 +609,7 @@ msgid ""
 "this plugin."
 msgstr ""
 
-#: inc/main.php:676 starter-sites.php:173
+#: inc/main.php:676 inc/main.php:1159 starter-sites.php:173
 msgid "Support"
 msgstr ""
 
@@ -711,16 +711,16 @@ msgstr ""
 
 #: inc/main.php:1060
 msgid ""
-"This Starter Site can be purchased individually, or you can upgrade to "
-"access all Premium Starter Sites."
+"This Starter Site can be purchased individually, or get access to all "
+"premium sites when you upgrade to Starter Sites Pro."
 msgstr ""
 
 #: inc/main.php:1069
 msgid "Buy"
 msgstr ""
 
-#: inc/main.php:1070 starter-sites.php:175
-msgid "Upgrade to Premium"
+#: inc/main.php:1070
+msgid "Upgrade to Pro"
 msgstr ""
 
 #: inc/main.php:1074
@@ -731,34 +731,39 @@ msgstr ""
 msgid "Preview"
 msgstr ""
 
-#: inc/main.php:1107
-msgid "Only .xml files may be uploaded."
+#: inc/main.php:1112
+msgid "File type not supported."
 msgstr ""
 
-#: inc/main.php:1132
+#: inc/main.php:1126
+msgid "The uploaded zip file is too large."
+msgstr ""
+
+#: inc/main.php:1136
+msgid ""
+"There was an error unzipping the file. Please unzip the file on your "
+"computer and upload only the xml file."
+msgstr ""
+
+#: inc/main.php:1159
 msgid ""
 "The uploaded file does not appear to contain a genuine Starter Site. You may "
 "need to update the plugin to the latest version."
 msgstr ""
 
-#: inc/main.php:1132
+#: inc/main.php:1159
 msgid ""
 "If you are sure it is a genuine Starter Sites file, please reach out to our "
 "support team."
 msgstr ""
 
-#: inc/main.php:1132
-msgid "Get Help"
-msgstr ""
-
-#: inc/main.php:1141
+#: inc/main.php:1168
 msgid ""
-"Occasionally we may release limited edition individual Starter Sites that "
-"are not available within the plugin. If you have such a site in a .xml file "
-"format, you may import and activate it by uploading it here."
+"If you have purchased an individual premium starter site, you may import and "
+"activate it by uploading your downloaded file here."
 msgstr ""
 
-#: inc/main.php:1145
+#: inc/main.php:1172
 msgid "Import and Activate"
 msgstr ""
 
@@ -768,6 +773,10 @@ msgstr ""
 
 #: starter-sites.php:174
 msgid "Rate or Review Starter Sites ★★★★★"
+msgstr ""
+
+#: starter-sites.php:175
+msgid "Upgrade to Premium"
 msgstr ""
 
 #. Plugin URI of the plugin/theme

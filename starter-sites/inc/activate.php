@@ -39,7 +39,7 @@ class Activate {
 			return false;
 		}
 		$file = array(
-			'name'     => $site_slug . '-' . wp_basename( $file_url ),
+			'name'     => $site_slug . '-content.xml',
 			'type'     => 'text/xml',
 			'tmp_name' => $temp_file,
 			'error'    => 0,

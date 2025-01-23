@@ -820,6 +820,10 @@ body.starter-sites-fullpage .starter-sites-header .starter-sites-branding .brand
 	background: var(--starter-sites--color--icon-yes);
 }
 
+.starter-sites-log-table tr.status-updated .dashicons-yes {
+	background: var(--starter-sites--color--text-link);
+}
+
 .starter-sites-log-table .dashicons-no-alt {
 	background: var(--starter-sites--color--icon-no);
 }

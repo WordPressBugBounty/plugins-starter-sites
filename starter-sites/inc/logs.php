@@ -153,7 +153,7 @@ class Logs {
 			<?php
 			if ( isset($log['site']['demo_title']) && isset($log['site']['title_result']) ) {
 				?>
-				<tr>
+				<tr class="status-<?php echo esc_attr($log['site']['title_result']);?>">
 					<td class="row-type"><?php esc_html_e('Site Title', 'starter-sites');?></td>
 					<td><?php echo esc_html( $log['site']['demo_title'] );?></td>
 					<td colspan="3"><?php echo wp_kses( $this->output_log_result( $log['site']['title_result'] ), $this->allowed_html() );?></td>
@@ -162,7 +162,7 @@ class Logs {
 			}
 			if ( isset($log['site']['demo_tagline']) && isset($log['site']['tagline_result']) ) {
 				?>
-				<tr>
+				<tr class="status-<?php echo esc_attr($log['site']['tagline_result']);?>">
 					<td class="row-type"><?php esc_html_e('Site Tagline', 'starter-sites');?></td>
 					<td><?php echo esc_html( $log['site']['demo_tagline'] );?></td>
 					<td colspan="3"><?php echo wp_kses( $this->output_log_result( $log['site']['tagline_result'] ), $this->allowed_html() );?></td>
@@ -245,7 +245,7 @@ class Logs {
 						$design_link = "";
 					}
 					?>
-					<tr class="post-id-<?php echo esc_attr($design_key['new_id']);?>">
+					<tr class="post-id-<?php echo esc_attr($design_key['new_id']) . ' status-' . esc_attr($design_key['result']);?>">
 						<td class="row-type"><?php echo esc_html( $this->output_log_type($design_key['post_type']) );?></td>
 						<td><?php echo esc_html( $design_key['title'] );?></td>
 						<td><?php echo wp_kses( $this->output_log_result( $design_key['result'] ), $this->allowed_html() );?></td>
@@ -305,7 +305,7 @@ class Logs {
 					$edit_extra = '';
 				}
 				?>
-				<tr class="post-id-<?php echo esc_attr($content_key['new_id']);?>">
+				<tr class="post-id-<?php echo esc_attr($content_key['new_id']) . ' status-' . esc_attr($content_key['result']);?>">
 					<td class="row-type"><?php echo esc_html( $this->output_log_type($content_key['post_type']) );?></td>
 					<td><?php echo esc_html( $content_key['title'] );?></td>
 					<td><?php echo wp_kses( $this->output_log_result( $content_key['result'] ), $this->allowed_html() );?></td>
@@ -327,7 +327,7 @@ class Logs {
 			<?php
 			foreach ( $log['attachments'] as $attachment_key ) {
 				?>
-				<tr>
+				<tr class="status-<?php echo esc_attr($attachment_key['result']);?>">
 					<td class="row-type"><?php echo esc_html( $this->output_log_type($attachment_key['post_type']) );?></td>
 					<td><?php echo esc_html( $attachment_key['title'] );?><br><span class="filename"><?php echo esc_html( wp_basename(get_attached_file($attachment_key['new_id'])) );?></span></td>
 					<td><?php echo wp_kses( $this->output_log_result( $attachment_key['result'] ), $this->allowed_html() );?></td>
@@ -350,7 +350,7 @@ class Logs {
 			<?php
 			foreach ( $log['terms'] as $term_key ) {
 				?>
-				<tr>
+				<tr class="status-<?php echo esc_attr($term_key['result']);?>">
 					<td class="row-type"><?php echo esc_html( $this->output_log_type($term_key['taxonomy']) );?></td>
 					<td><?php echo esc_html( $term_key['title'] );?></td>
 					<td><?php echo wp_kses( $this->output_log_result( $term_key['result'] ), $this->allowed_html() );?></td>
@@ -378,7 +378,7 @@ class Logs {
 			<?php
 			foreach ( $log['other'] as $other_key ) {
 				?>
-				<tr>
+				<tr class="status-<?php echo esc_attr($other_key['result']);?>">
 					<td class="row-type"><?php echo esc_html( $this->output_log_type($other_key['post_type']) );?></td>
 					<td><?php echo esc_html( $other_key['title'] );?></td>
 					<td colspan="3"><?php echo wp_kses( $this->output_log_result( $other_key['result'] ), $this->allowed_html() );?></td>

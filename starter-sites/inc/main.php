@@ -699,7 +699,7 @@ class Main {
 		?>
 		<div class="starter-sites-demos-modals">
 		<?php
-		$i = 1;
+		$i_modal = 1;
 		foreach ( starter_sites_demo_list() as $demo_site => $demo_site_data ) {
 			if ( $demo_site_data['type'] === 'included' || $demo_site_data['type'] === 'premium' ) {
 				if ( isset($demo_site_data['image_full']) && '' !== $demo_site_data['image_full'] ) {
@@ -709,7 +709,7 @@ class Main {
 				}
 				$form_activate_url = add_query_arg( [ 'page' => 'starter-sites' ], $admin_link );
 				$class_open_modal = '';
-				if ( $i === 1 && $this->is_modal_view() ) {
+				if ( $i_modal === 1 && $this->is_modal_view() ) {
 					$class_open_modal = ' is-open';
 				}
 				?>
@@ -1057,7 +1057,7 @@ class Main {
 							if ( 'premium' === $demo_site_data['type'] ) {
 							?>
 								<div class="starter-sites-demo-purchase-info">
-									<p><?php esc_html_e( 'This Starter Site can be purchased individually, or you can upgrade to access all Premium Starter Sites.', 'starter-sites' );?></p>
+									<p><?php esc_html_e( 'This Starter Site can be purchased individually, or get access to all premium sites when you upgrade to Starter Sites Pro.', 'starter-sites' );?></p>
 								</div>
 							<?php
 							}
@@ -1066,8 +1066,8 @@ class Main {
 									<?php
 									if ( 'premium' === $demo_site_data['type'] ) {
 									?>
-									<a class="button button-primary starter-sites-button" href="<?php echo esc_url( 'https://wpstartersites.com/product/' . $demo_site . '/' );?>" target="_blank"><?php esc_html_e( 'Buy', 'starter-sites' );?> <i class="dashicons dashicons-external"></i></a>
-									<a class="button button-secondary starter-sites-button" href="https://wpstartersites.com/pricing/" target="_blank"><?php esc_html_e( 'Upgrade to Premium', 'starter-sites' );?> <i class="dashicons dashicons-external"></i></a>
+									<a class="button button-primary starter-sites-button" href="<?php echo esc_url( 'https://wpstartersites.com/downloads/' . $demo_site . '/' );?>" target="_blank"><?php esc_html_e( 'Buy', 'starter-sites' );?> <i class="dashicons dashicons-external"></i></a>
+									<a class="button button-secondary starter-sites-button" href="https://wpstartersites.com/pricing/" target="_blank"><?php esc_html_e( 'Upgrade to Pro', 'starter-sites' );?> <i class="dashicons dashicons-external"></i></a>
 									<?php
 									} else {
 									?>
@@ -1090,7 +1090,7 @@ class Main {
 				</div>
 				<?php
 			}
-		$i++;
+		$i_modal++;
 		}
 		?>
 		</div>
@@ -1103,33 +1103,60 @@ class Main {
 	public function view_upload() {
 		if ( isset( $_GET['starter_sites_upload'] ) && 'yes' === $_GET['starter_sites_upload'] ) {
 			check_admin_referer( 'starter-sites-upload' );
-			if ( isset( $_FILES['starter-site-xml']['name'] ) && ! str_ends_with( strtolower( $_FILES['starter-site-xml']['name'] ?? '' ), '.xml' ) ) {
-				wp_die( esc_html__( 'Only .xml files may be uploaded.', 'starter-sites' ) );
+			if ( isset( $_FILES['starter-site-zip']['name'] ) ) {
+				if ( str_ends_with( strtolower( $_FILES['starter-site-zip']['name'] ?? '' ), '.xml' ) ) {
+					$file_type = 'xml';
+				} elseif ( str_ends_with( strtolower( $_FILES['starter-site-zip']['name'] ?? '' ), '.zip' ) ) {
+					$file_type = 'zip';
+				} else {
+					wp_die( esc_html__( 'File type not supported.', 'starter-sites' ) );
+				}
 			}
-			if ( $_FILES['starter-site-xml'] ) {
+			if ( $_FILES['starter-site-zip'] ) {
 				$overrides = array(
 					'test_form' => false,
 					'test_type' => false
 				);
-				$file_uploaded = wp_handle_upload( $_FILES['starter-site-xml'], $overrides );
+				$file_uploaded = wp_handle_upload( $_FILES['starter-site-zip'], $overrides );
 				if ( isset( $file_uploaded['error'] ) ) {
 					wp_die( $file_uploaded['error'] );
 				} else {
+					if ( $file_type === 'zip' ) {
+						if ( filesize($file_uploaded['file']) > 100000 ) {
+							wp_die( '<p>' . esc_html__( 'The uploaded zip file is too large.', 'starter-sites' ) . '</p>' );
+						}
+						$destination = wp_upload_dir();
+						$destination_path = trailingslashit( $destination['path'] ) . 'starter-site-' . time();
+						WP_Filesystem();
+						$unzip_result = unzip_file( $file_uploaded['file'], $destination_path );
+						if ( $unzip_result === true ) {
+							$filename = str_replace( '.zip', '.xml', $_FILES['starter-site-zip']['name'] );
+							$filepath = trailingslashit( $destination_path ) . $filename;
+						} else {
+							wp_die( '<p>' . esc_html__( 'There was an error unzipping the file. Please unzip the file on your computer and upload only the xml file.', 'starter-sites' ) . '</p>' );
+						}
+					} else {
+						$filepath = $file_uploaded['file'];
+					}
 					$headers = array(
 						'plugin' => 'Plugin',
 						'site' => 'Site',
 						'site_id' => 'Site ID',
 						'url' => 'Link'
 					);
-					$file_headers = get_file_data( $file_uploaded['file'], $headers );
+					$file_headers = get_file_data( $filepath, $headers );
 					if ( 'Starter Sites' === $file_headers['plugin'] && isset( starter_sites_demo_list()[$file_headers['site_id']] ) ) {
 						$site_values = array(
 							'starter_site_activate' => $file_headers['site_id'],
-							'starter_sites_file' => $file_uploaded['file'],
+							'starter_sites_file' => $filepath,
+							'import_content' => true,
+							'import_frontpage' => true,
+							'import_design' => true,
+							'import_media' => true
 						);
 						(new Activate)->site_extensions( $site_values );
 					} else {
-						wp_die( '<p>' . esc_html__( 'The uploaded file does not appear to contain a genuine Starter Site. You may need to update the plugin to the latest version.', 'starter-sites' ) . '</p><p>' . esc_html__( 'If you are sure it is a genuine Starter Sites file, please reach out to our support team.', 'starter-sites' ) . '</p><p><a target="_blank" href="https://wordpress.org/support/plugin/starter-sites/" class="button button-primary">' . esc_html__( 'Get Help', 'starter-sites' ) . '</a></p>' );
+						wp_die( '<p>' . esc_html__( 'The uploaded file does not appear to contain a genuine Starter Site. You may need to update the plugin to the latest version.', 'starter-sites' ) . '</p><p>' . esc_html__( 'If you are sure it is a genuine Starter Sites file, please reach out to our support team.', 'starter-sites' ) . '</p><p><a target="_blank" href="https://wpstartersites.com/support/" class="button button-primary">' . esc_html__( 'Support', 'starter-sites' ) . '</a></p>' );
 					}
 				}
 			}
@@ -1138,10 +1165,10 @@ class Main {
 			$this->view_permalink_notice();
 		?>
 			<div class="starter-sites-upload">
-				<p class="upload-helper"><?php esc_html_e( 'Occasionally we may release limited edition individual Starter Sites that are not available within the plugin. If you have such a site in a .xml file format, you may import and activate it by uploading it here.', 'starter-sites' );?></p>
+				<p class="upload-helper"><?php esc_html_e( 'If you have purchased an individual premium starter site, you may import and activate it by uploading your downloaded file here.', 'starter-sites' );?></p>
 				<form method="post" enctype="multipart/form-data" class="wp-upload-form" action="<?php echo esc_url( add_query_arg( [ 'page' => 'starter-sites', 'tab' => 'upload', 'starter_sites_upload' => 'yes' ], admin_url( $this->base_link() ) ) ); ?>">
 					<?php wp_nonce_field( 'starter-sites-upload' ); ?>
-					<input type="file" id="starter-site-xml" name="starter-site-xml" accept=".xml" />
+					<input type="file" id="starter-site-zip" name="starter-site-zip" accept=".xml,.zip" />
 					<?php submit_button( esc_html__( 'Import and Activate', 'starter-sites' ), 'upload-site', 'starter-site-upload-submit', false ); ?>
 				</form>
 			</div>

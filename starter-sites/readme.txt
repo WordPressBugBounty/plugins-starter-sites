@@ -4,7 +4,7 @@ Tags: import, content, demo, starter site, website
 Requires at least: 6.6
 Tested up to: 6.7
 Requires PHP: 7.4
-Stable tag: 2.1
+Stable tag: 2.1.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -84,6 +84,9 @@ Display color palette of each starter site
 Added Interior Designer site
 
 == Changelog ==
+**2.1.1 - January 2025**
+- Updated the file uploader
+
 **2.1 - December 2024**
 - Remove redundant bundled demo sites content
 - Allow themes to choose a particular demo site to display prominently
