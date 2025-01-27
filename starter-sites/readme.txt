@@ -4,7 +4,7 @@ Tags: import, content, demo, starter site, website
 Requires at least: 6.6
 Tested up to: 6.7
 Requires PHP: 7.4
-Stable tag: 2.1.1
+Stable tag: 2.1.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -14,7 +14,7 @@ Import website demos, full pages of block editor content, posts, products, image
 
 Ready to go WordPress full site editing starter sites and website demos, all with full pages of real content, and all created with the block editor.
 
-Quickly import global styles, templates, template parts, patterns, fonts and full website demo content including pages, posts, products and images.
+Quickly import global styles, templates, template parts, block patterns, fonts and full website demo content including pages, posts, products and images.
 
 To view the available [Starter Sites](https://wpstartersites.com/), navigate to **Starter Sites** in your WordPress dashboard.
 
@@ -84,6 +84,9 @@ Display color palette of each starter site
 Added Interior Designer site
 
 == Changelog ==
+**2.1.2 - January 2025**
+- Imports/updates Block Visibility settings if available
+
 **2.1.1 - January 2025**
 - Updated the file uploader
 

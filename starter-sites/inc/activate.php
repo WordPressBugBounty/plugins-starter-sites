@@ -573,6 +573,11 @@ class Activate {
 		}
 		// Site Options
 		$site_options = $channel_namespace->options;
+		// Block Visibility settings
+		$block_visibility_settings = maybe_unserialize( $this->sanitize_data( $site_options->block_visibility_settings, 'block_visibility_settings' ) );
+		if ( is_array($block_visibility_settings) && !empty($block_visibility_settings) ) {
+			update_option( 'block_visibility_settings', $block_visibility_settings );
+		}
 		$log['map_options'] = array(
 			'site_logo' => $this->sanitize_data( $site_options->site_logo, 'site_logo' ),
 			'site_icon' => $this->sanitize_data( $site_options->site_icon, 'site_icon' ),
