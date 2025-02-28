@@ -4,7 +4,7 @@ Tags: import, content, demo, starter site, website
 Requires at least: 6.6
 Tested up to: 6.7
 Requires PHP: 7.4
-Stable tag: 2.1.2
+Stable tag: 2.1.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -84,6 +84,9 @@ Display color palette of each starter site
 Added Interior Designer site
 
 == Changelog ==
+**2.1.3 - February 2025**
+- Update to site preview screenshots
+
 **2.1.2 - January 2025**
 - Imports/updates Block Visibility settings if available
 

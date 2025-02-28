@@ -422,7 +422,24 @@ body.starter-sites-fullpage .starter-sites-header .starter-sites-branding .brand
 	max-width: 100%;
 	height: auto;
 	background-color: var(--starter-sites--color--bg-3);
-	font-style: italic;
+}
+
+.starter-sites-demo-screenshot img.is-preview {
+	width: 100%;
+	aspect-ratio: 16/9;
+	object-fit: cover;
+	object-position: top;
+	transition: all 0.6s ease-in-out;
+}
+
+.starter-sites-demo-screenshot img.is-preview:hover {
+	object-position: bottom;
+	transition: all 1.2s ease-in-out;
+}
+
+.starter-sites-demo-screenshot img.is-preview.is-placeholder,
+.starter-sites-demo-screenshot img.is-preview.is-placeholder:hover {
+	object-position: center;
 }
 
 .starter-sites-demo-cta {

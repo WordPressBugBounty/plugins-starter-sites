@@ -622,16 +622,16 @@ class Main {
 		<?php
 		foreach ( starter_sites_demo_list() as $demo_site => $demo_site_data ) {
 			if ( $demo_site_data['type'] === 'included' || $demo_site_data['type'] === 'premium' ) {
-
 				$class_promote = '';
+				$demo_site_img_class = '';
 				if ( isset($demo_site_data['promote']) ) {
 					$class_promote = ' is-promoted';
 				}
-
-				if ( isset($demo_site_data['image']) && '' !== $demo_site_data['image'] ) {
-					$demo_site_img_url = STARTER_SITES_HOME_URL . 'wp-content/uploads/' . $demo_site_data['image'];
+				if ( isset($demo_site_data['image_full']) && '' !== $demo_site_data['image_full'] ) {
+					$demo_site_img_url = STARTER_SITES_HOME_URL . 'wp-content/uploads/' . $demo_site_data['image_full'];
 				} else {
 					$demo_site_img_url = STARTER_SITES_URL . 'assets/images/screenshot-placeholder.png';
+					$demo_site_img_class = ' is-placeholder';
 				}
 				?>
 				<div class="starter-sites-demo demo-id-<?php echo esc_attr( $demo_site ) . esc_attr( $class_promote );?>" data-demo-id="<?php echo esc_attr( $demo_site );?>">
@@ -653,7 +653,7 @@ class Main {
 					}
 					?>
 					</div>
-					<div class="starter-sites-demo-screenshot"><button class="image modal-open"><img src="<?php echo esc_url( $demo_site_img_url );?>" alt="<?php echo esc_attr( $demo_site_data['title'] );?>"/></button></div>
+					<div class="starter-sites-demo-screenshot"><button class="image modal-open"><img class="is-preview<?php echo esc_attr( $demo_site_img_class );?>" src="<?php echo esc_url( $demo_site_img_url );?>" alt="<?php echo esc_attr( $demo_site_data['title'] );?>"/></button></div>
 					<div class="starter-sites-demo-cta">
 						<div class="starter-sites-demo-title"><button class="title modal-open"><?php echo esc_html( $demo_site_data['title'] );?></button></div>
 						<div class="starter-sites-demo-more-info"><button class="button button-tertiary starter-sites-button modal-open"><i class="dashicons dashicons-info-outline"></i> <?php esc_html_e( 'Details', 'starter-sites' );?></button></div>
@@ -1270,7 +1270,7 @@ class Main {
 	public function get_wp_major_version() {
 		$wp_version = get_bloginfo( 'version' );
 		if ( !$wp_version ) {
-			$wp_version_major = '6.4';
+			$wp_version_major = '6.7';
 		} else {
 			$wp_version = strtok( $wp_version, '-' );
 			$wp_version = explode( '.', $wp_version );

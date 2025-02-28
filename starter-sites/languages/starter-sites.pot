@@ -1,8 +1,8 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: Starter Sites 2.1.1\n"
-"POT-Creation-Date: 2025-01-22 14:55+0000\n"
+"Project-Id-Version: Starter Sites 2.1.3\n"
+"POT-Creation-Date: 2025-02-28 10:42+0000\n"
 "PO-Revision-Date: 2020-05-22 10:11+0100\n"
 "Last-Translator: \n"
 "Language-Team: WP Starter Sites - https://wpstartersites.com\n"
@@ -71,27 +71,27 @@ msgstr ""
 msgid "Unable to connect to the filesystem. Please confirm your credentials."
 msgstr ""
 
-#: inc/activate.php:1728
+#: inc/activate.php:1733
 msgid "Sorry, you are not allowed to upload this file type."
 msgstr ""
 
-#: inc/activate.php:1891
+#: inc/activate.php:1896
 msgid "There was an unknown error."
 msgstr ""
 
-#: inc/activate.php:1892
+#: inc/activate.php:1897
 msgid "The requested import file could not be found."
 msgstr ""
 
-#: inc/activate.php:1893
+#: inc/activate.php:1898
 msgid "The required theme could not be installed."
 msgstr ""
 
-#: inc/activate.php:1894
+#: inc/activate.php:1899
 msgid "A required plugin could not be installed."
 msgstr ""
 
-#: inc/activate.php:1895
+#: inc/activate.php:1900
 msgid "This is not a valid starter site."
 msgstr ""
 
@@ -787,8 +787,9 @@ msgstr ""
 msgid ""
 "Ready to go WordPress starter sites and website demos, all with full pages "
 "of real content, and all created with the full site editing block editor. "
-"Quickly import global styles, templates, template parts, patterns, fonts and "
-"full website demo content including pages, posts, products and images."
+"Quickly import global styles, templates, template parts, block patterns, "
+"fonts and full website demo content including pages, posts, products and "
+"images."
 msgstr ""
 
 #. Author of the plugin/theme
