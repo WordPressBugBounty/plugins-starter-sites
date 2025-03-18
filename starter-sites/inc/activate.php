@@ -100,7 +100,10 @@ class Activate {
 				// Process plugin(s)
 				$process_plugins_log = $this->process_plugins( $process_theme_log, $site_values );
 				$process_plugins_log['time_end'] = current_time( 'timestamp' );
-				if ( isset( $process_plugins_log['is_error'] ) && $process_plugins_log['is_error'] == true ) {
+
+
+
+				/*if ( isset( $process_plugins_log['is_error'] ) && $process_plugins_log['is_error'] == true ) {
 					wp_insert_post(
 						array(
 						'post_content'		=> maybe_serialize( wp_unslash($process_plugins_log) ),
@@ -121,7 +124,7 @@ class Activate {
 						<div class="starter-sites-error"><p><?php echo esc_html__( 'There was an unknown error with a required plugin.', 'starter-sites' );?></p></div>
 						<?php
 					}
-				} else {
+				} else {*/
 					$extensions_log_id = wp_insert_post(
 						array(
 						'post_content'		=> maybe_serialize( wp_unslash($process_plugins_log) ), // wp_insert_post expects unslashed content, prevents unserializing offset errors
@@ -137,7 +140,10 @@ class Activate {
 					// as we may need functionality from installed plugin(s) we will redirect back to plugin page, then process content
 					wp_safe_redirect( add_query_arg( [ 'page' => 'starter-sites', 'activate' => $site_slug, 'process' => 'content', 'id' => $extensions_log_id ], admin_url( $this->base_link() ) ) );
 					exit;
-				}
+				//}
+
+
+
 			}
 		} else {
 			?>
@@ -186,6 +192,32 @@ class Activate {
 					?>
 				</ul>
 				<?php
+
+
+
+				if ( isset($process_content_log['plugins']) && !empty($process_content_log['plugins']) ) {
+					foreach ( $process_content_log['plugins'] as $plugin_log ) {
+						if ( isset($plugin_log['error_msg']) && $plugin_log['error_msg'] !== '' ) {
+							?>
+							<div class="starter-sites-error">
+								<p>
+								<?php echo sprintf(
+								/* translators: %1$s = title of plugin, %2$s = error message */
+								esc_html__( 'There was an error with the %1$s plugin: %2$s', 'starter-sites' ),
+								'<strong>' . $plugin_log['title'] . '</strong>',
+								$plugin_log['result']
+								);?>
+								<br />
+								<?php echo esc_html( $plugin_log['error_msg'] );?>
+								</p>
+							</div>
+							<?php
+						}
+					}
+				}
+
+
+
 			} else {
 				?>
 				<div class="starter-sites-error"><p><?php echo esc_html( $this->error_codes( 1 ) );?></p></div>
@@ -394,12 +426,18 @@ class Activate {
 							);
 							$this->do_extension_options( $plugin );
 						} else {
+							if ( isset($plugin_install['errorMessage']) ) {
+								$error_msg = $plugin_install['errorMessage'];
+							} else {
+								$error_msg = '';
+							}
 							$log['is_error'] = true;
 							$log['error_code'] = 3;
 							$log['plugins'][$plugin] = array(
 								'title' => wp_slash($plugin_title),
 								'pre_status' => 'not installed',
-								'result' => 'not installed'
+								'result' => 'not installed',
+								'error_msg' => $error_msg
 							);
 						}
 					}
@@ -465,6 +503,8 @@ class Activate {
 					'slug'   => sanitize_key( wp_unslash( $plugin_slug ) ),
 					'fields' => array(
 						'sections' => false,
+						'requires' => false,
+						'requires_php' => false,
 					),
 				)
 			);

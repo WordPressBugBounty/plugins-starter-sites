@@ -27,7 +27,7 @@ class Logs {
 			'order' => 'DESC',
 			'orderby' => 'date',
 			'post_status' => 'private',
-			'post_type' => 'starter_sites_log',
+			'post_type' => array( 'starter_sites_log', 'starter_sites_error' ),
 		];
 		$posts = get_posts( $args );
 		if ( $posts ) {
@@ -62,12 +62,18 @@ class Logs {
 					if ( isset( $post_log['site']['demo_title'] ) ) {
 						$site_title = $post_log['site']['demo_title'];
 					}
+					$class_error = '';
+					$view_log_text = __( 'View Log', 'starter-sites' );
+					if ( $post->post_type === 'starter_sites_error' ) {
+						$class_error = 'is-error';
+						$view_log_text = __( 'View Error Log', 'starter-sites' );
+					}
 					?>
-					<tr>
+					<tr class="<?php echo esc_attr( $class_error );?>">
 						<td><span class="log-date"><?php echo esc_html( mysql2date( $site_date_format, $post->post_date ) );?></span> <span class="log-time"><?php echo esc_html( mysql2date( $site_time_format, $post->post_date ) );?></span></td>
 						<td><?php echo esc_html( get_userdata($post->post_author)->display_name );?></td>
 						<td><?php echo esc_html( $site_title );?></td>
-						<td><a class="text-link" href="<?php echo esc_url( $view_url );?>"><?php esc_html_e( 'View Log', 'starter-sites' );?></a></td>
+						<td><a class="text-link" href="<?php echo esc_url( $view_url );?>"><?php echo esc_html( $view_log_text );?></a></td>
 					</tr>
 					<?php
 				}
@@ -86,8 +92,21 @@ class Logs {
 	/**
 	 * The single log view.
 	 */
-	public function view_log( $log ) {
+	public function view_log( $log_id ) {
 		$admin_link = admin_url( $this->base_link() );
+		$log_post = get_post($log_id);
+		if ( !$log_post) {
+			$query_args = [ 'page' => 'starter-sites', 'tab' => 'logs' ];
+			wp_safe_redirect( add_query_arg( $query_args, $admin_link ) );
+			exit;
+		}
+		$log_type = $log_post->post_type;
+		if ( $log_type !== 'starter_sites_log' && $log_type !== 'starter_sites_error' ) {
+			$query_args = [ 'page' => 'starter-sites', 'tab' => 'logs' ];
+			wp_safe_redirect( add_query_arg( $query_args, $admin_link ) );
+			exit;
+		}
+		$log = $log_post->post_content;
 		$site_editor_link = admin_url( 'site-editor.php' );
 		$posts_link = admin_url( 'post.php' );
 		$terms_link = admin_url( 'term.php' );
@@ -97,7 +116,13 @@ class Logs {
 		?>
 		<table class="starter-sites-log-table">
 		<tr class="section-heading">
-			<td colspan="5"><?php esc_html_e('Activation Log', 'starter-sites');?></td>
+			<td colspan="5"><?php
+			if ( $log_type === 'starter_sites_error' ) {
+				esc_html_e( 'Error Log', 'starter-sites' );
+			} else {
+				esc_html_e( 'Activation Log', 'starter-sites' );
+			}
+			?></td>
 		</tr>
 		<?php
 		if ( isset($log['site']['demo_title']) ) {
@@ -199,12 +224,17 @@ class Logs {
 				<td colspan="5"><?php esc_html_e('Plugins', 'starter-sites');?></td>
 			</tr>
 			<?php
-			foreach ( $log['plugins'] as $plugins_key ) {
+			foreach ( $log['plugins'] as $plugin => $plugins_key ) {
 				?>
 				<tr>
 					<td></td>
 					<td><?php echo esc_html( $plugins_key['title'] );?></td>
-					<td colspan="3"><?php echo wp_kses( $this->output_log_result( $plugins_key['result'] ), $this->allowed_html() );?></td>
+					<td colspan="3">
+						<?php echo wp_kses( $this->output_log_result( $plugins_key['result'] ), $this->allowed_html() );?>
+						<?php if ( isset($plugins_key['error_msg']) && $plugins_key['error_msg'] !== '' ) {
+							?><br /><i><?php echo wp_kses( $plugins_key['error_msg'], $this->allowed_html() );?></i><?php
+						}?>
+					</td>
 				</tr>
 				<?php
 			}

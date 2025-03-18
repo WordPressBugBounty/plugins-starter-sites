@@ -457,6 +457,8 @@ class Main {
 			wp_enqueue_style( 'starter-sites-main', STARTER_SITES_URL . 'assets/css/main.css', [] , STARTER_SITES_VERSION );
 			wp_localize_script( 'starter-sites-main', 'starter_sites_screen_settings', [ 'options_update_nonce' => wp_create_nonce( 'starter-sites-options-nonce' ) ] );
 		}
+		wp_enqueue_script( 'starter-sites-admin', STARTER_SITES_URL . 'assets/js/admin.js', [ 'jquery' ], STARTER_SITES_VERSION, false );
+		wp_localize_script( 'starter-sites-admin', 'starter_sites_review_notice', [ 'wpss_review_nonce' => wp_create_nonce( 'wpss-review-nonce' ) ] );
 	}
 
 	/**
@@ -676,10 +678,10 @@ class Main {
 				<p class="has-button"><a class="button button-tertiary starter-sites-button" href="https://wordpress.org/support/plugin/starter-sites/" target="_blank"><?php esc_html_e( 'Support', 'starter-sites' );?> <i class="dashicons dashicons-external"></i></a></p>
 			</div>
 			<div class="starter-sites-demo is-info">
+				<p><strong><?php esc_html_e( 'Enjoying Starter Sites?', 'starter-sites' );?></strong></p>
 				<p class="is-stars">★★★★★</p>
-				<p><strong><?php esc_html_e( 'Please rate or review this plugin.', 'starter-sites' );?></strong></p>
-				<p><?php esc_html_e( 'This helps us grow, and that means we can create even more Starter Sites for you.', 'starter-sites' );?></p>
-				<p class="has-button"><a class="button button-tertiary starter-sites-button" href="https://wordpress.org/support/plugin/starter-sites/reviews/#new-post" target="_blank"><?php esc_html_e( 'Rate or Review', 'starter-sites' );?> <i class="dashicons dashicons-external"></i></a></p>
+				<p><?php esc_html_e( 'Your feedback helps us improve the plugin and lets others know what they’re missing.', 'starter-sites' );?></p>
+				<p class="has-button"><a class="button button-tertiary starter-sites-button" href="https://wordpress.org/support/plugin/starter-sites/reviews/#new-post" target="_blank"><?php esc_html_e( 'Leave a Review', 'starter-sites' );?> <i class="dashicons dashicons-external"></i></a></p>
 			</div>
 		</div>
 		<?php
@@ -938,6 +940,8 @@ class Main {
 								<?php
 							}
 							// Theme
+							$warning_themes = array();
+							$theme_blocker = false;
 							if ( isset( $demo_site_data['theme'] ) && !empty($demo_site_data['theme']) ) {
 								$theme_slug = $demo_site_data['theme'];
 								if ( isset($theme_list[$theme_slug]['title']) && $theme_list[$theme_slug]['title'] !== '' ) {
@@ -977,6 +981,46 @@ class Main {
 											} else {
 												echo esc_html( $theme_title );
 											}
+											if ( $active_theme_template !== $theme_slug ) {
+												if ( isset($theme_list[$theme_slug]['requires_php']) && $theme_list[$theme_slug]['requires_php'] !== '' && !is_php_version_compatible($theme_list[$theme_slug]['requires_php']) ) {
+													$theme_blocker = true;
+													$warning_themes[] = sprintf(
+														/* translators: %1$s = theme name, %2$s = required PHP version */
+														__( '%1$s requires PHP %2$s', 'starter-sites' ),
+														$theme_title,
+														$theme_list[$theme_slug]['requires_php']
+													);
+													?>
+													<br /><span class="is-warning"><i class="dashicons dashicons-info"></i>
+													<?php echo sprintf(
+														/* translators: %1$s = theme name, %2$s = required PHP version */
+														__( '%1$s requires PHP %2$s', 'starter-sites' ),
+														$theme_title,
+														$theme_list[$theme_slug]['requires_php']
+													);?>
+													</span>
+												<?php
+												}
+												if ( isset($theme_list[$theme_slug]['requires_wp']) && $theme_list[$theme_slug]['requires_wp'] !== '' && !is_wp_version_compatible($theme_list[$theme_slug]['requires_wp']) ) {
+													$theme_blocker = true;
+													$warning_themes[] = sprintf(
+														/* translators: %1$s = theme name, %2$s = required WordPress version */
+														__( '%1$s requires WordPress %2$s', 'starter-sites' ),
+														$theme_title,
+														$theme_list[$theme_slug]['requires_wp']
+													);
+													?>
+													<br /><span class="is-warning"><i class="dashicons dashicons-info"></i>
+													<?php echo sprintf(
+														/* translators: %1$s = theme name, %2$s = required WordPress version */
+														__( '%1$s requires WordPress %2$s', 'starter-sites' ),
+														$theme_title,
+														$theme_list[$theme_slug]['requires_wp']
+													);?>
+													</span>
+												<?php
+												}
+											}
 											?>
 										</li>
 									</ul>
@@ -984,6 +1028,7 @@ class Main {
 							<?php
 							}
 							// Plugins
+							$warning_plugins = array();
 							if ( isset( $demo_site_data['plugins'] ) && !empty($demo_site_data['plugins']) ) {
 								?>
 								<div class="starter-sites-demo-sub-section">
@@ -1004,7 +1049,43 @@ class Main {
 											$plugin_title = $plugin;
 										}
 										?>
-										<li class="wppss-feature-item plugin"><?php echo esc_html( $plugin_title );?></li>
+										<li class="wppss-feature-item plugin">
+											<?php echo esc_html( $plugin_title );?>
+											<?php
+											if ( isset($plugin_list[$plugin]['requires_php']) && $plugin_list[$plugin]['requires_php'] !== '' && !is_php_version_compatible($plugin_list[$plugin]['requires_php']) ) {
+												$warning_plugins[] = sprintf(
+													/* translators: %1$s = plugin name, %2$s = required PHP version */
+													__( '%1$s requires PHP %2$s', 'starter-sites' ),
+													$plugin_title,
+													$plugin_list[$plugin]['requires_php']
+												);
+												?>
+												<br /><span class="is-warning"><i class="dashicons dashicons-info"></i>
+												<?php echo sprintf(
+													/* translators: %s = required PHP version */
+													__( 'This plugin requires PHP %s', 'starter-sites' ),
+													$plugin_list[$plugin]['requires_php']
+												);?>
+												</span>
+											<?php }
+											if ( isset($plugin_list[$plugin]['requires_wp']) && $plugin_list[$plugin]['requires_wp'] !== '' && !is_wp_version_compatible($plugin_list[$plugin]['requires_wp']) ) {
+												$warning_plugins[] = sprintf(
+													/* translators: %1$s = plugin name, %2$s = required WordPress version */
+													__( '%1$s requires WordPress %2$s', 'starter-sites' ),
+													$plugin_title,
+													$plugin_list[$plugin]['requires_wp']
+												);
+												?>
+												<br /><span class="is-warning"><i class="dashicons dashicons-info"></i>
+												<?php echo sprintf(
+													/* translators: %s = required WordPress version */
+													__( 'This plugin requires WordPress %s', 'starter-sites' ),
+													$plugin_list[$plugin]['requires_wp']
+												);?>
+												</span>
+											<?php }
+											?>
+										</li>
 										<?php
 									}
 									?>
@@ -1054,6 +1135,47 @@ class Main {
 									</div>
 								</div>
 							<?php
+							if ( !empty( $warning_themes ) ) {
+								?>
+								<div class="starter-sites-demo-warning">
+									<p class="starter-sites-sub-heading"><?php esc_html_e( 'Theme Warning!', 'starter-sites' );?></p>
+								<?php
+								foreach ( $warning_themes as $warning_theme ) {
+									?>
+									<p><i class="dashicons dashicons-info"></i>
+										<?php echo esc_html( $warning_theme ); ?>
+									</p>
+									<?php
+								}
+								?>
+									<p><?php echo sprintf(
+											/* translators: %s = required theme name */
+											__( 'This starter site cannot be activated as your WordPress installation does not meet the minimum requirements of the %s theme.', 'starter-sites' ),
+											$theme_title
+										);
+									?></p>
+									<p><?php esc_html_e( 'It is recommended to update to the latest version of WordPress and upgrade your server PHP version.', 'starter-sites' );?></p>
+								</div>
+								<?php
+							}
+							if ( !empty( $warning_plugins ) ) {
+								?>
+								<div class="starter-sites-demo-warning">
+									<p class="starter-sites-sub-heading"><?php esc_html_e( 'Plugin Warning!', 'starter-sites' );?></p>
+								<?php
+								foreach ( $warning_plugins as $warning_plugin ) {
+									?>
+									<p><i class="dashicons dashicons-info"></i>
+										<?php echo esc_html( $warning_plugin ); ?>
+									</p>
+									<?php
+								}
+								?>
+									<p><?php esc_html_e( 'When activating this starter site, WordPress will not install or activate the above plugin(s). This may cause display or functionality issues.', 'starter-sites' );?></p>
+									<p><?php esc_html_e( 'It is recommended to update to the latest version of WordPress and upgrade your server PHP version.', 'starter-sites' );?></p>
+								</div>
+								<?php
+							}
 							if ( 'premium' === $demo_site_data['type'] ) {
 							?>
 								<div class="starter-sites-demo-purchase-info">
@@ -1070,9 +1192,15 @@ class Main {
 									<a class="button button-secondary starter-sites-button" href="https://wpstartersites.com/pricing/" target="_blank"><?php esc_html_e( 'Upgrade to Pro', 'starter-sites' );?> <i class="dashicons dashicons-external"></i></a>
 									<?php
 									} else {
-									?>
-									<input formaction="<?php echo esc_url( $form_activate_url );?>" type="submit" name="submit" id="submit" class="button button-primary starter-sites-button activate-site" value="<?php esc_html_e( 'Activate', 'starter-sites' );?>"></input>
-									<?php
+										if ( $theme_blocker ) {
+										?>
+										<button class="button button-primary starter-sites-button disabled"><?php esc_html_e( 'Activate', 'starter-sites' );?></button>
+										<?php
+										} else {
+										?>
+										<input formaction="<?php echo esc_url( $form_activate_url );?>" type="submit" name="submit" id="submit" class="button button-primary starter-sites-button activate-site" value="<?php esc_html_e( 'Activate', 'starter-sites' );?>"></input>
+										<?php
+										}
 									}
 									?>
 									<a class="button button-tertiary starter-sites-button" href="<?php echo esc_url( STARTER_SITES_PREVIEW_URL . $demo_site . '/' );?>" target="_blank"><?php esc_html_e( 'Preview', 'starter-sites' );?> <i class="dashicons dashicons-external"></i></a>
@@ -1182,7 +1310,7 @@ class Main {
 	public function view_logs() {
 		if ( isset( $_GET['log_id'] ) ) {
 			$log_id = sanitize_key( $_GET['log_id'] );
-			(new Logs)->view_log( get_post($log_id)->post_content );
+			(new Logs)->view_log( $log_id );
 		} else {
 			(new Logs)->get_logs();
 		}
@@ -1287,6 +1415,7 @@ class Main {
 	 * Include files.
 	 */
 	public function includes() {
+		require STARTER_SITES_PATH . 'inc/admin-notice.php';
 		require STARTER_SITES_PATH . 'inc/demo-list.php';
 		require STARTER_SITES_PATH . 'inc/logs.php';
 		require STARTER_SITES_PATH . 'inc/activate.php';

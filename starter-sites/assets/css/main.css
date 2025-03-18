@@ -609,6 +609,26 @@ body.starter-sites-fullpage .starter-sites-header .starter-sites-branding .brand
 	margin: 1px;
 }
 
+.starter-sites-demo-warning {
+	background: #e27070;
+	color: #fff;
+	padding: 0 1em;
+	margin: 2em 4px;
+	border: 1px solid #d63638;
+	border-left-width: 4px;
+	border-radius: 3px;
+}
+
+.starter-sites-demo-warning p {
+	color: #fff;
+}
+
+.wppss-feature-item .is-warning {
+	margin-left: 10px;
+	color: var(--starter-sites--color--icon-no);
+	font-style: italic;
+}
+
 .starter-sites-demo-modal .starter-sites-demo-options {
 	margin: 2em 0 0 0;
 }
@@ -780,6 +800,10 @@ body.starter-sites-fullpage .starter-sites-header .starter-sites-branding .brand
 .starter-sites-log-table tr {
 	background: var(--starter-sites--color--bg-2);
 	border-bottom: 1px solid var(--starter-sites--color--bg-1);
+}
+
+.starter-sites-log-table tr.is-error a {
+	color: var(--starter-sites--color--icon-no)
 }
 
 .starter-sites-log-table tr.is-open {
