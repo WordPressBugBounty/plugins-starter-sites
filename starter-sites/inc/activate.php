@@ -100,50 +100,21 @@ class Activate {
 				// Process plugin(s)
 				$process_plugins_log = $this->process_plugins( $process_theme_log, $site_values );
 				$process_plugins_log['time_end'] = current_time( 'timestamp' );
-
-
-
-				/*if ( isset( $process_plugins_log['is_error'] ) && $process_plugins_log['is_error'] == true ) {
-					wp_insert_post(
-						array(
-						'post_content'		=> maybe_serialize( wp_unslash($process_plugins_log) ),
-						'post_title'		=> __( 'Starter Sites Error', 'starter-sites' ),
-						'post_status'		=> 'private',
-						'comment_status'	=> 'closed',
-						'ping_status'		=> 'closed',
-						'post_name'			=> 'starter-sites-error',
-						'post_type'			=> 'starter_sites_error'
-						)
-					);
-					if ( isset( $process_plugins_log['error_code'] ) ) {
-						?>
-						<div class="starter-sites-error"><p><?php echo esc_html( $this->error_codes( $process_plugins_log['error_code'] ) );?></p></div>
-						<?php
-					} else {
-						?>
-						<div class="starter-sites-error"><p><?php echo esc_html__( 'There was an unknown error with a required plugin.', 'starter-sites' );?></p></div>
-						<?php
-					}
-				} else {*/
-					$extensions_log_id = wp_insert_post(
-						array(
-						'post_content'		=> maybe_serialize( wp_unslash($process_plugins_log) ), // wp_insert_post expects unslashed content, prevents unserializing offset errors
-						'post_title'		=> __( 'Starter Sites Log', 'starter-sites' ),
-						'post_status'		=> 'private',
-						'comment_status'	=> 'closed',
-						'ping_status'		=> 'closed',
-						'post_name'			=> 'starter-sites-log',
-						'post_type'			=> 'starter_sites_log',
-						'meta_input'		=> array( 'starter_sites_file' => wp_normalize_path( $import_file ) )
-						)
-					);
-					// as we may need functionality from installed plugin(s) we will redirect back to plugin page, then process content
-					wp_safe_redirect( add_query_arg( [ 'page' => 'starter-sites', 'activate' => $site_slug, 'process' => 'content', 'id' => $extensions_log_id ], admin_url( $this->base_link() ) ) );
-					exit;
-				//}
-
-
-
+				$extensions_log_id = wp_insert_post(
+					array(
+					'post_content'		=> maybe_serialize( wp_unslash($process_plugins_log) ), // wp_insert_post expects unslashed content, prevents unserializing offset errors
+					'post_title'		=> __( 'Starter Sites Log', 'starter-sites' ),
+					'post_status'		=> 'private',
+					'comment_status'	=> 'closed',
+					'ping_status'		=> 'closed',
+					'post_name'			=> 'starter-sites-log',
+					'post_type'			=> 'starter_sites_log',
+					'meta_input'		=> array( 'starter_sites_file' => wp_normalize_path( $import_file ) )
+					)
+				);
+				// as we may need functionality from installed plugin(s) we will redirect back to plugin page, then process content
+				wp_safe_redirect( add_query_arg( [ 'page' => 'starter-sites', 'activate' => $site_slug, 'process' => 'content', 'id' => $extensions_log_id ], admin_url( $this->base_link() ) ) );
+				exit;
 			}
 		} else {
 			?>
@@ -192,9 +163,6 @@ class Activate {
 					?>
 				</ul>
 				<?php
-
-
-
 				if ( isset($process_content_log['plugins']) && !empty($process_content_log['plugins']) ) {
 					foreach ( $process_content_log['plugins'] as $plugin_log ) {
 						if ( isset($plugin_log['error_msg']) && $plugin_log['error_msg'] !== '' ) {
@@ -215,9 +183,6 @@ class Activate {
 						}
 					}
 				}
-
-
-
 			} else {
 				?>
 				<div class="starter-sites-error"><p><?php echo esc_html( $this->error_codes( 1 ) );?></p></div>
