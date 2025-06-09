@@ -1,8 +1,8 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: Starter Sites 2.2\n"
-"POT-Creation-Date: 2025-03-18 14:06+0000\n"
+"Project-Id-Version: Starter Sites 2.2.2\n"
+"POT-Creation-Date: 2025-06-09 16:02+0100\n"
 "PO-Revision-Date: 2020-05-22 10:11+0100\n"
 "Last-Translator: \n"
 "Language-Team: WP Starter Sites - https://wpstartersites.com\n"
@@ -10,14 +10,13 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
-"X-Generator: Poedit 3.5\n"
+"X-Generator: Poedit 3.6\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-Flags-xgettext: --add-comments=translators:\n"
 "X-Poedit-WPHeader: starter-sites.php\n"
 "X-Poedit-SourceCharset: UTF-8\n"
-"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
-"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
-"_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"X-Poedit-KeywordsList: "
+"__;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: *.min.js\n"
 
@@ -29,71 +28,71 @@ msgstr ""
 msgid "There was an unknown error with the required theme."
 msgstr ""
 
-#: inc/activate.php:131
+#: inc/activate.php:106
 msgid "Starter Sites Log"
 msgstr ""
 
 #. translators: %s = title of the activated starter site
-#: inc/activate.php:181
+#: inc/activate.php:152
 #, php-format
 msgid "Congratulations. You have successfully activated the %s starter site!"
 msgstr ""
 
-#: inc/activate.php:185
+#: inc/activate.php:156
 msgid "View your new site"
 msgstr ""
 
-#: inc/activate.php:186
+#: inc/activate.php:157
 msgid "Edit your new site"
 msgstr ""
 
-#: inc/activate.php:189
+#: inc/activate.php:160
 msgid "View the activation log"
 msgstr ""
 
 #. translators: %1$s = title of plugin, %2$s = error message
-#: inc/activate.php:206
+#: inc/activate.php:174
 #, php-format
 msgid "There was an error with the %1$s plugin: %2$s"
 msgstr ""
 
-#: inc/activate.php:335
+#: inc/activate.php:300
 msgid ""
 "Please ask your network administrator to enable theme installation "
 "capabilities for your user account."
 msgstr ""
 
-#: inc/activate.php:337
+#: inc/activate.php:302
 msgid ""
 "Please ask your site administrator to enable theme installation capabilities "
 "for your user account."
 msgstr ""
 
-#: inc/activate.php:373 inc/activate.php:533
+#: inc/activate.php:338 inc/activate.php:498
 msgid "Unable to connect to the filesystem. Please confirm your credentials."
 msgstr ""
 
-#: inc/activate.php:1773
+#: inc/activate.php:1738
 msgid "Sorry, you are not allowed to upload this file type."
 msgstr ""
 
-#: inc/activate.php:1936
+#: inc/activate.php:1901
 msgid "There was an unknown error."
 msgstr ""
 
-#: inc/activate.php:1937
+#: inc/activate.php:1902
 msgid "The requested import file could not be found."
 msgstr ""
 
-#: inc/activate.php:1938
+#: inc/activate.php:1903
 msgid "The required theme could not be installed."
 msgstr ""
 
-#: inc/activate.php:1939
+#: inc/activate.php:1904
 msgid "A required plugin could not be installed."
 msgstr ""
 
-#: inc/activate.php:1940
+#: inc/activate.php:1905
 msgid "This is not a valid starter site."
 msgstr ""
 
@@ -131,11 +130,11 @@ msgstr ""
 msgid "Date"
 msgstr ""
 
-#: inc/logs.php:45 inc/logs.php:139
+#: inc/logs.php:45 inc/logs.php:142
 msgid "User"
 msgstr ""
 
-#: inc/logs.php:46 inc/logs.php:176
+#: inc/logs.php:46 inc/logs.php:179
 msgid "Site"
 msgstr ""
 
@@ -151,165 +150,166 @@ msgstr ""
 msgid "There are no activation logs to display."
 msgstr ""
 
-#: inc/logs.php:121
+#: inc/logs.php:124
 msgid "Error Log"
 msgstr ""
 
-#: inc/logs.php:123
+#: inc/logs.php:126
 msgid "Activation Log"
 msgstr ""
 
-#: inc/logs.php:131
+#: inc/logs.php:134
 msgid "Activated Site"
 msgstr ""
 
-#: inc/logs.php:147
+#: inc/logs.php:150
 msgid "Start"
 msgstr ""
 
-#: inc/logs.php:155
+#: inc/logs.php:158
 msgid "End"
 msgstr ""
 
-#: inc/logs.php:163
+#: inc/logs.php:166
 msgid "Processing time"
 msgstr ""
 
-#: inc/logs.php:182
+#: inc/logs.php:185
 msgid "Site Title"
 msgstr ""
 
-#: inc/logs.php:191
+#: inc/logs.php:194
 msgid "Site Tagline"
 msgstr ""
 
-#: inc/logs.php:207 inc/logs.php:432
+#: inc/logs.php:210 inc/logs.php:465
 msgid "Theme"
 msgstr ""
 
-#: inc/logs.php:224
+#: inc/logs.php:227
 msgid "Plugins"
 msgstr ""
 
-#: inc/logs.php:250
+#: inc/logs.php:253
 msgid "Design"
 msgstr ""
 
-#: inc/logs.php:289 inc/logs.php:342 inc/logs.php:364 inc/logs.php:389
+#: inc/logs.php:264 inc/logs.php:300 inc/logs.php:364 inc/logs.php:397
+#: inc/logs.php:422
 msgid "Edit"
 msgstr ""
 
-#: inc/logs.php:306
+#: inc/logs.php:317
 msgid "Content"
 msgstr ""
 
 #. translators: %1$s: Link to post editor, %2$s: Link to site editor, %3$s: Post type, %4$s: closing </a> tag.
-#: inc/logs.php:320
+#: inc/logs.php:331
 #, php-format
 msgid "Open in %1$s%3$s Editor%4$s or %2$sSite Editor%4$s"
 msgstr ""
 
-#: inc/logs.php:343 inc/logs.php:365 inc/logs.php:390
+#: inc/logs.php:369 inc/logs.php:398 inc/logs.php:423
 msgid "View"
 msgstr ""
 
-#: inc/logs.php:355
+#: inc/logs.php:388
 msgid "Media"
 msgstr ""
 
-#: inc/logs.php:378
+#: inc/logs.php:411
 msgid "Terms"
 msgstr ""
 
-#: inc/logs.php:406
+#: inc/logs.php:439
 msgid "Other"
 msgstr ""
 
-#: inc/logs.php:426
+#: inc/logs.php:459
 msgid "Category"
 msgstr ""
 
-#: inc/logs.php:428
+#: inc/logs.php:461
 msgid "Tag"
 msgstr ""
 
-#: inc/logs.php:430
+#: inc/logs.php:463
 msgid "Product category"
 msgstr ""
 
-#: inc/logs.php:434
+#: inc/logs.php:467
 msgid "Template part area"
 msgstr ""
 
-#: inc/logs.php:436
+#: inc/logs.php:469
 msgid "Page"
 msgstr ""
 
-#: inc/logs.php:438
+#: inc/logs.php:471
 msgid "Post"
 msgstr ""
 
-#: inc/logs.php:440
+#: inc/logs.php:473
 msgid "Product"
 msgstr ""
 
-#: inc/logs.php:442
+#: inc/logs.php:475
 msgid "Product Variation"
 msgstr ""
 
-#: inc/logs.php:444
+#: inc/logs.php:477
 msgid "Attachment"
 msgstr ""
 
-#: inc/logs.php:446
+#: inc/logs.php:479
 msgid "Navigation"
 msgstr ""
 
-#: inc/logs.php:448
+#: inc/logs.php:481
 msgid "Styles"
 msgstr ""
 
-#: inc/logs.php:450
+#: inc/logs.php:483
 msgid "Template"
 msgstr ""
 
-#: inc/logs.php:452
+#: inc/logs.php:485
 msgid "Template part"
 msgstr ""
 
-#: inc/logs.php:454
+#: inc/logs.php:487
 msgid "Pattern"
 msgstr ""
 
-#: inc/logs.php:456
+#: inc/logs.php:489
 msgid "Font"
 msgstr ""
 
-#: inc/logs.php:465
+#: inc/logs.php:498
 msgid "No change"
 msgstr ""
 
-#: inc/logs.php:468
+#: inc/logs.php:501
 msgid "Activated"
 msgstr ""
 
-#: inc/logs.php:471
+#: inc/logs.php:504
 msgid "Installed and activated"
 msgstr ""
 
-#: inc/logs.php:474
+#: inc/logs.php:507
 msgid "Not installed"
 msgstr ""
 
-#: inc/logs.php:477
+#: inc/logs.php:510
 msgid "Updated"
 msgstr ""
 
-#: inc/logs.php:480
+#: inc/logs.php:513
 msgid "Added"
 msgstr ""
 
-#: inc/logs.php:483
+#: inc/logs.php:516
 msgid "Not added"
 msgstr ""
 

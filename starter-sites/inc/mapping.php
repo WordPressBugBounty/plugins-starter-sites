@@ -209,6 +209,11 @@ class Mapping {
 			$this->styles_font_urls_replace( $log['design'], $log['map_font_faces'] );
 		}
 
+		// replace any font face URLs in "theme" global styles
+		if ( isset($log['design']) ) {
+			$this->styles_theme_font_urls_replace( $log['design'], $demo_site_url, $log['site']['new_url'] );
+		}
+
 		// create design patterns for templates and template parts
 		if ( isset( $log['theme_parent'] ) && '' !== $log['theme_parent'] ) {
 			$theme_parent = $log['theme_parent'];
@@ -395,11 +400,65 @@ class Mapping {
 			foreach ( $urls_map as $url_old => $url_new ) {
 				$block = $this->replace_content( $block, $url_old, $url_new );
 			}
+
+			// replace any hardcoded URLs e.g. theme bundled images in patterns
+			$block = $this->replace_content(
+				$block,
+				$log['site']['demo_url'] . 'wp-content/themes/' . $log['theme']['slug'] . '/',
+				$log['site']['new_url'] . 'wp-content/themes/' . $log['theme']['slug'] . '/'
+			);
+			if ( $log['theme']['slug'] !== $log['theme_parent'] ) {
+				$block = $this->replace_content(
+					$block,
+					$log['site']['demo_url'] . 'wp-content/themes/' . $log['theme_parent'] . '/',
+					$log['site']['new_url'] . 'wp-content/themes/' . $log['theme_parent'] . '/'
+				);
+			}
+
+			// final replace of any demo.wpstartersites.com href
+			if ( str_contains( $block['innerHTML'], ' href=' ) ) {
+				$block = $this->replace_href_with_hash( $block );
+			}
+
 			if ( ! empty( $block['innerBlocks'] ) ) {
 				$this->renovate_blocks( $block['innerBlocks'], $log, $urls_map, $image_sizes_map, $user_email );
 			}
 		}
 		return $blocks;
+	}
+
+	public function replace_href_with_hash( $block ) {
+
+		$block['innerHTML'] = $this->process_href_hash( $block['innerHTML'] );
+
+		if ( is_array( $block['innerContent'] ) ) {
+			foreach ( $block['innerContent'] as $i => $content ) {
+				if ( !empty( $content ) ) {
+					$block['innerContent'][$i] = $this->process_href_hash( $content );
+				}
+			}
+		} else {
+			if ( !empty($block['innerContent']) ) {
+				$block['innerContent'] = $this->process_href_hash( $block['innerContent'] );
+			}
+		}
+
+		return $block;
+	}
+
+	public function process_href_hash( $html ) {
+
+		$processor = new \WP_HTML_Tag_Processor( $html );
+		while ( $processor->next_tag( 'a' ) ) {
+			if ( $processor->get_attribute( 'href' ) ) {
+				$href = $processor->get_attribute( 'href' );
+				if ( str_contains( $href, 'demo.wpstartersites.com' ) ) {
+					$processor->set_attribute( 'href', '#' );
+				}
+			}
+		}
+
+		return $processor->get_updated_html();
 	}
 
 	public function replace_wc_attrs( $log, $attrs ) {
@@ -604,6 +663,7 @@ class Mapping {
 			'"' . $old_value . '"' => '"' . $new_value . '"',
 			"'" . $old_value . "'" => "'" . $new_value . "'",
 			'(' . $old_value . ')' => '(' . $new_value . ')',
+			$old_value => $new_value
 		);
 		if ( str_starts_with($old_value ?? '', 'wp-image-') && str_starts_with($new_value ?? '', 'wp-image-') ) {
 			$values[$old_value . '"'] = $new_value . '"';
@@ -725,7 +785,7 @@ class Mapping {
 			if ( isset($item['new_id']) && isset($item['post_type']) && $item['post_type'] === 'wp_global_styles' ) {
 				$styles = json_decode( get_post( $item['new_id'] )->post_content, true );
 
-				// start - replace the font URLs
+				// start - replace the custom font URLs
 				if ( isset( $styles['settings']['typography']['fontFamilies']['custom'] ) && is_array( $styles['settings']['typography']['fontFamilies']['custom'] ) ) {
 
 					$font_families = $styles['settings']['typography']['fontFamilies']['custom'];
@@ -762,6 +822,37 @@ class Mapping {
 
 		}
 
+	}
+
+	/**
+	 * Replace any "theme" font face URLs in global styles.
+	 * Some plugins may define fonts here with hardcoded full URLs.
+	 */
+	public function styles_theme_font_urls_replace( $design = array(), $demo_url, $new_url ) {
+		foreach ( $design as $item ) {
+			if ( isset($item['new_id']) && isset($item['post_type']) && $item['post_type'] === 'wp_global_styles' ) {
+				$styles = json_decode( get_post( $item['new_id'] )->post_content, true );
+				if ( isset( $styles['settings']['typography']['fontFamilies']['theme'] ) && is_array( $styles['settings']['typography']['fontFamilies']['theme'] ) ) {
+					$font_families = $styles['settings']['typography']['fontFamilies']['theme'];
+					foreach ( $font_families as $key_family => $font_family ) {
+						if ( isset($font_family['fontFace']) ) {
+							foreach ( $font_family['fontFace'] as $key_face => $font_face ) {
+								$font_face_src = $font_face['src'];
+								$font_face_src = str_replace( $demo_url, $new_url, $font_face_src );
+								$font_families[$key_family]['fontFace'][$key_face]['src'] = $font_face_src;
+							}
+						}
+					}
+					$styles['settings']['typography']['fontFamilies']['theme'] = $font_families;
+				}
+				$new_styles = wp_json_encode( $styles );
+				$post_args = array(
+					'ID' => $item['new_id'],
+					'post_content' => $new_styles
+				);
+				wp_update_post( wp_slash( $post_args ), true );
+			}
+		}
 	}
 
 }

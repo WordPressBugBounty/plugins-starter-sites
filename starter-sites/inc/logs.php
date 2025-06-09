@@ -93,6 +93,9 @@ class Logs {
 	 * The single log view.
 	 */
 	public function view_log( $log_id ) {
+		$active_theme = wp_get_theme();
+		$active_theme_name = $active_theme->get( 'Name' );
+		$active_theme_slug = $active_theme->get_stylesheet();
 		$admin_link = admin_url( $this->base_link() );
 		$log_post = get_post($log_id);
 		if ( !$log_post) {
@@ -258,19 +261,27 @@ class Logs {
 							<td class="row-type"><?php echo esc_html( $this->output_log_type($design_key['post_type']) );?></td>
 							<td><?php echo esc_html( $design_key['title'] );?></td>
 							<td><?php echo wp_kses( $this->output_log_result( $design_key['result'] ), $this->allowed_html() );?></td>
-							<td colspan="2"></td>
+							<td colspan="2"><a class="text-link" href="<?php echo esc_url( $site_editor_link . '?p=%2Fstyles&section=%2Ftypography' );?>"><?php esc_html_e( 'Edit', 'starter-sites' );?></a></td>
 						</tr>
 						<?php
 					}
 				} else {
 					if ( $design_key['post_type'] === 'wp_global_styles' ) {
-						$design_link = "?path=/wp_global_styles&canvas=edit";
+						if ( $active_theme_slug === $theme_slug ) {
+							$design_link = "?p=%2Fstyles";
+						} else {
+							$design_link = "";
+						}
 					} elseif ( $design_key['post_type'] === 'wp_navigation' ) {
-						$design_link = "?postId=" . $design_key['new_id'] . "&postType=wp_navigation&canvas=edit";
+						$design_link = "?canvas=edit&p=%2Fwp_navigation%2F" . $design_key['new_id'];
 					} elseif ( $design_key['post_type'] === 'wp_template' || $design_key['post_type'] === 'wp_template_part' ) {
-						$design_link = "?postType=" . $design_key['post_type'] . "&postId=" . $theme_slug . "//" . $design_key['slug'] . "&canvas=edit";
+						if ( $active_theme_slug === $theme_slug ) {
+							$design_link = "?canvas=edit&p=%2F" . $design_key['post_type'] . "%2F" . $theme_slug . "%2F%2F" . $design_key['slug'];
+						} else {
+							$design_link = "";
+						}
 					} elseif ( $design_key['post_type'] === 'wp_block' ) {
-						$design_link = "?postId=" . $design_key['new_id'] . "&postType=wp_block&canvas=edit";
+						$design_link = "?canvas=edit&p=%2Fwp_block%2F" . $design_key['new_id'];
 					} else {
 						$design_link = "";
 					}
@@ -319,7 +330,7 @@ class Logs {
 								/* translators: %1$s: Link to post editor, %2$s: Link to site editor, %3$s: Post type, %4$s: closing </a> tag. */
 								__( 'Open in %1$s%3$s Editor%4$s or %2$sSite Editor%4$s', 'starter-sites' ),
 								'<a class="text-link" href="' . esc_url( $posts_link . '?post=' . $content_key['new_id'] . '&action=edit' ) . '">',
-								'<a class="text-link" href="' . esc_url( $site_editor_link . '?postId=' . $content_key['new_id'] . '&postType=' . $content_key['post_type'] . '&canvas=edit' ) . '">',
+								'<a class="text-link" href="' . esc_url( $site_editor_link . '?canvas=edit&p=%2F' . $content_key['post_type'] . '%2F' . $content_key['new_id'] ) . '">',
 								$this->output_log_type($content_key['post_type']),
 								'</a>'
 							)
@@ -327,7 +338,11 @@ class Logs {
 					</tr>';
 				} elseif ( 'post' === $content_key['post_type'] || 'product' === $content_key['post_type'] ) {
 					$edit_class = '';
-					$edit_link = ' href="' . esc_url( $posts_link . '?post=' . $content_key['new_id'] . '&action=edit' ) . '"';
+					if ( post_type_exists( 'product' ) ) {
+						$edit_link = ' href="' . esc_url( $posts_link . '?post=' . $content_key['new_id'] . '&action=edit' ) . '"';
+					} else {
+						$edit_link = '';
+					}
 					$edit_extra = '';
 				} else {
 					$edit_class = '';
@@ -339,8 +354,26 @@ class Logs {
 					<td class="row-type"><?php echo esc_html( $this->output_log_type($content_key['post_type']) );?></td>
 					<td><?php echo esc_html( $content_key['title'] );?></td>
 					<td><?php echo wp_kses( $this->output_log_result( $content_key['result'] ), $this->allowed_html() );?></td>
-					<td><a class="text-link<?php echo esc_attr($edit_class);?>"<?php echo $edit_link;?> data-id="<?php echo esc_attr($content_key['new_id']);?>"><?php esc_html_e( 'Edit', 'starter-sites' );?></a></td>
-					<td><a class="text-link" href="<?php echo esc_url( get_permalink( $content_key['new_id'] ) );?>"><?php esc_html_e( 'View', 'starter-sites' );?></a></td>
+					<?php
+					if ( $edit_link === '' && $edit_extra === '' ) {
+						?>
+						<td></td>
+						<?php
+					} else {
+						?>
+						<td><a class="text-link<?php echo esc_attr($edit_class);?>"<?php echo $edit_link;?> data-id="<?php echo esc_attr($content_key['new_id']);?>"><?php esc_html_e( 'Edit', 'starter-sites' );?></a></td>
+						<?php
+					}
+					if ( post_type_exists( $content_key['post_type'] ) && 'publish' === get_post_status( $content_key['new_id'] ) ) {
+						?>
+						<td><a class="text-link" href="<?php echo esc_url( get_permalink( $content_key['new_id'] ) );?>"><?php esc_html_e( 'View', 'starter-sites' );?></a></td>
+						<?php
+					} else {
+						?>
+						<td></td>
+						<?php
+					}
+					?>
 				</tr><?php echo wp_kses_post($edit_extra);
 			}
 			?>

@@ -4,7 +4,7 @@ Tags: import, content, demo, starter site, website
 Requires at least: 6.6
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 2.2.1
+Stable tag: 2.2.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -12,11 +12,19 @@ Import website demos, full pages of block editor content, posts, products, image
 
 == Description ==
 
-Ready to go WordPress full site editing starter sites and website demos, all with full pages of real content, and all created with the block editor.
+= Build Stunning WordPress Sites in Minutes — With Real Content, Beautiful Designs, and Full Site Editing Power! =
 
-Quickly import global styles, templates, template parts, block patterns, fonts and full website demo content including pages, posts, products and images.
+Unlock the power of effortless web design with our collection of ready-to-go WordPress starter sites and captivating website demos — all crafted with the revolutionary Full Site Editing block editor! Imagine building an entire website in just one click, complete with full pages of authentic, high-quality content that looks and feels real.
 
-To view the available [Starter Sites](https://wpstartersites.com/), navigate to **Starter Sites** in your WordPress dashboard.
+Our starter sites are more than just a pretty face — they’re fully equipped with global styles, reusable templates, dynamic template parts, curated block patterns, custom fonts, and the complete suite of demo content you need to hit the ground running. Easily import not only the design elements but also real-world pages, blog posts, product listings, images, and more, ensuring your new site doesn’t just look good — it works right out of the box.
+
+Whether you’re launching a blog, an online store with WooCommerce, or a corporate site, our starter sites are designed to make your web-building journey smooth, creative, and — dare we say — fun. Seamlessly integrate e-commerce capabilities with our WooCommerce-ready demos, so you can start selling products with style and confidence from day one.
+
+Say goodbye to blank slates and hello to stunning, functional websites that inspire confidence in your visitors and save you countless hours of development time.
+
+Let’s bring your vision to life — with our starter sites, you’re not just building a website; you’re building a digital experience.
+
+Want to see these stunning starter sites in action? [Click here to explore our gallery of beautifully designed demos](https://wpstartersites.com/) and preview how easy it is to launch a professional website — including WooCommerce shops — with just one click. Get inspired, get creative, and get building — your perfect website is waiting!
 
 == Installation ==
 
@@ -79,11 +87,11 @@ These images can be viewed at *wp-admin -> Media -> Library*
 
 == Upgrade Notice ==
 
-Display color palette of each starter site
-
-Added Interior Designer site
-
 == Changelog ==
+**2.2.2 - June 2025**
+- Updated custom fonts import
+- Updated the editor links in activation log view
+
 **2.2.1 - May 2025**
 - Update tested up to WP 6.8
 
