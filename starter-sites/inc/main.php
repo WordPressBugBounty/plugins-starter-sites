@@ -643,10 +643,6 @@ class Main {
 						?>
 						<span class="label-badge premium"><?php esc_html_e( 'Premium', 'starter-sites' );?></span>
 						<?php
-					} elseif ( 'included' === $demo_site_data['type'] ) {
-						?>
-						<span class="label-badge included"><?php esc_html_e( 'Free', 'starter-sites' );?></span>
-						<?php
 					}
 					if ( in_array('woocommerce', $demo_site_data['plugins']) ) {
 						?>
@@ -659,6 +655,23 @@ class Main {
 					<div class="starter-sites-demo-cta">
 						<div class="starter-sites-demo-title"><button class="title modal-open"><?php echo esc_html( $demo_site_data['title'] );?></button></div>
 						<div class="starter-sites-demo-more-info"><button class="button button-tertiary starter-sites-button modal-open"><i class="dashicons dashicons-info-outline"></i> <?php esc_html_e( 'Details', 'starter-sites' );?></button></div>
+					</div>
+				</div>
+				<?php
+			} elseif ( $demo_site_data['type'] === 'soon' ) {
+				if ( isset($demo_site_data['image_full']) && '' !== $demo_site_data['image_full'] ) {
+					$demo_site_img_url = STARTER_SITES_HOME_URL . 'wp-content/uploads/' . $demo_site_data['image_full'];
+					$demo_site_img_class = '';
+				} else {
+					$demo_site_img_url = STARTER_SITES_URL . 'assets/images/screenshot-placeholder.png';
+					$demo_site_img_class = ' is-placeholder';
+				}
+				?>
+				<div class="starter-sites-demo demo-id-<?php echo esc_attr( $demo_site );?>" data-demo-id="<?php echo esc_attr( $demo_site );?>">
+					<div class="starter-sites-demo-screenshot"><img class="is-preview<?php echo esc_attr( $demo_site_img_class );?>" src="<?php echo esc_url( $demo_site_img_url );?>" alt="<?php echo esc_attr( $demo_site_data['title'] );?>"/></div>
+					<div class="starter-sites-demo-cta">
+						<div class="starter-sites-demo-title"><?php echo esc_html( $demo_site_data['title'] );?></div>
+						<div class="starter-sites-demo-more-info coming-soon"><?php esc_html_e( 'Coming Soon', 'starter-sites' );?></div>
 					</div>
 				</div>
 				<?php
@@ -732,10 +745,6 @@ class Main {
 							if ( 'premium' === $demo_site_data['type'] ) {
 								?>
 								<span class="label-badge premium"><?php esc_html_e( 'Premium', 'starter-sites' );?></span>
-								<?php
-							} elseif ( 'included' === $demo_site_data['type'] ) {
-								?>
-								<span class="label-badge included"><?php esc_html_e( 'Free', 'starter-sites' );?></span>
 								<?php
 							}
 							if ( in_array('woocommerce', $demo_site_data['plugins']) ) {

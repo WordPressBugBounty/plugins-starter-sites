@@ -473,6 +473,11 @@ body.starter-sites-fullpage .starter-sites-header .starter-sites-branding .brand
 	opacity: 0.8;
 }
 
+.starter-sites-demo-more-info.coming-soon {
+	padding: 0.25em 0.75em;
+	line-height: 2.15384615;
+}
+
 .button.button-primary.starter-sites-button .dashicons,
 .button.button-secondary.starter-sites-button .dashicons {
 	opacity: 1;
