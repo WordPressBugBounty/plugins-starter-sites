@@ -338,7 +338,7 @@ class Logs {
 					</tr>';
 				} elseif ( 'post' === $content_key['post_type'] || 'product' === $content_key['post_type'] ) {
 					$edit_class = '';
-					if ( post_type_exists( 'product' ) ) {
+					if ( post_type_exists( $content_key['post_type'] ) ) {
 						$edit_link = ' href="' . esc_url( $posts_link . '?post=' . $content_key['new_id'] . '&action=edit' ) . '"';
 					} else {
 						$edit_link = '';

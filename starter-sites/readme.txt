@@ -4,7 +4,7 @@ Tags: import, content, demo, starter site, website
 Requires at least: 6.6
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 2.2.3
+Stable tag: 2.2.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -88,6 +88,9 @@ These images can be viewed at *wp-admin -> Media -> Library*
 == Upgrade Notice ==
 
 == Changelog ==
+**2.2.4 - July 2025**
+- Added posts edit links in log viewer
+
 **2.2.3 - July 2025**
 - Removed "free" label from included sites
 - Added preview of "coming soon" sites not yet released
