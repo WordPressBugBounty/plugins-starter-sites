@@ -377,7 +377,7 @@ class Mapping {
 				}
 			}
 
-			if ( str_starts_with( $block['blockName'], 'woocommerce/' ) ) {
+			if ( str_starts_with( $block['blockName'] ?? '', 'woocommerce/' ) ) {
 				$block['attrs'] = $this->replace_wc_attrs( $log, $block['attrs'] );
 			}
 

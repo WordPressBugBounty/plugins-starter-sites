@@ -708,6 +708,10 @@ body.starter-sites-fullpage .starter-sites-header .starter-sites-branding .brand
 	margin-bottom: 2em;
 }
 
+.starter-sites-permalink code {
+	background-color: var(--starter-sites--color--bg-1);
+}
+
 .starter-sites-settings .form-table {
 	margin-bottom: 3em;
 }

@@ -601,9 +601,12 @@ class Main {
 			<div class="starter-sites-permalink">
 				<p><?php echo sprintf(
 					/* translators: %s: text link to permalink option. */
-					esc_html__( 'It is highly recommended to %s for your website before importing a starter site.', 'starter-sites' ), '<a href="' . esc_url( admin_url( 'options-permalink.php' ) ) . '">' . __( 'select the permalink structure', 'starter-sites' ) . '</a>'
+					esc_html__( 'It is highly recommended to %s for your website before importing a starter site.', 'starter-sites' ), '<a href="' . esc_url( admin_url( 'options-permalink.php' ) ) . '" class="text-link">' . __( 'select the permalink structure', 'starter-sites' ) . '</a>'
 					); ?></p>
-				<p><?php esc_html_e( 'If you are really sure you want plain links for your pages, posts, categories, navigation menus etc. you can ignore this notice.', 'starter-sites' ); ?></p>
+				<p><?php echo sprintf(
+					/* translators: %s: a plain permalink example wrapped in <code></code> tag. */
+					esc_html__( 'If you are really sure you want plain links (e.g.%s) for your pages, posts, categories, navigation menus etc. you can ignore this notice.', 'starter-sites' ), '<code>' . home_url( '/?p=123' ) . '</code>'
+					); ?></p>
 			</div>
 			<?php
 		}

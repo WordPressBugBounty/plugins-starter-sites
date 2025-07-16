@@ -1673,11 +1673,18 @@ class Activate {
 			return false;
 		}
 		require_once( ABSPATH . 'wp-admin/includes/image.php' );
+		add_filter( 'intermediate_image_sizes_advanced', [ $this, 'default_image_sizes' ], 10, 3 );
+		add_filter( 'big_image_size_threshold', '__return_false' );
 		wp_update_attachment_metadata(
 			$attachment_id,
 			wp_generate_attachment_metadata( $attachment_id, $sideload[ 'file' ] )
 		);
+		remove_filter( 'intermediate_image_sizes_advanced', [ $this, 'default_image_sizes' ] );
 		return $attachment_id;
+	}
+
+	public function default_image_sizes($new_sizes) {
+		return [];
 	}
 
 	/**

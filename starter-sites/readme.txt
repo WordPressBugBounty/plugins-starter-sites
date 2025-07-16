@@ -4,7 +4,7 @@ Tags: import, content, demo, starter site, website
 Requires at least: 6.6
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 2.2.4
+Stable tag: 2.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -12,19 +12,17 @@ Import website demos, full pages of block editor content, posts, products, image
 
 == Description ==
 
-= Build Stunning WordPress Sites in Minutes — With Real Content, Beautiful Designs, and Full Site Editing Power! =
+= Build Stunning WordPress Sites in Minutes with Real Content, Beautiful Designs and the Power of Full Site Editing! =
 
-Unlock the power of effortless web design with our collection of ready-to-go WordPress starter sites and captivating website demos — all crafted with the revolutionary Full Site Editing block editor! Imagine building an entire website in just one click, complete with full pages of authentic, high-quality content that looks and feels real.
+Unlock the power of easy web design with a collection of ready-to-go WordPress starter sites and beautifully crafted website demos, all built with the Full Site Editing block editor. You can launch a complete website in just one click, with real content already in place to make your site look polished and professional right from the start.
 
-Our starter sites are more than just a pretty face — they’re fully equipped with global styles, reusable templates, dynamic template parts, curated block patterns, custom fonts, and the complete suite of demo content you need to hit the ground running. Easily import not only the design elements but also real-world pages, blog posts, product listings, images, and more, ensuring your new site doesn’t just look good — it works right out of the box.
+Each starter site is packed with everything you need. Color palettes, global styles, page templates, template parts such as headers and footers, custom block patterns, fonts, and full demo content including pages, blog posts, WooCommerce products, and images. Everything is designed to work together smoothly and help you get online fast.
 
-Whether you’re launching a blog, an online store with WooCommerce, or a corporate site, our starter sites are designed to make your web-building journey smooth, creative, and — dare we say — fun. Seamlessly integrate e-commerce capabilities with our WooCommerce-ready demos, so you can start selling products with style and confidence from day one.
+Whether you're creating a blog, a business site, or a full-featured online store, these starter sites are built to make the process fast, fun, and stress-free. Just pick a design, import it in one click, and start customizing. It's that simple.
 
-Say goodbye to blank slates and hello to stunning, functional websites that inspire confidence in your visitors and save you countless hours of development time.
+Bring your ideas to life with starter sites that look great and work perfectly. No more blank pages or complicated setup. Just beautiful, functional websites ready for you to make your own.
 
-Let’s bring your vision to life — with our starter sites, you’re not just building a website; you’re building a digital experience.
-
-Want to see these stunning starter sites in action? [Click here to explore our gallery of beautifully designed demos](https://wpstartersites.com/) and preview how easy it is to launch a professional website — including WooCommerce shops — with just one click. Get inspired, get creative, and get building — your perfect website is waiting!
+Want to see what’s possible? [Take a look at our gallery of starter site demos](https://wpstartersites.com/) and explore how easy it is to get started. One click is all it takes to launch your next WordPress website.
 
 == Installation ==
 
@@ -82,12 +80,16 @@ Please see the [Terms of Use](https://wpstartersites.com/terms-of-use/).
 
 = Where are the imported image files saved? =
 
-The media files/images in the activated demo site will be saved to the default WordPress uploads directory. An example of that directory would be: `../wp-content/uploads/2024/08/`.
+The media files/images in the activated demo site will be saved to the default WordPress uploads directory. An example of that directory would be: `../wp-content/uploads/2025/07/`.
 These images can be viewed at *wp-admin -> Media -> Library*
 
 == Upgrade Notice ==
 
 == Changelog ==
+**2.3 - July 2025**
+- Update: do not generate additional sizes for uploaded demo images
+- Fix: make sure not to pass null parameter to str_starts_with when mapping WooCommerce block attributes
+
 **2.2.4 - July 2025**
 - Added posts edit links in log viewer
 

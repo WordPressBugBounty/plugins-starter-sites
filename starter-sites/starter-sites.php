@@ -3,7 +3,7 @@
 Plugin Name: Starter Sites
 Plugin URI: https://wpstartersites.com/plugin/
 Description: Ready to go WordPress starter sites and website demos, all with full pages of real content, and all created with the full site editing block editor. Quickly import global styles, templates, template parts, block patterns, fonts and full website demo content including pages, posts, products and images.
-Version: 2.2.4
+Version: 2.3
 Author: WP Starter Sites
 Author URI: https://wpstartersites.com/
 License: GPLv2 or later
@@ -50,7 +50,7 @@ class Starter_Sites {
 		if ( wp_is_development_mode( 'plugin' ) ) {
 			return time();
 		} else {
-			return '2.2.4';
+			return '2.3';
 		}
 	}
 
