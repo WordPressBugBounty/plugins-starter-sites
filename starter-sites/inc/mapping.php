@@ -204,6 +204,11 @@ class Mapping {
 			}
 		}
 
+		// replace background image url & id in global styles
+		if ( isset($log['design']) && isset($log['map_attachments']) ) {
+			$this->styles_background_image_replace( $log['design'], $log['map_attachments'] );
+		}
+
 		// replace font face URLs in global styles post(s)
 		if ( isset($log['design']) && isset($log['map_font_faces']) ) {
 			$this->styles_font_urls_replace( $log['design'], $log['map_font_faces'] );
@@ -754,6 +759,37 @@ class Mapping {
 	}
 
 	/**
+	 * Replace uploaded background image url & id in global styles.
+	 */
+	public function styles_background_image_replace( $design = array(), $images = array() ) {
+		// loop the design items to find the global styles post(s)
+		foreach ( $design as $item ) {
+			// get the global style
+			if ( isset($item['new_id']) && isset($item['post_type']) && $item['post_type'] === 'wp_global_styles' ) {
+				$styles = json_decode( get_post( $item['new_id'] )->post_content, true );
+				// start - replace custom background image
+				if ( isset( $styles['styles']['background']['backgroundImage'] ) && is_array( $styles['styles']['background']['backgroundImage'] ) ) {
+					$bg_image = $styles['styles']['background']['backgroundImage'];
+					if ( isset( $bg_image['url'] ) && isset( $bg_image['id'] ) ) {
+						$old_id = $bg_image['id'];
+						if ( isset( $images[$old_id] ) && isset( $images[$old_id]['new_id'] ) && isset( $images[$old_id]['new_url'] ) ) {
+							$styles['styles']['background']['backgroundImage']['url'] = $images[$old_id]['new_url'];
+							$styles['styles']['background']['backgroundImage']['id'] = $images[$old_id]['new_id'];
+							$new_styles = wp_json_encode( $styles );
+							$post_args = array(
+								'ID' => $item['new_id'],
+								'post_content' => $new_styles
+							);
+							wp_update_post( wp_slash( $post_args ), true );
+						}
+					}
+				}
+				// end - replace custom background image
+			}
+		}
+	}
+
+	/**
 	 * Replace URLs in uploaded font face posts.
 	 */
 	public function replace_font_face_src( $content, $urls_map ) {
@@ -768,60 +804,40 @@ class Mapping {
 	 * Replace uploaded font face URLs in global styles.
 	 */
 	public function styles_font_urls_replace( $design = array(), $fonts = array() ) {
-
 		$fonts_map = array();
-
 		// get the font face URLs
 		foreach ( $fonts as $font_face ) {
 			if ( isset($font_face['demo_url']) && isset($font_face['new_url']) ) {
 				$fonts_map[$font_face['demo_url']] = $font_face['new_url'];
 			}
 		}
-
 		// loop the design items to find the global styles post(s)
 		foreach ( $design as $item ) {
-
 			// get the global style
 			if ( isset($item['new_id']) && isset($item['post_type']) && $item['post_type'] === 'wp_global_styles' ) {
 				$styles = json_decode( get_post( $item['new_id'] )->post_content, true );
-
 				// start - replace the custom font URLs
 				if ( isset( $styles['settings']['typography']['fontFamilies']['custom'] ) && is_array( $styles['settings']['typography']['fontFamilies']['custom'] ) ) {
-
 					$font_families = $styles['settings']['typography']['fontFamilies']['custom'];
-
 					foreach ( $font_families as $key_family => $font_family ) {
-
 						foreach ( $font_family['fontFace'] as $key_face => $font_face ) {
-
 							$font_face_src = $font_face['src'];
-
 							if ( isset( $fonts_map[$font_face_src] ) && $fonts_map[$font_face_src] !== ''  ) {
 								$font_families[$key_family]['fontFace'][$key_face]['src'] = $fonts_map[$font_face_src];
 							}
-
 						}
-
 					}
-
 					$styles['settings']['typography']['fontFamilies']['custom'] = $font_families;
-
 				}
 				// end - replace the font URLs
-
 				$new_styles = wp_json_encode( $styles );
-
 				$post_args = array(
 					'ID' => $item['new_id'],
 					'post_content' => $new_styles
 				);
-
 				wp_update_post( wp_slash( $post_args ), true );
-
 			}
-
 		}
-
 	}
 
 	/**

@@ -4,7 +4,7 @@ Tags: import, content, demo, starter site, website
 Requires at least: 6.6
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 2.3
+Stable tag: 2.3.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -86,6 +86,9 @@ These images can be viewed at *wp-admin -> Media -> Library*
 == Upgrade Notice ==
 
 == Changelog ==
+**2.3.1 - July 2025**
+- Fix: site background image in global styles
+
 **2.3 - July 2025**
 - Update: do not generate additional sizes for uploaded demo images
 - Fix: make sure not to pass null parameter to str_starts_with when mapping WooCommerce block attributes

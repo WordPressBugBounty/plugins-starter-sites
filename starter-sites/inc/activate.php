@@ -416,6 +416,9 @@ class Activate {
 		if ( 'eternal' === $name ) {
 			update_user_meta( get_current_user_id(), 'eternal_admin_notice_dismiss', 1 );
 		}
+		if ( 'acai' === $name ) {
+			update_user_meta( get_current_user_id(), 'acai_admin_notice_dismiss', 1 );
+		}
 		if ( 'wp-map-block' === $name ) {
 			update_option( 'wpmapblock_ablocks_install_notice_hidden', true, false );
 		}

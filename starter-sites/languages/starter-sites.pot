@@ -1,8 +1,8 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: Starter Sites 2.3\n"
-"POT-Creation-Date: 2025-07-16 09:03+0100\n"
+"Project-Id-Version: Starter Sites 2.3.1\n"
+"POT-Creation-Date: 2025-07-21 14:28+0100\n"
 "PO-Revision-Date: 2020-05-22 10:11+0100\n"
 "Last-Translator: \n"
 "Language-Team: WP Starter Sites - https://wpstartersites.com\n"
@@ -68,31 +68,31 @@ msgid ""
 "for your user account."
 msgstr ""
 
-#: inc/activate.php:338 inc/activate.php:498
+#: inc/activate.php:338 inc/activate.php:501
 msgid "Unable to connect to the filesystem. Please confirm your credentials."
 msgstr ""
 
-#: inc/activate.php:1745
+#: inc/activate.php:1748
 msgid "Sorry, you are not allowed to upload this file type."
 msgstr ""
 
-#: inc/activate.php:1908
+#: inc/activate.php:1911
 msgid "There was an unknown error."
 msgstr ""
 
-#: inc/activate.php:1909
+#: inc/activate.php:1912
 msgid "The requested import file could not be found."
 msgstr ""
 
-#: inc/activate.php:1910
+#: inc/activate.php:1913
 msgid "The required theme could not be installed."
 msgstr ""
 
-#: inc/activate.php:1911
+#: inc/activate.php:1914
 msgid "A required plugin could not be installed."
 msgstr ""
 
-#: inc/activate.php:1912
+#: inc/activate.php:1915
 msgid "This is not a valid starter site."
 msgstr ""
 
@@ -607,7 +607,7 @@ msgid ""
 "this plugin."
 msgstr ""
 
-#: inc/main.php:694 inc/main.php:1299 starter-sites.php:175
+#: inc/main.php:694 inc/main.php:1299 starter-sites.php:195
 msgid "Support"
 msgstr ""
 
@@ -813,11 +813,15 @@ msgstr ""
 msgid "Starter Sites - "
 msgstr ""
 
-#: starter-sites.php:176
+#: starter-sites.php:169
+msgid "Go Pro"
+msgstr ""
+
+#: starter-sites.php:196
 msgid "Rate or Review Starter Sites ★★★★★"
 msgstr ""
 
-#: starter-sites.php:177
+#: starter-sites.php:197
 msgid "Upgrade to Premium"
 msgstr ""
 

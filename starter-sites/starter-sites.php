@@ -3,7 +3,7 @@
 Plugin Name: Starter Sites
 Plugin URI: https://wpstartersites.com/plugin/
 Description: Ready to go WordPress starter sites and website demos, all with full pages of real content, and all created with the full site editing block editor. Quickly import global styles, templates, template parts, block patterns, fonts and full website demo content including pages, posts, products and images.
-Version: 2.3
+Version: 2.3.1
 Author: WP Starter Sites
 Author URI: https://wpstartersites.com/
 License: GPLv2 or later
@@ -41,7 +41,7 @@ class Starter_Sites {
 		define( 'STARTER_SITES_PATH', plugin_dir_path( __FILE__ ) );
 		define( 'STARTER_SITES_URL', plugin_dir_url( __FILE__ ) );
 		define( 'STARTER_SITES_BASENAME', plugin_basename( __FILE__ ) );
-		define( 'STARTER_SITES_THEME_DEFAULT', 'eternal' );
+		define( 'STARTER_SITES_THEME_DEFAULT', 'acai' );
 		define( 'STARTER_SITES_HOME_URL', 'https://wpstartersites.com/' );
 		define( 'STARTER_SITES_PREVIEW_URL', 'https://demo.wpstartersites.com/' );
 	}
@@ -50,7 +50,7 @@ class Starter_Sites {
 		if ( wp_is_development_mode( 'plugin' ) ) {
 			return time();
 		} else {
-			return '2.3';
+			return '2.3.1';
 		}
 	}
 
@@ -164,7 +164,27 @@ class Starter_Sites {
 			$browse = '<a href="' . esc_url( add_query_arg( [ 'page' => 'starter-sites' ], $admin_link ) ) . '">' . esc_html__( 'Browse Sites', 'starter-sites' ) . '</a>';
 		}
 		array_unshift( $links, $browse );
+
+		if ( !in_array( 'starter-sites-pro/starter-sites-pro.php', $this->plugins_list() ) ) {
+			$go_pro_link = '<a target="_blank" href="https://wpstartersites.com/pricing/" style="font-weight:700;color:#2d59f2;display:inline-block;">' . __( 'Go Pro', 'starter-sites' ) . '</a>';
+			array_push( $links, $go_pro_link );
+		}
+
 		return $links;
+	}
+
+	/*
+	 * Return a list of installed plugins.
+	 */
+	public function plugins_list() {
+		$plugins = array();
+		$installed_plugins = get_plugins();
+		if ( is_array( $installed_plugins ) ) {
+			foreach ( $installed_plugins as $plugin_file => $plugin ) {
+				$plugins[] = $plugin_file;
+			}
+		}
+		return $plugins;
 	}
 
 	/*
