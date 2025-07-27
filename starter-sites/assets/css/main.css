@@ -167,6 +167,7 @@ body.starter-sites-fullpage .fullpage-dash-link {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
+	gap: 10px;
 	background: var(--starter-sites--color--bg-2);
 	color: var(--starter-sites--color--text);
 	padding: 20px 40px 20px 44px;
@@ -230,6 +231,7 @@ body.starter-sites-fullpage .starter-sites-header .starter-sites-branding .brand
 
 .starter-sites-menu ul {
 	display: flex;
+	flex-wrap: wrap;
 	gap: 20px;
 	margin: 5px 0 0 0;
 }
@@ -239,7 +241,8 @@ body.starter-sites-fullpage .starter-sites-header .starter-sites-branding .brand
 }
 
 .starter-sites-menu ul li a.menu-item {
-	font-size: 1.25em;
+	line-height: 1.6;
+	font-size: 1.15em;
 	color: var(--starter-sites--color--text);
 	border-bottom: 2px solid;
 	border-color: transparent;
@@ -355,6 +358,7 @@ body.starter-sites-fullpage .starter-sites-header .starter-sites-branding .brand
 
 .starter-sites-demo.is-info p {
 	text-align: center;
+	text-wrap-style: balance;
 	margin: 0.5em 0;
 	color: var(--starter-sites--color--subtext);
 }
@@ -899,7 +903,13 @@ body.starter-sites-fullpage .starter-sites-header .starter-sites-branding .brand
 	margin: 2em 0 3em 0;
 }
 
+.menu-upgrade a.premium-upgrade-button,
+.menu-help a.menu-help-button {
+	line-height: 1.6;
+}
+
 a.premium-upgrade-button {
+	font-size: 1.1em;
 	text-decoration: none;
 	font-weight: 600;
 	color: var(--starter-sites--color--button--primary);
@@ -908,8 +918,13 @@ a.premium-upgrade-button {
 	border-radius: 3px;
 }
 
-.menu-upgrade a.premium-upgrade-button {
-	line-height: 1.6;
+a.menu-help-button {
+	font-size: 1.1em;
+	text-decoration: none;
+	color: var(--starter-sites--color--text);
+	background: var(--starter-sites--color--bg-1);
+	padding: 0.75em 1.5em;
+	border-radius: 3px;
 }
 
 .starter-sites-demo-modal input[type="text"],
@@ -1045,6 +1060,11 @@ body.starter-sites-fullpage {
 		font-size: 1em;
 	}
 
+	.starter-sites-menu ul li a.premium-upgrade-button,
+	.starter-sites-menu ul li a.menu-help-button {
+		font-size: 0.9em;
+	}
+
 	.starter-sites-demo-modal-body {
 		flex-direction: column;
 	}
@@ -1063,10 +1083,6 @@ body.starter-sites-fullpage {
 		padding: 20px 12px 20px 22px;
 	}
 
-	.starter-sites-header .starter-sites-branding .plugin-page-title {
-		display: none;
-	}
-
 	.starter-sites-menu ul {
 		display: flex;
 		gap: 5px;
@@ -1076,7 +1092,8 @@ body.starter-sites-fullpage {
 		padding: 8px 0 6px 0;
 	}
 
-	.starter-sites-menu .menu-upgrade a.premium-upgrade-button {
+	.starter-sites-menu .menu-upgrade a.premium-upgrade-button,
+	.starter-sites-menu .menu-help a.menu-help-button {
 		padding: 2px;
 	}
 
