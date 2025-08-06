@@ -24,6 +24,7 @@ class Main {
 		add_action( 'admin_init', [ $this, 'settings_register' ] );
 		add_action( 'admin_enqueue_scripts', [ $this, 'scripts' ] );
 		add_action( 'wp_ajax_starter_sites_update_screen_prefs', [ $this, 'update_screen_prefs' ] );
+		add_action( 'wp_ajax_starter_sites_re_apply_styles', [ $this, 're_apply_styles' ] );
 		add_action( 'updated_option', [ $this, 'settings_updated' ], 10, 3 );
 		add_action( 'added_option', [ $this, 'settings_added' ], 10, 2 );
 		add_action( 'init', [ $this, 'output_buffer' ] );
@@ -455,7 +456,10 @@ class Main {
 		if ( $screen->base === 'toplevel_page_starter-sites' || $screen->base === 'appearance_page_starter-sites' || $screen->base === 'tools_page_starter-sites' || $screen->base === 'settings_page_starter-sites' ) {
 			wp_enqueue_script( 'starter-sites-main', STARTER_SITES_URL . 'assets/js/main.js', [ 'jquery' ], STARTER_SITES_VERSION, false );
 			wp_enqueue_style( 'starter-sites-main', STARTER_SITES_URL . 'assets/css/main.css', [] , STARTER_SITES_VERSION );
-			wp_localize_script( 'starter-sites-main', 'starter_sites_screen_settings', [ 'options_update_nonce' => wp_create_nonce( 'starter-sites-options-nonce' ) ] );
+			wp_localize_script( 'starter-sites-main', 'starter_sites_screen_settings', [
+				'options_update_nonce' => wp_create_nonce( 'starter-sites-options-nonce' ),
+				're_apply_styles_nonce' => wp_create_nonce( 'starter-sites-re-apply-styles-nonce' )
+			] );
 		}
 		wp_enqueue_script( 'starter-sites-admin', STARTER_SITES_URL . 'assets/js/admin.js', [ 'jquery' ], STARTER_SITES_VERSION, false );
 		wp_localize_script( 'starter-sites-admin', 'starter_sites_review_notice', [ 'wpss_review_nonce' => wp_create_nonce( 'wpss-review-nonce' ) ] );
@@ -764,6 +768,7 @@ class Main {
 							?>
 							<form method="post" action="<?php echo esc_url( $form_activate_url );?>" novalidate="novalidate">
 								<input type="hidden" id="starter_site_activate" name="starter_site_activate" value="<?php echo esc_attr($demo_site);?>">
+								<input type="hidden" id="starter_site_name" name="starter_site_name" value="<?php echo esc_attr($demo_site_data['title']);?>">
 								<input type="hidden" id="_wpnonce" name="_wpnonce" value="<?php echo wp_create_nonce( 'activate_site_' . $demo_site );?>">
 							<?php
 							}
@@ -1365,6 +1370,25 @@ class Main {
 			$new_setting = 'yes';
 		}
 		update_user_meta( $user_id, 'starter_sites_admin_'.$setting, $new_setting );
+		wp_die( 1 );
+	}
+
+	public function re_apply_styles() {
+		check_ajax_referer( 'starter-sites-re-apply-styles-nonce', 'starter-sites-re-apply-styles-nonce-name' );
+		if ( ! current_user_can( 'edit_theme_options' ) ) {
+			wp_die( -1 );
+		}
+		$current_id = (int) filter_input( INPUT_POST, 'current_id' );
+		$backup_id = (int) filter_input( INPUT_POST, 'backup_id' );
+		if ( $current_id && $backup_id ) {
+			$post = get_post( $backup_id ); 
+			$content = $post->post_content;
+			$update_args = array(
+				'ID' => $current_id,
+				'post_content' => $content,
+			);
+			wp_update_post( wp_slash( $update_args ) );
+		}
 		wp_die( 1 );
 	}
 

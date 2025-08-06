@@ -25,6 +25,23 @@ jQuery(document).ready( function($) {
 		}
 	});
 
+	$('button.wpss-re-apply-styles').on('click', function() {
+		var current_id = $(this).data('styles-current');
+		var backup_id = $(this).data('styles-backup');
+		$('button.wpss-re-apply-styles').toggleClass('applied');
+		$('.wpss-styles-applied-icon').toggleClass('success');
+		$.ajax({
+			url: ajaxurl,
+			type: 'POST',
+			data: {
+				action: 'starter_sites_re_apply_styles',
+				'current_id': current_id,
+				'backup_id': backup_id,
+				'starter-sites-re-apply-styles-nonce-name': starter_sites_screen_settings.re_apply_styles_nonce
+			}
+		});
+	});
+
 	$('.button.activate-site').on('click', function() {
 		$('.starter-sites-main').addClass('activating');
 	});

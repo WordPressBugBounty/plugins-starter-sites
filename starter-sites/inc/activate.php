@@ -148,10 +148,11 @@ class Activate {
 				);
 				?>
 				<p><?php echo sprintf(
-					/* translators: %s = title of the activated starter site */
+					/* translators: %s = name of the activated starter site */
 					esc_html__( 'Congratulations. You have successfully activated the %s starter site!', 'starter-sites' ),
-					'<span class="success-site-title">' . esc_html( $process_content_log['site']['demo_title'] ) . '</span>'
+					'<span class="activated-site-title">' . $process_content_log['site']['demo_name'] . '</span>'
 				);?></p>
+				<p style="display:none !important;"><span class="success-site-title <?php echo $class_site_title;?>"><?php echo esc_html( $process_content_log['site']['demo_title'] );?></span></p>
 				<ul class="text-list">
 					<li><a class="text-link" href="<?php echo esc_url( home_url( '/' ) ); ?>"><?php esc_html_e( 'View your new site', 'starter-sites' );?></a></li>
 					<li><a class="text-link" href="<?php echo esc_url( admin_url( 'site-editor.php' ) ); ?>"><?php esc_html_e( 'Edit your new site', 'starter-sites' );?></a></li>
@@ -203,6 +204,7 @@ class Activate {
 	 */
 	public function process_theme( $site_values ) {
 		$site_slug = $site_values['starter_site_activate'];
+		$site_name = $site_values['starter_site_name'];
 		$site_title = $site_slug;
 		$demo_list = starter_sites_demo_list();
 		$theme_list = starter_sites_theme_list();
@@ -214,6 +216,7 @@ class Activate {
 			'time_start' => current_time( 'timestamp' ),
 			'site' => array(
 				'demo_slug' => $site_slug,
+				'demo_name' => $site_name
 			),
 			'theme' => array(),
 			'theme_parent' => '',
@@ -524,6 +527,7 @@ class Activate {
 	 */
 	public function process_content( $log, $file ) {
 		set_time_limit( 0 );
+		$current_attachments = $this->current_attachments();
 		$site_slug = $log['site']['demo_slug'];
 		$theme = $log['theme']['slug'];
 		$theme_parent = $log['theme_parent'];
@@ -964,6 +968,9 @@ class Activate {
 			// end - product variation
 			// start - patterns
 			elseif ( 'wp_block' === $post_type ) {
+				$pattern_tax = array(
+					'wp_pattern_category' => 'starter_sites_content'
+				);
 				$exists_post_id = $this->post_slug_exists( $post_name, $post_type );
 				if ( $exists_post_id ) {
 					$post_args = array(
@@ -974,6 +981,7 @@ class Activate {
 						'post_status' => $post_status,
 						'post_parent' => $post_parent,
 						'menu_order' => $post_menu_order,
+						'tax_input' => $pattern_tax,
 						'meta_input' => $post_meta
 					);
 					wp_update_post( wp_slash( $post_args ), true );
@@ -1012,6 +1020,7 @@ class Activate {
 						'post_parent' => $post_parent,
 						'menu_order' => $post_menu_order,
 						'post_type' => $post_type,
+						'tax_input' => $pattern_tax,
 						'meta_input' => $post_meta
 					);
 					$new_post_id = wp_insert_post( wp_slash( $post_args ), true );
@@ -1348,35 +1357,66 @@ class Activate {
 			elseif ( 'attachment' === $post_type ) {
 				$attachment_url = $this->sanitize_data( $namespace_wp->attachment_url, 'attachment_url' );
 				$attachment_mime_type = $this->sanitize_data( $namespace_wp->post_mime_type, 'post_mime_type' );
-				$exists_post_id = $this->attachment_exists( $attachment_url, $attachment_mime_type );
+				$exists_post_id = $this->attachment_post_exists( $attachment_url, $attachment_mime_type );
 				if ( $exists_post_id ) {
-					$log['attachments'][$post_id] = array(
-						'title' => wp_slash($post_title),
-						'slug' => $post_name,
-						'post_type' => $post_type,
-						'new_id' => $exists_post_id,
-						'pre_status' => 'exists',
-						'result' => 'none'
-					);
-					$new_attachment_url = wp_get_attachment_image_url( $exists_post_id, 'full' );
-					$log['map_attachments'][$post_id] = array(
-						'new_id' => $exists_post_id,
-						'demo_link' => $post_url,
-						'demo_url' => $attachment_url,
-						'new_link' => get_permalink($exists_post_id),
-						'new_url' => $new_attachment_url,
-						'sizes' => $this->attachment_sizes_map( $exists_post_id, $attachment_url, $new_attachment_url ,$post_meta )
-					);
+					//post exists, but is it a user image e.g. "image-name.jpg"? If so, then we add our own with e.g. "image-name-1.jpg"
+					// check our own previously uploaded images
+					$current_post_id = array_search( $attachment_url, $current_attachments );
+					if ( $current_post_id ) {
+						$log['attachments'][$post_id] = array(
+							'title' => wp_slash($post_title),
+							'slug' => $post_name,
+							'post_type' => $post_type,
+							'new_id' => $current_post_id,
+							'pre_status' => 'exists',
+							'result' => 'none'
+						);
+						$new_attachment_url = wp_get_attachment_image_url( $current_post_id, 'full' );
+						$log['map_attachments'][$post_id] = array(
+							'new_id' => $current_post_id,
+							'demo_link' => $post_url,
+							'demo_url' => $attachment_url,
+							'new_link' => get_permalink($current_post_id),
+							'new_url' => $new_attachment_url,
+							'sizes' => $this->attachment_sizes_map( $current_post_id, $attachment_url, $new_attachment_url, $post_meta )
+						);
+					} else {
+						// upload as new image e.g. "image-name-1.jpg"
+						$new_post_id = $this->attachment_upload( $attachment_url, $post_title );
+						$log['attachments'][$post_id] = array(
+							'title' => wp_slash($post_title),
+							'slug' => $post_name,
+							'post_type' => $post_type,
+							'new_id' => $new_post_id,
+							'pre_status' => 'none',
+							'result' => 'added'
+						);
+						$new_attachment_url = wp_get_attachment_image_url( $new_post_id, 'full' );
+						$log['map_attachments'][$post_id] = array(
+							'new_id' => $new_post_id,
+							'demo_link' => $post_url,
+							'demo_url' => $attachment_url,
+							'new_link' => get_permalink($new_post_id),
+							'new_url' => $new_attachment_url,
+							'sizes' => $this->attachment_sizes_map( $new_post_id, $attachment_url, $new_attachment_url, $post_meta )
+						);
+					}
 				} else {
-					// add new attachment
-					$new_post_id = $this->attachment_upload( $attachment_url, $post_title );
+					// check if attachment file exists and add post if exists (e.g. if deleted from posts table, but file still exists)
+					$new_post_id = $this->attachment_file_exists( $attachment_url );
+					$attachment_log_result = 'updated';
+					if ( !$new_post_id ) {
+						// upload new attachment
+						$new_post_id = $this->attachment_upload( $attachment_url, $post_title );
+						$attachment_log_result = 'added';
+					}
 					$log['attachments'][$post_id] = array(
 						'title' => wp_slash($post_title),
 						'slug' => $post_name,
 						'post_type' => $post_type,
 						'new_id' => $new_post_id,
 						'pre_status' => 'none',
-						'result' => 'added'
+						'result' => $attachment_log_result
 					);
 					$new_attachment_url = wp_get_attachment_image_url( $new_post_id, 'full' );
 					$log['map_attachments'][$post_id] = array(
@@ -1385,7 +1425,7 @@ class Activate {
 						'demo_url' => $attachment_url,
 						'new_link' => get_permalink($new_post_id),
 						'new_url' => $new_attachment_url,
-						'sizes' => $this->attachment_sizes_map( $new_post_id, $attachment_url, $new_attachment_url ,$post_meta )
+						'sizes' => $this->attachment_sizes_map( $new_post_id, $attachment_url, $new_attachment_url, $post_meta )
 					);
 				}
 			}
@@ -1683,6 +1723,7 @@ class Activate {
 			wp_generate_attachment_metadata( $attachment_id, $sideload[ 'file' ] )
 		);
 		remove_filter( 'intermediate_image_sizes_advanced', [ $this, 'default_image_sizes' ] );
+		update_post_meta( $attachment_id, 'starter_sites_url', $url );
 		return $attachment_id;
 	}
 
@@ -1691,13 +1732,13 @@ class Activate {
 	}
 
 	/**
-	 * Check if a given attachment exists.
+	 * Check if a given attachment exists as an attachment post.
 	 *
 	 * @param string     $attachment_url attachment URI.
 	 * @param string     $mime_type mime type
 	 * @return int/bool  WP post id if exists, bool false otherwise.
 	 */
-	public function attachment_exists( $attachment_url, $mime_type = 'image/jpeg' ) {
+	public function attachment_post_exists( $attachment_url, $mime_type = 'image/jpeg' ) {
 		$uploads_info = wp_get_upload_dir();
 		$file_name = wp_basename( $attachment_url );
 		$check_file = trailingslashit( $uploads_info['url'] ) . $file_name;
@@ -1714,6 +1755,88 @@ class Activate {
 		} else {
 			return false;
 		}
+	}
+
+	/**
+	 * Check if a given attachment exists as a file in uploads directory.
+	 * Adds corresponding attachment post if file exists.
+	 *
+	 * @param string     $attachment_url attachment URI.
+	 * @return int/bool  WP post id if added, bool false otherwise.
+	 */
+	public function attachment_file_exists( $attachment_url ) {
+		$uploads_info = wp_get_upload_dir();
+		$file_name = wp_basename( $attachment_url );
+		$file_name_with_dir = trailingslashit( $uploads_info['subdir'] ) . $file_name;
+		$file_info = pathinfo( $file_name );
+		$check_file_url = trailingslashit( $uploads_info['url'] ) . $file_name;
+		$check_file_path = trailingslashit( $uploads_info['path'] ) . $file_name;
+		if ( isset( $file_info['filename'] ) ) {
+			// remove file extension e.g. .jpg
+			$file_title = $file_info['filename'];
+		} else {
+			$file_title = $file_name;
+		}
+		if ( file_exists( $check_file_path ) ) {
+			$mime_type = mime_content_type( $check_file_path );
+			if ( $mime_type ) {
+				require_once ABSPATH . '/wp-admin/includes/image.php';
+				$file_size = wp_getimagesize( $check_file_path );
+				$metadata = array(
+					'width' => $file_size[0],
+					'height' => $file_size[1],
+					'file' => ltrim( $file_name_with_dir, '/'),
+					'filesize' => wp_filesize( $check_file_path )
+				);
+				$args = array(
+					'post_content' => '',
+					'post_title' => $file_title,
+					'post_status' => 'inherit',
+					'comment_status' => 'closed',
+					'ping_status' => 'closed',
+					'post_name' => $file_title,
+					'guid' => $check_file_url,
+					'post_type' => 'attachment',
+					'post_mime_type' => $mime_type,
+					'meta_input' => array(
+						'_wp_attached_file' => ltrim( $file_name_with_dir, '/'),
+						'_wp_attachment_metadata' => $metadata,
+						'starter_sites_url' => $attachment_url
+					)
+				);
+				$post_id = wp_insert_post( wp_slash( $args ), true );
+				if( is_wp_error( $post_id ) || ! $post_id ) {
+					return false;
+				} else {
+					return $post_id;
+				}
+			} else {
+				return false;
+			}
+		} else {
+			return false;
+		}
+	}
+
+	public function current_attachments() {
+		$attachments = array();
+		$args = [
+			'numberposts' => -1,
+			'order' => 'ASC',
+			'orderby' => 'ID',
+			'post_status' => 'any',
+			'post_type' => array( 'attachment' ),
+		];
+		$posts = get_posts( $args );
+		if ( $posts ) {
+			foreach ( $posts as $post ) {
+				$demo_url = get_post_meta( $post->ID, 'starter_sites_url', true );
+				if ( !empty( $demo_url ) ) {
+					$attachments[$post->ID] = $demo_url;
+				}
+			}
+		}
+		return $attachments;
 	}
 
 	public function attachment_sizes_map( $id, $demo_attachment_url, $new_attachment_url, $post_meta ) {

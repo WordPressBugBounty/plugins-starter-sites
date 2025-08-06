@@ -4,7 +4,7 @@ Tags: import, content, demo, starter site, website
 Requires at least: 6.6
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 2.3.2
+Stable tag: 2.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -86,6 +86,14 @@ These images can be viewed at *wp-admin -> Media -> Library*
 == Upgrade Notice ==
 
 == Changelog ==
+**2.4 - August 2025**
+- Update: improved import of images
+- Update: display name of starter site in logs instead of site title
+- New: option to re-apply imported global styles if changed or reset by user
+- New: added pattern category for Starter Sites Content
+- New: added pattern category for Starter Sites Template Designs
+- New: added pattern category for Starter Sites Template Part Designs
+
 **2.3.2 - July 2025**
 - Update: added help & support link
 - Update: icon

@@ -297,7 +297,7 @@ body.starter-sites-fullpage .starter-sites-header .starter-sites-branding .brand
 	color: var(--starter-sites--color--text);
 }
 
-.starter-sites-main .success-site-title {
+.starter-sites-main .activated-site-title {
 	font-weight: 600;
 }
 
@@ -986,6 +986,20 @@ body.starter-sites-fullpage {
 
 .starter-sites-fullpage .wrap.starter-sites-main {
 	margin-left: 36px;
+}
+
+.starter-sites-log-table .dashicons-yes.wpss-styles-applied-icon,
+.starter-sites-log-table tr.status-updated .dashicons-yes.wpss-styles-applied-icon {
+  background: var(--starter-sites--color--icon-yes);
+}
+
+.wpss-re-apply-styles.applied,
+.wpss-styles-applied-icon {
+	display: none;
+}
+
+.wpss-styles-applied-icon.success {
+	display: block;
 }
 
 /*

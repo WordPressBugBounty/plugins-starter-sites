@@ -58,9 +58,14 @@ class Logs {
 						$base_link
 					);
 					$post_log = maybe_unserialize( $post->post_content );
-					$site_title = '';
-					if ( isset( $post_log['site']['demo_title'] ) ) {
-						$site_title = $post_log['site']['demo_title'];
+					if ( isset( $post_log['site']['demo_name'] ) ) {
+						$site_name = $post_log['site']['demo_name'];
+					} else {
+						if ( isset( $post_log['site']['demo_title'] ) ) {
+							$site_name = $post_log['site']['demo_title'];
+						} else {
+							$site_name = '';
+						}
 					}
 					$class_error = '';
 					$view_log_text = __( 'View Log', 'starter-sites' );
@@ -72,7 +77,7 @@ class Logs {
 					<tr class="<?php echo esc_attr( $class_error );?>">
 						<td><span class="log-date"><?php echo esc_html( mysql2date( $site_date_format, $post->post_date ) );?></span> <span class="log-time"><?php echo esc_html( mysql2date( $site_time_format, $post->post_date ) );?></span></td>
 						<td><?php echo esc_html( get_userdata($post->post_author)->display_name );?></td>
-						<td><?php echo esc_html( $site_title );?></td>
+						<td><?php echo esc_html( $site_name );?></td>
 						<td><a class="text-link" href="<?php echo esc_url( $view_url );?>"><?php echo esc_html( $view_log_text );?></a></td>
 					</tr>
 					<?php
@@ -116,6 +121,15 @@ class Logs {
 		$log = maybe_unserialize( wp_unslash( $log ) );
 		$site_date_format = get_option( 'date_format' );
 		$site_time_format = get_option( 'time_format' );
+		if ( isset($log['site']['demo_name']) ) {
+			$site_name = $log['site']['demo_name'];
+		} else {
+			if ( isset($log['site']['demo_title']) ) {
+				$site_name = $log['site']['demo_title'];
+			} else {
+				$site_name = '';
+			}
+		}
 		?>
 		<table class="starter-sites-log-table">
 		<tr class="section-heading">
@@ -128,11 +142,11 @@ class Logs {
 			?></td>
 		</tr>
 		<?php
-		if ( isset($log['site']['demo_title']) ) {
+		if ( $site_name !== '' ) {
 			?>
 			<tr>
 				<td class="row-type"><?php esc_html_e('Activated Site', 'starter-sites');?></td>
-				<td colspan="4"><strong><?php echo esc_html( $log['site']['demo_title'] );?></strong></td>
+				<td colspan="4"><strong><?php echo esc_html( $site_name );?></strong></td>
 			</tr>
 			<?php
 		}
@@ -266,9 +280,15 @@ class Logs {
 						<?php
 					}
 				} else {
+					$apply_styles = '';
 					if ( $design_key['post_type'] === 'wp_global_styles' ) {
 						if ( $active_theme_slug === $theme_slug ) {
 							$design_link = "?p=%2Fstyles";
+							$styles_current = $this->styles_current( $theme_slug );
+							$styles_backup = $this->styles_backup( $site_name );
+							if ( $styles_current['id'] && $styles_backup['id'] && $styles_current['styles'] !== $styles_backup['styles'] ) {
+								$apply_styles = '<td><button class="button button-primary wpss-re-apply-styles" data-styles-current="' . $styles_current['id'] . '" data-styles-backup="' . $styles_backup['id'] . '">' . esc_html__( 'Re-apply Styles', 'starter-sites' ) . '</button><span class="dashicons dashicons-yes wpss-styles-applied-icon"></span></td>';
+							}
 						} else {
 							$design_link = "";
 						}
@@ -296,9 +316,15 @@ class Logs {
 							<td colspan="2"></td>
 							<?php
 						} else {
+							if ( $apply_styles === '' ) {
+								$colspan = ' colspan="2"';
+							} else {
+								$colspan = '';
+							}
 							?>
-							<td colspan="2"><a class="text-link" href="<?php echo esc_url( $site_editor_link . $design_link );?>"><?php esc_html_e( 'Edit', 'starter-sites' );?></a></td>
+							<td<?php echo $colspan;?>><a class="text-link" href="<?php echo esc_url( $site_editor_link . $design_link );?>"><?php esc_html_e( 'Edit', 'starter-sites' );?></a></td>
 							<?php
+							echo $apply_styles;
 						}
 					?>
 					</tr>
@@ -528,6 +554,46 @@ class Logs {
 				'class' => []
 			]
 		];
+	}
+
+	public function styles_current( $theme ) {
+		$styles = array(
+			'id' => 0,
+			'styles' => ''
+		);
+		$args = array(
+			'post_type' => 'wp_global_styles',
+			'name' => 'wp-global-styles-' . $theme,
+			'posts_per_page' => 1,
+		);
+		$posts = new \WP_Query( $args );
+		if ( $posts->have_posts() ) {
+			$posts->the_post();
+			$styles['id'] = $posts->post->ID;
+			$styles['styles'] = $posts->post->post_content;
+		}
+		return $styles;
+	}
+
+	public function styles_backup( $site ) {
+		$styles = array(
+			'id' => 0,
+			'styles' => ''
+		);
+		$args = array(
+			'post_type' => 'starter_sites_gs',
+			'post_status' => 'private',
+			'meta_key' => 'starter_sites_import_title',
+			'meta_value' => $site,
+			'posts_per_page' => 1,
+		);
+		$posts = new \WP_Query( $args );
+		if ( $posts->have_posts() ) {
+			$posts->the_post();
+			$styles['id'] = $posts->post->ID;
+			$styles['styles'] = $posts->post->post_content;
+		}
+		return $styles;
 	}
 
 }

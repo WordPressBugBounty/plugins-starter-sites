@@ -220,32 +220,41 @@ class Mapping {
 		}
 
 		// create design patterns for templates and template parts
+		// also create a backup post of global styles
 		if ( isset( $log['theme_parent'] ) && '' !== $log['theme_parent'] ) {
 			$theme_parent = $log['theme_parent'];
 		} else {
 			$theme_parent = wp_get_theme()->get_template();
 		}
 		foreach ( $log['design'] as $design_post ) {
-			if ( 'wp_template' === $design_post['post_type'] || 'wp_template_part' === $design_post['post_type'] ) {
+			if ( 'wp_template' === $design_post['post_type'] || 'wp_template_part' === $design_post['post_type'] || 'wp_global_styles' === $design_post['post_type'] ) {
 				$design_post_parent = get_post( $design_post['new_id'] );
 				$design_post_title = $design_post_parent->post_title;
 				$design_post_name = $design_post_parent->post_name;
 				$design_post_content = $design_post_parent->post_content;
-				// parse blocks
-				$design_post_content_parsed = parse_blocks( $design_post_content );
-				// remove e.g. "theme":"theme_slug" from template part block attrs
-				$new_design_post_content_parsed = $this->detheme_template_part( $design_post_content_parsed );
-				// serialize new content
-				$new_design_post_content = serialize_blocks( $new_design_post_content_parsed );
+
+				if ( 'wp_global_styles' === $design_post['post_type'] ) {
+					$new_design_post_content = $design_post_content;
+				} else {
+					// parse blocks
+					$design_post_content_parsed = parse_blocks( $design_post_content );
+					// remove e.g. "theme":"theme_slug" from template part block attrs
+					$new_design_post_content_parsed = $this->detheme_template_part( $design_post_content_parsed );
+					// serialize new content
+					$new_design_post_content = serialize_blocks( $new_design_post_content_parsed );
+				}
+
 				$design_post_type = 'starter_sites_td';
 				if ( 'wp_template_part' === $design_post['post_type'] ) {
 					$design_post_type = 'starter_sites_pd';
+				} elseif ( 'wp_global_styles' === $design_post['post_type'] ) {
+					$design_post_type = 'starter_sites_gs';
 				}
 				$design_post_meta = array(
 					'relation' => 'AND',
 					array(
 						'key' => 'starter_sites_import_title',
-						'value' => $log['site']['demo_title'],
+						'value' => $log['site']['demo_name'],
 						'compare' => '='
 					),
 					array(
@@ -261,9 +270,10 @@ class Mapping {
 						'post_content' => $new_design_post_content,
 					);
 					wp_update_post( wp_slash( $design_post_args ), true );
+					$this->slug_fix( $exists_design_post_id, $design_post_name );
 				} else {
 					$design_post_meta_input = array(
-						'starter_sites_import_title' => $log['site']['demo_title'],
+						'starter_sites_import_title' => $log['site']['demo_name'],
 						'starter_sites_import_parent_theme' => $theme_parent
 					);
 					$design_post_args = array(
@@ -274,7 +284,12 @@ class Mapping {
 						'post_type' => $design_post_type,
 						'meta_input' => $design_post_meta_input
 					);
-					wp_insert_post( wp_slash( $design_post_args ), true );
+					$pattern_id = wp_insert_post( wp_slash( $design_post_args ), true );
+					if ( $pattern_id ) {
+						// Fix post_name if e.g. 'footer' from a previous different demo import,
+						// and 'footer-2' from this demo import.
+						$this->slug_fix( $pattern_id, $design_post_name );
+					}
 				}
 			}
 		}
