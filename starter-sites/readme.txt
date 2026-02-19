@@ -2,9 +2,9 @@
 Contributors: uxl
 Tags: import, content, demo, starter site, website
 Requires at least: 6.6
-Tested up to: 6.8
+Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 2.4
+Stable tag: 2.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -86,6 +86,9 @@ These images can be viewed at *wp-admin -> Media -> Library*
 == Upgrade Notice ==
 
 == Changelog ==
+**2.5 - February 2026**
+- Update: do not automatically activate some third-party plugins
+
 **2.4 - August 2025**
 - Update: improved import of images
 - Update: display name of starter site in logs instead of site title

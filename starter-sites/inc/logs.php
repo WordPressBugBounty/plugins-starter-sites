@@ -523,6 +523,9 @@ class Logs {
 		if ( $string === 'none' ) {
 			$text = __( 'No change', 'starter-sites' );
 			$icon = 'minus';
+		} elseif ( $string === 'installed' ) {
+			$text = __( 'Installed', 'starter-sites' );
+			$icon = 'yes';
 		} elseif ( $string === 'activated' ) {
 			$text = __( 'Activated', 'starter-sites' );
 			$icon = 'yes';

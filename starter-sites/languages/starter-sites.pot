@@ -1,8 +1,8 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: Starter Sites 2.4\n"
-"POT-Creation-Date: 2025-08-06 17:50+0100\n"
+"Project-Id-Version: Starter Sites 2.5\n"
+"POT-Creation-Date: 2026-02-19 14:09+0000\n"
 "PO-Revision-Date: 2020-05-22 10:11+0100\n"
 "Last-Translator: \n"
 "Language-Team: WP Starter Sites - https://wpstartersites.com\n"
@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
-"X-Generator: Poedit 3.6\n"
+"X-Generator: Poedit 3.8\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-Flags-xgettext: --add-comments=translators:\n"
 "X-Poedit-WPHeader: starter-sites.php\n"
@@ -33,66 +33,72 @@ msgid "Starter Sites Log"
 msgstr ""
 
 #. translators: %s = name of the activated starter site
-#: inc/activate.php:152
+#: inc/activate.php:157
 #, php-format
 msgid "Congratulations. You have successfully activated the %s starter site!"
 msgstr ""
 
-#: inc/activate.php:157
+#: inc/activate.php:162
 msgid "View your new site"
 msgstr ""
 
-#: inc/activate.php:158
+#: inc/activate.php:163
 msgid "Edit your new site"
 msgstr ""
 
-#: inc/activate.php:161
+#: inc/activate.php:166
 msgid "View the activation log"
 msgstr ""
 
 #. translators: %1$s = title of plugin, %2$s = error message
-#: inc/activate.php:175
+#: inc/activate.php:184
 #, php-format
 msgid "There was an error with the %1$s plugin: %2$s"
 msgstr ""
 
-#: inc/activate.php:303
+#: inc/activate.php:198
+msgid ""
+"The following plugins were not automatically activated, and require manual "
+"activation."
+msgstr ""
+
+#: inc/activate.php:328
 msgid ""
 "Please ask your network administrator to enable theme installation "
 "capabilities for your user account."
 msgstr ""
 
-#: inc/activate.php:305
+#: inc/activate.php:330
 msgid ""
 "Please ask your site administrator to enable theme installation capabilities "
 "for your user account."
 msgstr ""
 
-#: inc/activate.php:341 inc/activate.php:504
+#: inc/activate.php:366 inc/activate.php:538
 msgid "Unable to connect to the filesystem. Please confirm your credentials."
 msgstr ""
 
-#: inc/activate.php:1871
+#: inc/activate.php:1908
 msgid "Sorry, you are not allowed to upload this file type."
 msgstr ""
 
-#: inc/activate.php:2034
+#: inc/activate.php:2071
 msgid "There was an unknown error."
 msgstr ""
 
-#: inc/activate.php:2035
+#: inc/activate.php:2072
 msgid "The requested import file could not be found."
 msgstr ""
 
-#: inc/activate.php:2036
+#: inc/activate.php:2073
 msgid "The required theme could not be installed."
 msgstr ""
 
-#: inc/activate.php:2037
+#: inc/activate.php:2074
 msgid "A required plugin could not be installed."
 msgstr ""
 
-#: inc/activate.php:2038
+#: inc/activate.php:2075
 msgid "This is not a valid starter site."
 msgstr ""
 
@@ -294,26 +300,30 @@ msgid "No change"
 msgstr ""
 
 #: inc/logs.php:527
-msgid "Activated"
+msgid "Installed"
 msgstr ""
 
 #: inc/logs.php:530
-msgid "Installed and activated"
+msgid "Activated"
 msgstr ""
 
 #: inc/logs.php:533
-msgid "Not installed"
+msgid "Installed and activated"
 msgstr ""
 
 #: inc/logs.php:536
-msgid "Updated"
+msgid "Not installed"
 msgstr ""
 
 #: inc/logs.php:539
-msgid "Added"
+msgid "Updated"
 msgstr ""
 
 #: inc/logs.php:542
+msgid "Added"
+msgstr ""
+
+#: inc/logs.php:545
 msgid "Not added"
 msgstr ""
 
@@ -724,7 +734,8 @@ msgid "Content (posts, pages, products)"
 msgstr ""
 
 #: inc/main.php:1147
-msgid "Design (styles, templates, parts, patterns, fonts)"
+msgid ""
+"Design (styles, templates, template parts, patterns, fonts, navigation menus)"
 msgstr ""
 
 #: inc/main.php:1151

@@ -448,6 +448,7 @@ body.starter-sites-fullpage .starter-sites-header .starter-sites-branding .brand
 
 .starter-sites-demo-cta {
 	display: flex;
+	flex-wrap: wrap;
 	justify-content: space-between;
 	align-items: center;
 	padding: 1em;
@@ -541,7 +542,7 @@ body.starter-sites-fullpage .starter-sites-header .starter-sites-branding .brand
 }
 
 .starter-sites-demo-modal .starter-sites-demo-details {
-	width: 30%;
+	width: 36%;
 }
 
 .starter-sites-demo-modal .starter-sites-demo-title {
@@ -804,6 +805,26 @@ body.starter-sites-fullpage .starter-sites-header .starter-sites-branding .brand
 .starter-sites-error a,
 .starter-sites-error a:hover {
 	color: #fff;
+}
+
+.starter-sites-warning {
+	background: #fcf9e8;
+	color: #000;
+	padding: 0 1em;
+	margin: 2em 4px;
+	border: 1px solid #dba617;
+	border-left-width: 4px;
+	border-radius: 3px;
+}
+
+.starter-sites-warning p {
+	color: #000;
+	font-size: 1.1em;
+}
+
+.starter-sites-warning a,
+.starter-sites-warning a:hover {
+	color: #000;
 }
 
 .starter-sites-log-table {

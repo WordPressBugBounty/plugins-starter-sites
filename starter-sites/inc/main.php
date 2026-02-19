@@ -1144,7 +1144,7 @@ class Main {
 										</label></p>
 										<p class="unavailable"><label for="import_design">
 											<input name="import_design" type="checkbox" id="import_design" value="1" checked="checked" class="disabled" disabled="disabled">
-											<?php esc_html_e( 'Design (styles, templates, parts, patterns, fonts)', 'starter-sites' );?>
+											<?php esc_html_e( 'Design (styles, templates, template parts, patterns, fonts, navigation menus)', 'starter-sites' );?>
 										</label></p>
 										<p class="unavailable"><label for="import_media">
 											<input name="import_media" type="checkbox" id="import_media" value="1" checked="checked" class="disabled" disabled="disabled">

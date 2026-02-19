@@ -137,48 +137,73 @@ class Activate {
 			if ( file_exists( $import_file ) ) {
 				// Process content
 				$process_content_log = $this->process_content( $process_plugins_log, $import_file );
-				// Mapping
-				(new Mapping)->content( $process_content_log );
-				$process_content_log['time_end'] = current_time( 'timestamp' );
-				$log_id = wp_update_post(
-					array(
-						'ID'			=> $process_plugins_log_id,
-						'post_content'	=> maybe_serialize( wp_unslash($process_content_log) ), // wp_update_post expects unslashed content, prevents unserializing offset errors
-					)
-				);
-				?>
-				<p><?php echo sprintf(
-					/* translators: %s = name of the activated starter site */
-					esc_html__( 'Congratulations. You have successfully activated the %s starter site!', 'starter-sites' ),
-					'<span class="activated-site-title">' . $process_content_log['site']['demo_name'] . '</span>'
-				);?></p>
-				<p style="display:none !important;"><span class="success-site-title <?php echo $class_site_title;?>"><?php echo esc_html( $process_content_log['site']['demo_title'] );?></span></p>
-				<ul class="text-list">
-					<li><a class="text-link" href="<?php echo esc_url( home_url( '/' ) ); ?>"><?php esc_html_e( 'View your new site', 'starter-sites' );?></a></li>
-					<li><a class="text-link" href="<?php echo esc_url( admin_url( 'site-editor.php' ) ); ?>"><?php esc_html_e( 'Edit your new site', 'starter-sites' );?></a></li>
-					<?php if ( $log_id ) {
-						?>
-						<li><a class="text-link" href="<?php echo esc_url( admin_url( $this->base_link() . '?page=starter-sites&tab=logs&log_id=' . $log_id ) ); ?>"><?php esc_html_e( 'View the activation log', 'starter-sites' );?></a></li>
-						<?php
-					}
+				if ( isset($process_content_log['error']) && $process_content_log['error'] === 'invalid-xml' ) {
 					?>
-				</ul>
-				<?php
-				if ( isset($process_content_log['plugins']) && !empty($process_content_log['plugins']) ) {
-					foreach ( $process_content_log['plugins'] as $plugin_log ) {
-						if ( isset($plugin_log['error_msg']) && $plugin_log['error_msg'] !== '' ) {
+					<div class="starter-sites-error"><p><?php echo esc_html( $this->error_codes( 4 ) );?></p></div>
+					<?php
+				} else {
+					// Mapping
+					(new Mapping)->content( $process_content_log );
+					$process_content_log['time_end'] = current_time( 'timestamp' );
+					$log_id = wp_update_post(
+						array(
+							'ID'			=> $process_plugins_log_id,
+							'post_content'	=> maybe_serialize( wp_unslash($process_content_log) ), // wp_update_post expects unslashed content, prevents unserializing offset errors
+						)
+					);
+					?>
+					<p><?php echo sprintf(
+						/* translators: %s = name of the activated starter site */
+						esc_html__( 'Congratulations. You have successfully activated the %s starter site!', 'starter-sites' ),
+						'<span class="activated-site-title">' . $process_content_log['site']['demo_name'] . '</span>'
+					);?></p>
+					<p style="display:none !important;"><span class="success-site-title <?php echo $class_site_title;?>"><?php echo esc_html( $process_content_log['site']['demo_title'] );?></span></p>
+					<ul class="text-list">
+						<li><a class="text-link" href="<?php echo esc_url( home_url( '/' ) ); ?>"><?php esc_html_e( 'View your new site', 'starter-sites' );?></a></li>
+						<li><a class="text-link" href="<?php echo esc_url( admin_url( 'site-editor.php' ) ); ?>"><?php esc_html_e( 'Edit your new site', 'starter-sites' );?></a></li>
+						<?php if ( $log_id ) {
 							?>
-							<div class="starter-sites-error">
-								<p>
-								<?php echo sprintf(
-								/* translators: %1$s = title of plugin, %2$s = error message */
-								esc_html__( 'There was an error with the %1$s plugin: %2$s', 'starter-sites' ),
-								'<strong>' . $plugin_log['title'] . '</strong>',
-								$plugin_log['result']
-								);?>
-								<br />
-								<?php echo esc_html( $plugin_log['error_msg'] );?>
-								</p>
+							<li><a class="text-link" href="<?php echo esc_url( admin_url( $this->base_link() . '?page=starter-sites&tab=logs&log_id=' . $log_id ) ); ?>"><?php esc_html_e( 'View the activation log', 'starter-sites' );?></a></li>
+							<?php
+						}
+						?>
+					</ul>
+					<?php
+					if ( isset($process_content_log['plugins']) && !empty($process_content_log['plugins']) ) {
+						$plugins_to_be_activated = array();
+						foreach ( $process_content_log['plugins'] as $plugin_log ) {
+							if ( $plugin_log['result'] === 'installed' || ( $plugin_log['result'] === 'none' && $plugin_log['pre_status'] === 'installed' ) ) {
+								$plugins_to_be_activated[] = $plugin_log['title'];
+							}
+							if ( isset($plugin_log['error_msg']) && $plugin_log['error_msg'] !== '' ) {
+								?>
+								<div class="starter-sites-error">
+									<p>
+									<?php echo sprintf(
+									/* translators: %1$s = title of plugin, %2$s = error message */
+									esc_html__( 'There was an error with the %1$s plugin: %2$s', 'starter-sites' ),
+									'<strong>' . $plugin_log['title'] . '</strong>',
+									$plugin_log['result']
+									);?>
+									<br />
+									<?php echo esc_html( $plugin_log['error_msg'] );?>
+									</p>
+								</div>
+								<?php
+							}
+						}
+						if ( !empty($plugins_to_be_activated) ) {
+							?>
+							<div class="starter-sites-warning">
+							<p><?php esc_html_e( 'The following plugins were not automatically activated, and require manual activation.', 'starter-sites' );?></p>
+							<ul class="text-list">
+								<?php foreach ( $plugins_to_be_activated as $plugin_to_be_activated ) {
+									?>
+									<li><?php echo esc_html( $plugin_to_be_activated );?></li>
+									<?php
+								}
+								?>
+							</ul>
 							</div>
 							<?php
 						}
@@ -379,13 +404,22 @@ class Activate {
 							'result' => 'none'
 						);
 					} else {
-						// try to install plugin (also checks if installed but not active)
+						$to_activate = $plugin_list[$plugin]['activate'] ?? true;
 						$plugin_install = $this->install_plugin( $plugin_file );
 						if ( $plugin_install['success'] ) {
-							if ( $plugin_install['pre_status'] === 'installed' ) {
-								$result = 'activated';
+							if ( $to_activate ) {
+								$activate_status = $this->activate_plugin( $plugin_file );
+								if ( $activate_status ) {
+									if ( $plugin_install['pre_status'] === 'installed' ) {
+										$result = 'activated';
+									} else {
+										$result = 'installed and activated';
+									}
+								} else {
+									$result = 'installed';
+								}
 							} else {
-								$result = 'installed and activated';
+								$result = 'none';
 							}
 							$log['plugins'][$plugin] = array(
 								'title' => wp_slash($plugin_title),
@@ -464,8 +498,8 @@ class Activate {
 			}
 		}
 		if ( $is_plugin_already_installed ) {
-			$activate_status = $this->activate_plugin( $plugin_file );
-			$status['pre_status'] = 'installed'; 
+			$status['pre_status'] = 'installed';
+			$status['success'] = true;
 		} else {
 			$status['success'] = false;
 			$api = plugins_api(
@@ -508,11 +542,7 @@ class Activate {
 				}
 				return $status;
 			}
-			$install_status = install_plugin_install_status( $api );
-			$activate_status = $this->activate_plugin( $install_status['file'] );
 			$status['pre_status'] = 'not installed';
-		}
-		if ( $activate_status && ! is_wp_error( $activate_status ) ) {
 			$status['success'] = true;
 		}
 		return $status;
@@ -538,7 +568,14 @@ class Activate {
 		}
 		$orig_site_title = get_bloginfo('name');
 		$orig_site_tagline = get_bloginfo('description');
+
+		libxml_use_internal_errors(true);
 		$xml = simplexml_load_file( $file );
+		if ( $xml === false ) {
+			$log['error'] = 'invalid-xml';
+			return $log;
+		}
+
 		$namespaces = $xml->getDocNamespaces();
 		if ( ! isset( $namespaces['wp'] ) ) {
 			$namespaces['wp'] = 'http://wordpress.org/export/1.2/';
