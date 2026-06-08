@@ -1,8 +1,8 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: Starter Sites 2.5\n"
-"POT-Creation-Date: 2026-02-19 14:09+0000\n"
+"Project-Id-Version: Starter Sites 2.6\n"
+"POT-Creation-Date: 2026-06-08 17:32+0100\n"
 "PO-Revision-Date: 2020-05-22 10:11+0100\n"
 "Last-Translator: \n"
 "Language-Team: WP Starter Sites - https://wpstartersites.com\n"
@@ -529,8 +529,9 @@ msgstr ""
 msgid "Logs"
 msgstr ""
 
-#: inc/main.php:532
-msgid "GO PRO"
+#: inc/main.php:532 inc/main.php:1122 inc/main.php:1210 starter-sites.php:169
+#: starter-sites.php:184
+msgid "Upgrade to Pro"
 msgstr ""
 
 #: inc/main.php:533 inc/main.php:699
@@ -717,10 +718,6 @@ msgstr ""
 msgid "This plugin requires WordPress %s"
 msgstr ""
 
-#: inc/main.php:1122
-msgid "UPGRADE"
-msgstr ""
-
 #: inc/main.php:1123
 msgid "Site Options:"
 msgstr ""
@@ -780,10 +777,6 @@ msgstr ""
 msgid "Buy"
 msgstr ""
 
-#: inc/main.php:1210
-msgid "Upgrade to Pro"
-msgstr ""
-
 #: inc/main.php:1215 inc/main.php:1219
 msgid "Activate"
 msgstr ""
@@ -818,7 +811,7 @@ msgid ""
 "support team."
 msgstr ""
 
-#: inc/main.php:1305 starter-sites.php:195
+#: inc/main.php:1305 starter-sites.php:181
 msgid "Support"
 msgstr ""
 
@@ -859,16 +852,8 @@ msgstr ""
 msgid "Backup patterns for imported Starter Sites template parts."
 msgstr ""
 
-#: starter-sites.php:169
-msgid "Go Pro"
-msgstr ""
-
-#: starter-sites.php:196
+#: starter-sites.php:182
 msgid "Rate or Review Starter Sites ★★★★★"
-msgstr ""
-
-#: starter-sites.php:197
-msgid "Upgrade to Premium"
 msgstr ""
 
 #. Plugin URI of the plugin/theme
@@ -877,11 +862,11 @@ msgstr ""
 
 #. Description of the plugin/theme
 msgid ""
-"Ready to go WordPress starter sites and website demos, all with full pages "
-"of real content, and all created with the full site editing block editor. "
-"Quickly import global styles, templates, template parts, block patterns, "
-"fonts and full website demo content including pages, posts, products and "
-"images."
+"Ready to go WordPress starter site themes and website demos, all with full "
+"pages of real content, and all created with the full site editing block "
+"editor. Quickly import global styles, templates, template parts, block "
+"patterns, fonts and full website demo content including pages, posts, "
+"products and images."
 msgstr ""
 
 #. Author of the plugin/theme

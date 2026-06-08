@@ -2,9 +2,9 @@
 Contributors: uxl
 Tags: import, content, demo, starter site, website
 Requires at least: 6.6
-Tested up to: 6.9
+Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 2.5
+Stable tag: 2.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -14,7 +14,7 @@ Import website demos, full pages of block editor content, posts, products, image
 
 = Build Stunning WordPress Sites in Minutes with Real Content, Beautiful Designs and the Power of Full Site Editing! =
 
-Unlock the power of easy web design with a collection of ready-to-go WordPress starter sites and beautifully crafted website demos, all built with the Full Site Editing block editor. You can launch a complete website in just one click, with real content already in place to make your site look polished and professional right from the start.
+Unlock the power of easy web design with a collection of ready-to-go WordPress starter site themes and beautifully crafted website demos, all built with the Full Site Editing block editor. You can launch a complete website in just one click, with real content already in place to make your site look polished and professional right from the start.
 
 Each starter site is packed with everything you need. Color palettes, global styles, page templates, template parts such as headers and footers, custom block patterns, fonts, and full demo content including pages, blog posts, WooCommerce products, and images. Everything is designed to work together smoothly and help you get online fast.
 
@@ -86,6 +86,10 @@ These images can be viewed at *wp-admin -> Media -> Library*
 == Upgrade Notice ==
 
 == Changelog ==
+**2.6 - June 2026**
+- Update: dark mode background colors for WP 7.0
+- Update: Tested with WP 7.0
+
 **2.5 - February 2026**
 - Update: do not automatically activate some third-party plugins
 

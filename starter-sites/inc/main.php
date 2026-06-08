@@ -529,7 +529,7 @@ class Main {
 						<li><a class="menu-item<?php echo $is_current_upload;?>" href="<?php echo esc_url( add_query_arg( [ 'page' => 'starter-sites', 'tab' => 'upload' ], $admin_link ) );?>"><?php esc_html_e( 'Upload', 'starter-sites' ); ?></a></li>
 						<li><a class="menu-item<?php echo $is_current_logs;?>" href="<?php echo esc_url( add_query_arg( [ 'page' => 'starter-sites', 'tab' => 'logs' ], $admin_link ) );?>"><?php esc_html_e( 'Logs', 'starter-sites' ); ?></a></li>
 						<li><a class="menu-item<?php echo $is_current_settings;?>" href="<?php echo esc_url( add_query_arg( [ 'page' => 'starter-sites', 'tab' => 'settings' ], $admin_link ) );?>"><?php esc_html_e( 'Settings', 'starter-sites' ); ?></a></li>
-						<li class="menu-upgrade"><a href="https://wpstartersites.com/pricing/" target="_blank" class="premium-upgrade-button"><?php esc_html_e( 'GO PRO', 'starter-sites' );?> <i class="dashicons dashicons-external"></i></a></li>
+						<li class="menu-upgrade"><a href="https://wpstartersites.com/pricing/" target="_blank" class="premium-upgrade-button"><?php esc_html_e( 'Upgrade to Pro', 'starter-sites' );?> <i class="dashicons dashicons-external"></i></a></li>
 						<li class="menu-help"><a href="https://wpstartersites.com/plugin/" target="_blank" class="menu-help-button"><?php esc_html_e( 'Help & Support', 'starter-sites' );?> <i class="dashicons dashicons-external"></i></a></li>
 					</ul>
 				</div>
@@ -1119,7 +1119,7 @@ class Main {
 										<p class="expand-list" data-list-id="advanced-options"><i class="dashicons dashicons-arrow-down-alt2"></i></p>
 									</div>
 									<div class="starter-sites-feature-list list-id-advanced-options advanced-options">
-										<p class="premium-upgrade"><a href="https://wpstartersites.com/pricing/" target="_blank" class="premium-upgrade-button"><?php esc_html_e( 'UPGRADE', 'starter-sites' );?> <i class="dashicons dashicons-external"></i></a></p>
+										<p class="premium-upgrade"><a href="https://wpstartersites.com/pricing/" target="_blank" class="pro-cta-button"><?php esc_html_e( 'Upgrade to Pro', 'starter-sites' );?> <i class="dashicons dashicons-external"></i></a></p>
 										<p class="starter-sites-sub-heading options-import unavailable"><?php esc_html_e( 'Site Options:', 'starter-sites' );?></p>
 										<p class="unavailable"><label for="option_keepsitetitle">
 											<input name="option_keepsitetitle" type="checkbox" id="option_keepsitetitle" value="1" class="disabled" disabled="disabled">
@@ -1207,7 +1207,7 @@ class Main {
 									if ( 'premium' === $demo_site_data['type'] ) {
 									?>
 									<a class="button button-primary starter-sites-button" href="<?php echo esc_url( 'https://wpstartersites.com/downloads/' . $demo_site . '/' );?>" target="_blank"><?php esc_html_e( 'Buy', 'starter-sites' );?> <i class="dashicons dashicons-external"></i></a>
-									<a class="button button-secondary starter-sites-button" href="https://wpstartersites.com/pricing/" target="_blank"><?php esc_html_e( 'Upgrade to Pro', 'starter-sites' );?> <i class="dashicons dashicons-external"></i></a>
+									<a class="pro-cta-button" href="https://wpstartersites.com/pricing/" target="_blank"><?php esc_html_e( 'Upgrade to Pro', 'starter-sites' );?> <i class="dashicons dashicons-external"></i></a>
 									<?php
 									} else {
 										if ( $theme_blocker ) {

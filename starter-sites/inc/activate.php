@@ -33,7 +33,7 @@ class Activate {
 	 */
 	public function get_import_file( $site_slug ) {
 		require_once ABSPATH . 'wp-admin/includes/file.php';
-		$file_url = STARTER_SITES_HOME_URL . 'sites/' . $site_slug . '/content.xml';
+		$file_url = STARTER_SITES_HOME_URL . 'sites/?name=' . $site_slug;
 		$temp_file = download_url( $file_url, 60 );
 		if ( is_wp_error($temp_file) ) {
 			return false;

@@ -2,15 +2,15 @@
 /*
 Plugin Name: Starter Sites
 Plugin URI: https://wpstartersites.com/plugin/
-Description: Ready to go WordPress starter sites and website demos, all with full pages of real content, and all created with the full site editing block editor. Quickly import global styles, templates, template parts, block patterns, fonts and full website demo content including pages, posts, products and images.
-Version: 2.5
+Description: Ready to go WordPress starter site themes and website demos, all with full pages of real content, and all created with the full site editing block editor. Quickly import global styles, templates, template parts, block patterns, fonts and full website demo content including pages, posts, products and images.
+Version: 2.6
 Author: WP Starter Sites
 Author URI: https://wpstartersites.com/
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: starter-sites
 Requires at least: 6.6
-Tested up to: 6.9
+Tested up to: 7.0
 Requires PHP: 7.4
 */
 
@@ -50,7 +50,7 @@ class Starter_Sites {
 		if ( wp_is_development_mode( 'plugin' ) ) {
 			return time();
 		} else {
-			return '2.5';
+			return '2.6';
 		}
 	}
 
@@ -165,12 +165,26 @@ class Starter_Sites {
 		}
 		array_unshift( $links, $browse );
 
-		if ( !in_array( 'starter-sites-pro/starter-sites-pro.php', $this->plugins_list() ) ) {
-			$go_pro_link = '<a target="_blank" href="https://wpstartersites.com/pricing/" style="font-weight:700;color:#2d59f2;display:inline-block;">' . __( 'Go Pro', 'starter-sites' ) . '</a>';
-			array_push( $links, $go_pro_link );
+		if ( !$this->is_pro_installed() ) {
+			$go_pro_link = '<a target="_blank" href="https://wpstartersites.com/pricing/" style="font-weight:700;color:#29b03d;display:inline-block;">' . __( 'Upgrade to Pro', 'starter-sites' ) . '</a>';
+			array_unshift( $links, $go_pro_link );
 		}
 
 		return $links;
+	}
+
+	/*
+	 * Add additional information in plugins table.
+	 */
+	public function plugin_table_meta( $plugin_meta, $plugin_file ) {
+		if ( STARTER_SITES_BASENAME === $plugin_file ) {
+			$plugin_meta['starter_sites_support'] = '<a target="_blank" href="https://wordpress.org/support/plugin/starter-sites/">' . __( 'Support', 'starter-sites' ) . '</a>';
+			$plugin_meta['starter_sites_review'] = '<a target="_blank" href="https://wordpress.org/support/plugin/starter-sites/reviews/#new-post">' . __( 'Rate or Review Starter Sites ★★★★★', 'starter-sites' ) . '</a>';
+			if ( !$this->is_pro_installed() ) {
+				$plugin_meta['starter_sites_upgrade'] = '<a target="_blank" href="https://wpstartersites.com/pricing/">' . __( 'Upgrade to Pro', 'starter-sites' ) . '</a>';
+			}
+		}
+		return $plugin_meta;
 	}
 
 	/*
@@ -187,16 +201,12 @@ class Starter_Sites {
 		return $plugins;
 	}
 
-	/*
-	 * Add additional information in plugins table.
-	 */
-	public function plugin_table_meta( $plugin_meta, $plugin_file ) {
-		if ( STARTER_SITES_BASENAME === $plugin_file ) {
-			$plugin_meta['starter_sites_support'] = '<a target="_blank" href="https://wordpress.org/support/plugin/starter-sites/">' . __( 'Support', 'starter-sites' ) . '</a>';
-			$plugin_meta['starter_sites_review'] = '<a target="_blank" href="https://wordpress.org/support/plugin/starter-sites/reviews/#new-post">' . __( 'Rate or Review Starter Sites ★★★★★', 'starter-sites' ) . '</a>';
-			$plugin_meta['starter_sites_upgrade'] = '<a target="_blank" href="https://wpstartersites.com/pricing/">' . __( 'Upgrade to Premium', 'starter-sites' ) . '</a>';
+	public function is_pro_installed() {
+		if ( in_array( 'starter-sites-pro/starter-sites-pro.php', $this->plugins_list() ) ) {
+			return true;
+		} else {
+			return false;
 		}
-		return $plugin_meta;
 	}
 
 	/**

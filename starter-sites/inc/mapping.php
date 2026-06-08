@@ -216,7 +216,7 @@ class Mapping {
 
 		// replace any font face URLs in "theme" global styles
 		if ( isset($log['design']) ) {
-			$this->styles_theme_font_urls_replace( $log['design'], $demo_site_url, $log['site']['new_url'] );
+			$this->styles_theme_font_urls_replace( $demo_site_url, $log['site']['new_url'], $log['design'] );
 		}
 
 		// create design patterns for templates and template parts
@@ -859,7 +859,7 @@ class Mapping {
 	 * Replace any "theme" font face URLs in global styles.
 	 * Some plugins may define fonts here with hardcoded full URLs.
 	 */
-	public function styles_theme_font_urls_replace( $design = array(), $demo_url, $new_url ) {
+	public function styles_theme_font_urls_replace( $demo_url, $new_url, $design = array() ) {
 		foreach ( $design as $item ) {
 			if ( isset($item['new_id']) && isset($item['post_type']) && $item['post_type'] === 'wp_global_styles' ) {
 				$styles = json_decode( get_post( $item['new_id'] )->post_content, true );

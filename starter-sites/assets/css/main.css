@@ -1,6 +1,6 @@
 body {
 	--starter-sites--color--one: #2d59f2;
-	--starter-sites--color--two: #87c826;
+	--starter-sites--color--two: #29b03d;
 	--starter-sites--color--three: #da7021;
 	--starter-sites--color--woo: #7f54b3;
 	--starter-sites--color--bg-1: #f1f1f1;
@@ -8,10 +8,10 @@ body {
 	--starter-sites--color--bg-3: #ffffff;
 	--starter-sites--color--text: #000000;
 	--starter-sites--color--subtext: #414141;
-	--starter-sites--color--text-link: #007cba;
+	--starter-sites--color--text-link: var(--starter-sites--color--one);
 	--starter-sites--color--border-light: rgba(0,0,0,0.05);
 	--starter-sites--color--border-option: #bdbdbd;
-	--starter-sites--color--button--primary: var(--starter-sites--color--bg-2);
+	--starter-sites--color--button--primary: var(--starter-sites--color--bg-3);
 	--starter-sites--color--button--secondary: var(--starter-sites--color--bg-2);
 	--starter-sites--color--icon-neutral: #888888;
 	--starter-sites--color--icon-yes: var(--starter-sites--color--two);
@@ -22,16 +22,24 @@ body {
 }
 
 body.starter-sites-darkmode {
-	--starter-sites--color--bg-1: #11171b;
-	--starter-sites--color--bg-2: #1d2327;
-	--starter-sites--color--bg-3: #292f33;
+	--starter-sites--color--bg-1: #121212;
+	--starter-sites--color--bg-2: #1e1e1e;
+	--starter-sites--color--bg-3: #2a2a2a;
 	--starter-sites--color--text: #ffffff;
-	--starter-sites--color--subtext: #bebebe;
-	--starter-sites--color--text-link: #72aee6;
+	--starter-sites--color--subtext: #cacaca;
 	--starter-sites--color--border-light: rgba(255,255,255,0.05);
 	--starter-sites--color--border-option: #4c5052;
 	--starter-sites--color--button--primary: var(--starter-sites--color--text);
 	--starter-sites--color--button--secondary: var(--starter-sites--color--text);
+}
+
+body.branch-6-6.starter-sites-darkmode,
+body.branch-6-7.starter-sites-darkmode,
+body.branch-6-8.starter-sites-darkmode,
+body.branch-6-9.starter-sites-darkmode {
+	--starter-sites--color--bg-1: #11171b;
+	--starter-sites--color--bg-2: #1d2327;
+	--starter-sites--color--bg-3: #292f33;
 }
 
 body.starter-sites {
@@ -102,6 +110,10 @@ button.image {
 	background: var(--starter-sites--color--bg-3);
 	line-height: 1em;
 	padding: 1em;
+}
+
+.starter-sites.wp-core-ui .button.starter-sites-button-nav .dashicons {
+	line-height: 1em;
 }
 
 .fullpage-dash-link {
@@ -471,6 +483,9 @@ body.starter-sites-fullpage .starter-sites-header .starter-sites-branding .brand
 .button.starter-sites-button {
 	font-weight: 400;
 	padding: 0.25em 0.75em;
+	line-height: 2.15384615;
+	min-height: 30px;
+	border-radius: 3px;
 }
 
 .button.starter-sites-button .dashicons {
@@ -930,13 +945,31 @@ body.starter-sites-fullpage .starter-sites-header .starter-sites-branding .brand
 }
 
 a.premium-upgrade-button {
+	text-transform: uppercase;
 	font-size: 1.1em;
 	text-decoration: none;
 	font-weight: 600;
 	color: var(--starter-sites--color--button--primary);
-	background: var(--starter-sites--color--one);
+	background: var(--starter-sites--color--two);
 	padding: 0.75em 1.5em;
 	border-radius: 3px;
+}
+
+a.pro-cta-button {
+	display: inline-block;
+	text-transform: uppercase;
+	text-decoration: none;
+	color: var(--starter-sites--color--button--primary);
+	background: var(--starter-sites--color--two);
+	font-weight: 400;
+	padding: 0.25em 0.75em;
+	line-height: 2.15384615;
+	min-height: 30px;
+	border-radius: 3px;
+}
+
+a.pro-cta-button .dashicons {
+	line-height: 1.4;
 }
 
 a.menu-help-button {
